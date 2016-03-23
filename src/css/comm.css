@@ -35,3 +35,13 @@ body{
     height: auto;
     background-image: url('../image/transparency.png');
 }
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 5px 24px;
+}
+
+.page-header{
+    padding-bottom: 0px;
+}
