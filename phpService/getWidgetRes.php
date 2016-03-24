@@ -33,6 +33,25 @@ function getBackgroundSize($widget_base_path){
             'image_height'=>0
         );
     }
+}
+
+function getWeatherIconSize($widget_base_path){
+
+//    $weather_icon = $widget_base_path.'w01d.png';
+//    if(is_file($weather_icon)){
+//        list($image_width,$image_height) = getimagesize($weather_icon);
+//        return array(
+//            'image_width'=>$image_width,
+//            'image_height'=>$image_height
+//        );
+//    }else{
+//        return array(
+//            'image_width'=>0,
+//            'image_height'=>0
+//        );
+//    }
+
+    return 1;
 
 }
 

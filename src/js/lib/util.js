@@ -141,7 +141,7 @@ define(['jquery','widget_config'], function ($,widget_config) {
 			$(TextElement).attr('android:layout_height',"wrap_content");
 			$(TextElement).attr('android:layout_y',"20dp");
 			$(TextElement).attr('android:alignment',"center");
-			$(TextElement).attr('android:textColor',"FF000000");
+			$(TextElement).attr('android:textColor',"#FF000000");
 			$(TextElement).attr('android:textSize',"13dp");
 			$(TextElement).attr('android:type',text['text_type']);
 			$(TextElement).attr('android:typeface','./'+widget_config.default_fontfamily+'.ttf');
@@ -151,7 +151,7 @@ define(['jquery','widget_config'], function ($,widget_config) {
 			$(TextElement).attr('android:layout_height',"wrap_content");
 			$(TextElement).attr('android:layout_y',"20dp");
 			$(TextElement).attr('android:alignment',"center");
-			$(TextElement).attr('android:textColor',"FF000000");
+			$(TextElement).attr('android:textColor',"#FF000000");
 			$(TextElement).attr('android:textSize',"13dp");
 			$(TextElement).attr('android:text',text['text_value']);
 			$(TextElement).attr('android:typeface','./'+widget_config.default_fontfamily+'.ttf');
@@ -159,18 +159,67 @@ define(['jquery','widget_config'], function ($,widget_config) {
 
 		return TextElement;
 	};
+
+	var createImageElement = function (type) {
+		var ImageElement = widget_config.xml_config.createElement('ImageElement');
+		if(type == 'weather'){
+			$(ImageElement).attr('android:layout_width',"wrap_content");
+			$(ImageElement).attr('android:layout_height',"wrap_content");
+			$(ImageElement).attr('android:src',"./weatherIcon.xml");
+			$(ImageElement).attr('android:layout_y',"10pd");
+			$(ImageElement).attr('android:layout_x',"10pd");
+			$(ImageElement).attr('android:type',"WEATHER_LEVEL_IMAGE");
+
+		}else if(type == 'bg'){
+			$(ImageElement).attr('android:layout_width',"match_parent");
+			$(ImageElement).attr('android:layout_height',"match_parent");
+			$(ImageElement).attr('android:src',"./widget_bg_1.png");
+		}else{
+			//...
+		}
+
+		return ImageElement;
+	};
 	
 	//var updateObjectXMLConfig = function (activeObject) {
 	//	$(activeObject.xmlObject).attr('android:typeface','./'+widget_config.default_fontfamily+'.ttf')
 	//};
+	
+	var convertDp = function (lenght) {
+		return Math.round(lenght) + 'dp'
+	};
 
+	var convertColor = function (color) {
+		return '#FF'+color.substring(1)
+	};
+
+	var saveWidgetXML = function () {
+		$.post('phpService/saveWidgetXML.php',
+			{widget_xml:(new XMLSerializer()).serializeToString(widget_config.xml_config)},
+			function(data,status){
+			if(data == 1 && status=='success'){
+				//comm.showMessage('排序成功～',comm.msg_style_info);
+				//setTimeout("location.reload();",1500);
+			}else{
+				//comm.showMessage('操作失败',comm.msg_style_danger);
+			}
+		});
+	};
+	
 
 
 	return {
 		getTextcheckBoxHTML:getTextcheckBoxHTML,
 		converTextElementObject:converTextElementObject,
 		createTextElement:createTextElement,
-		getFontsSelectHTML:getFontsSelectHTML
+		createImageElement:createImageElement,
+		getFontsSelectHTML:getFontsSelectHTML,
+		convertDp:convertDp,
+
+		convertColor:convertColor,
+		saveWidgetXML:saveWidgetXML
+
+
 		//updateObjectXMLConfig:updateObjectXMLConfig
 
 	};

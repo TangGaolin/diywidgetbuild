@@ -30,10 +30,10 @@ body{
     /*color:rgb(5,15,80);*/
 }
 
-.widget_area{
+.widget-area{
     width: inherit;
     height: auto;
-    background-image: url('../image/transparency.png');
+    background-image: url('../img/transparency.png');
 }
 
 .nav>li>a {
@@ -44,4 +44,8 @@ body{
 
 .page-header{
     padding-bottom: 0px;
+}
+.tab-content{
+    padding-top: 10px;
+    background-color: #ffffff;
 }

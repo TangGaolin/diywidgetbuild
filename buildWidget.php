@@ -15,6 +15,7 @@ $widget_preview = 'widgets/'.$theme.'/'.$widget . '.png';
 
 $font_array = getFontTypes($widget_base_path);
 $image_size = getBackgroundSize($widget_base_path);
+$weather_size = getWeatherIconSize($widget_base_path);
 ?>
 
 <!DOCTYPE html>
@@ -24,8 +25,9 @@ $image_size = getBackgroundSize($widget_base_path);
     <title></title>
 </head>
 <link rel="stylesheet" href="src/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="src/css/bootstrap-colorpicker.min.css"/>
 <link rel="stylesheet" href="src/css/comm.css"/>
-
+<link  href="src/css/simple-slider.css" rel="stylesheet">
 <style>
     <?php
    //echo font-face
@@ -46,6 +48,7 @@ $image_size = getBackgroundSize($widget_base_path);
 <input type="hidden" value="<?=$widget_base_path?>" id = 'widget-base-path'>
 <input type="hidden" value='<?= json_encode($image_size) ?>' id = 'bg-size'>
 <input type="hidden" value='<?= json_encode($font_array) ?>' id = 'default-fontfamily'>
+<input type="hidden" value='<?= $weather_size ?>' id = 'has-weather'>
 
 
 <div class="header">
@@ -60,11 +63,12 @@ $image_size = getBackgroundSize($widget_base_path);
     <div class = 'col-lg-12 col-md-12 col-sm-12 well'>
 
         <div class="col-md-5 col-sm-5">
-            <div class="widget_area">
+            <div class="widget-area">
                 <canvas id="canvas" ></canvas>
             </div>
+            <p></p>
             <div>
-                <img src="<?=$widget_preview?>" width="150px">
+                <img src="<?=$widget_preview?>" id = 'widget-preview'>
             </div>
         </div>
 
@@ -72,7 +76,12 @@ $image_size = getBackgroundSize($widget_base_path);
 
         <div class = 'col-md-7 col-sm-7' id = 'option-area'>
             <div>
-                <label>添加文字元素:</label><br/>
+                <div>
+                    <button class = "btn btn-xs btn-primary" id = 'save-widget'>保 存</button>
+                </div>
+
+                <p></p>
+                <label>文字元素:</label><br/>
                 <div>
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
@@ -82,7 +91,8 @@ $image_size = getBackgroundSize($widget_base_path);
                     </ul>
 
                     <!-- Tab panes -->
-                    <div class="tab-content" style="margin-top: 10px">
+                    <div class="tab-content" style="background-color: #ffffff">
+
                         <div role="tabpanel" class="tab-pane active" id="date-area">
                         </div>
                         <div role="tabpanel" class="tab-pane" id="time-area">
@@ -100,66 +110,43 @@ $image_size = getBackgroundSize($widget_base_path);
                 </div>
 
                 <p></p>
-                <div id = 'option-modfiy-area' style="display: none">
-                    <div class = 'page-header' >
-                        <label>文字效果调试</label>
-                    </div>
+                <label>图片元素:</label><br/>
+                <div>
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li role="presentation" class="active"><a href="#weather-area" aria-controls="home" role="tab" data-toggle="tab">天气</a></li>
+                        <li role="presentation"><a href="#battery-area" aria-controls="#data_id" role="tab" data-toggle="tab">电量</a></li>
+                        <li role="presentation"><a href="#image-area" aria-controls="messages" role="tab" data-toggle="tab">图片资源</a></li>
+                    </ul>
 
-                    <div>
+                    <!-- Tab panes -->
+                    <div class="tab-content" style="background-color: #ffffff">
 
-                        <div class="row">
-                            <div class="col-md-3 col-sm-3 form-inline">
-                                <label>字体:</label><br/>
-                                <div class="form-inline">
-                                    <select class="form-control input-sm"  style="width: 150px" id = 'font-family-id' >
+                        <div role="tabpanel" class="tab-pane active" id="weather-area">
 
-                                    </select>
-                                </div>
-                            </div>
+                            <label>
+                                <input type="checkbox" value="0" id = 'ctrl-weather'/> 加载天气图标
+                            </label>
 
-                            <div class="col-md-3 col-sm-3 form-inline" >
-                                <label>字体大小:</label>
-                                <br/>
-                                <button class="btn btn-sm btn-default" id = "font-size-minus">-</button>
-                                <input class="form-control input-sm small_input" id = 'font-size' type="text" style="width: 40px">
-                                <button class="btn btn-sm btn-default" id = "font-size-plus">+</button>
-                            </div>
 
 
                         </div>
-
-                        <p></p>
-                        <label>布局与位置:</label><br/>
-                        <div class="form-inline">
-                            <select class="form-control input-sm"  style="width: 150px" id = 'text-layout' >
-                                <option value="match_parent">独占行</option>
-                                <option value="wrap_content">适应内容</option>
-                            </select>
-
-                            &nbsp;&nbsp;&nbsp;
-
-<!--                            <span id = 'text-layout-x-span' style="display: none">-->
-<!--                                <label>x偏移:</label>-->
-<!--                                <button class="btn btn-sm btn-default" id = "shadow_offsetX_minus">-</button>-->
-<!--                                <input class="form-control input-sm small_input" id = 'text_layout_x' type="text">-->
-<!--                                <button class="btn btn-sm btn-default" id = "shadow_offsetX_plus">+</button>-->
-<!--                            </span>-->
-<!---->
-<!--                            <label>Y偏移:</label>-->
-<!--                            <button class="btn btn-sm btn-default" id = "shadow_offsetY_minus">-</button>-->
-<!--                            <input class="form-control input-sm small_input" id = 'text_layout_y' type="text">-->
-<!--                            <button class="btn btn-sm btn-default" id = "shadow_offsetY_plus">+</button>-->
+                        <div role="tabpanel" class="tab-pane" id="battery-area">
                         </div>
-
-                        <p></p>
-
-
+                        <div role="tabpanel" class="tab-pane" id="image-area">
+                        </div>
                     </div>
                 </div>
 
+                <p></p>
 
+                <div id = 'option-modfiy-text-area' style="display: none">
+                    <?php require_once('include/text_option_area.php') ?>
+                </div>
 
-
+                <div id = 'option-modfiy-image-area' style="display: none">
+                    <?php require_once('include/image_option_area.php') ?>
+                </div>
 
             </div>
 

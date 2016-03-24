@@ -11,16 +11,18 @@ define(['jquery'], function ($) {
     var widget_height = 0;
     var px_dp_raito = 1;
 
-    var phone_len_u = 'dp';
-
     var fonts_config = JSON.parse($('#default-fontfamily').val());
-
 
     var default_fontfamily =  fonts_config[0]['font_name'];
 
     var has_bg_img = true;
-
+    var has_weather = $("#has-weather").val() ? true : false;
     var widget_base_path = $('#widget-base-path').val();
+    var defau_bg_img = widget_base_path + 'widget_bg_1.png';
+
+    var default_weather_icon = widget_base_path + 'w01d.png';
+    //var default_weather_width = ;
+    //var default_weather_height = ;
 
     var date_text_types = [
         'DATE',
@@ -80,10 +82,12 @@ define(['jquery'], function ($) {
             this.has_bg_img = true;
         }
 
-        $('.widget_area').css({'width':this.widget_width,'height':this.widget_height});
-        $(this.xml_config).find("AbsoluteElement").attr('android:layout_width',this.widget_width);
-        $(this.xml_config).find("AbsoluteElement").attr('android:widget_height',this.widget_height);
-
+        $('.widget-area').css({'width':this.widget_width,'height':this.widget_height});
+        $('#widget-preview').css({'width':this.widget_width});
+        //$('#widget-preview').width = this.widget_width;
+        //$('#widget-preview').height = this.widget_height;
+        $(this.xml_config).find("AbsoluteElement").attr('android:layout_width',this.widget_width+'dp');
+        $(this.xml_config).find("AbsoluteElement").attr('android:layout_height',this.widget_height+'dp');
 
         return this;
     };
@@ -100,9 +104,9 @@ define(['jquery'], function ($) {
         xml_config:xml_config,
         fonts_config:fonts_config,
         default_fontfamily:default_fontfamily,
-        dp:dp,
-
-
+        has_weather:has_weather,
+        default_weather_icon:default_weather_icon,
+        defau_bg_img:defau_bg_img,
 
         initWidgetConfig:initWidgetConfig,
         setWidgetWidth:setWidgetWidth,
