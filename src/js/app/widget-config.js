@@ -9,7 +9,7 @@ define(['jquery'], function ($) {
 
     var widget_width = 0;
     var widget_height = 0;
-    var px_dp_raito = 1;
+    var px_dp_raito = 3;
 
     var fonts_config = JSON.parse($('#default-fontfamily').val());
 
@@ -18,9 +18,10 @@ define(['jquery'], function ($) {
     var has_bg_img = true;
     var has_weather = $("#has-weather").val() ? true : false;
     var widget_base_path = $('#widget-base-path').val();
-    var defau_bg_img = widget_base_path + 'widget_bg_1.png';
+    var defau_bg_img = widget_base_path + '/icon/widget_bg_1.png';
 
-    var default_weather_icon = widget_base_path + 'w01d.png';
+    var default_weather_icon = widget_base_path + '/icon/w01d.png';
+
     //var default_weather_width = ;
     //var default_weather_height = ;
 
@@ -39,7 +40,7 @@ define(['jquery'], function ($) {
 
 
     var text_type_value = {
-        'DATE':'2016-10-10',
+        'DATE':'2016/10/10',
         'DATE_YEAR':'16',
         'DATE_LONG_YEAR':'2016',
         'TIME_AMPM':'am',
@@ -72,22 +73,21 @@ define(['jquery'], function ($) {
             this.has_bg_img = false;
         }else{
             if(bg_size['image_width'] > 500 || bg_size['image_height'] > 600){
-                this.px_dp_raito = 2;
-                this.widget_width = bg_size['image_width'] / this.px_dp_raito;
-                this.widget_height = bg_size['image_height'] / this.px_dp_raito;
+
+                this.widget_width = bg_size['image_width'] / px_dp_raito;
+                this.widget_height = bg_size['image_height'] / px_dp_raito;
             }else{
-                this.widget_width = bg_size['image_width'] / this.px_dp_raito;
-                this.widget_height = bg_size['image_height'] / this.px_dp_raito;
+                this.widget_width = bg_size['image_width'] / px_dp_raito;
+                this.widget_height = bg_size['image_height'] / px_dp_raito;
             }
             this.has_bg_img = true;
         }
 
         $('.widget-area').css({'width':this.widget_width,'height':this.widget_height});
-        $('#widget-preview').css({'width':this.widget_width});
-        //$('#widget-preview').width = this.widget_width;
-        //$('#widget-preview').height = this.widget_height;
-        $(this.xml_config).find("AbsoluteElement").attr('android:layout_width',this.widget_width+'dp');
-        $(this.xml_config).find("AbsoluteElement").attr('android:layout_height',this.widget_height+'dp');
+        $('#widget-preview').css({'width':this.widget_width * 0.7});
+
+        $(this.xml_config).find("AbsoluteElement").attr('android:layout_width', Math.round(this.widget_width)+'dp');
+        $(this.xml_config).find("AbsoluteElement").attr('android:layout_height', Math.round(this.widget_height)+'dp');
 
         return this;
     };
@@ -107,6 +107,7 @@ define(['jquery'], function ($) {
         has_weather:has_weather,
         default_weather_icon:default_weather_icon,
         defau_bg_img:defau_bg_img,
+        px_dp_raito:px_dp_raito,
 
         initWidgetConfig:initWidgetConfig,
         setWidgetWidth:setWidgetWidth,

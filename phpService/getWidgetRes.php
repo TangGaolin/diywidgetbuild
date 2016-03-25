@@ -8,9 +8,14 @@
 
 function getFontTypes($widget_base_path){
 
-    $font_path = $widget_base_path;
+    $font_path = $widget_base_path.'fonts/';
     $fonts = array();
     foreach(glob($font_path.'*.ttf') as $file) {
+        $font['font_name'] = explode('.',end(explode('/',$file)))[0];
+        $font['url'] = $widget_base_path.end(explode('/',$file));
+        $fonts[] = $font;
+    }
+    foreach(glob($font_path.'*.otf') as $file) {
         $font['font_name'] = explode('.',end(explode('/',$file)))[0];
         $font['url'] = $widget_base_path.end(explode('/',$file));
         $fonts[] = $font;
@@ -20,7 +25,7 @@ function getFontTypes($widget_base_path){
 
 function getBackgroundSize($widget_base_path){
 
-    $image_src = $widget_base_path.'widget_bg_1.png';
+    $image_src = $widget_base_path.'icon/'.'widget_bg_1.png';
     if(is_file($image_src)){
         list($image_width,$image_height) = getimagesize($image_src);
         return array(

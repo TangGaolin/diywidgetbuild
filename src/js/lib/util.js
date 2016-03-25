@@ -104,13 +104,7 @@ define(['jquery','widget_config'], function ($,widget_config) {
 
 
 
-	var converTextElementObject = function (text_element) {
 
-		var textElement = Object.create(TextElement);
-		textElement.setElementValue(text_element);
-
-		return  textElement;
-	};
 
 
 	var checkbox_html_temp = "<label class='checkbox-inline'> <input value='$key' type='checkbox'  class='text-type'> $value </label> ";
@@ -168,6 +162,7 @@ define(['jquery','widget_config'], function ($,widget_config) {
 			$(ImageElement).attr('android:src',"./weatherIcon.xml");
 			$(ImageElement).attr('android:layout_y',"10pd");
 			$(ImageElement).attr('android:layout_x',"10pd");
+			$(ImageElement).attr('android:data',"{forecast:0}");
 			$(ImageElement).attr('android:type',"WEATHER_LEVEL_IMAGE");
 
 		}else if(type == 'bg'){
@@ -210,7 +205,6 @@ define(['jquery','widget_config'], function ($,widget_config) {
 
 	return {
 		getTextcheckBoxHTML:getTextcheckBoxHTML,
-		converTextElementObject:converTextElementObject,
 		createTextElement:createTextElement,
 		createImageElement:createImageElement,
 		getFontsSelectHTML:getFontsSelectHTML,

@@ -5,19 +5,15 @@ body{
 }
 
 
-
-
 .header{
-    width: 80%;
     height: 80px;
     margin: 0 auto;
 }
 
 .section{
-    width: 80%;
-    height: 480px;
+    width: 95%;
+    height: 800px;
     margin: 0 auto;
-    /*background-color: black;*/
 }
 
 
@@ -43,7 +39,7 @@ body{
 }
 
 .page-header{
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 .tab-content{
     padding-top: 10px;

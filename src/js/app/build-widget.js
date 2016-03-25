@@ -38,7 +38,7 @@ define(['jquery','util','fabric','widget_config','bootstrap','colorpicker','slid
             var oText = new fabric.Text(widget_config.getTextType(text_type), {
                 fontFamily: widget_config.default_fontfamily,
                 fill:'#000000',
-                fontSize:20,
+                fontSize:12,
                 top:30
             });
             oText.xmlObject = util.createTextElement({text_value:'',text_type:text_type});
@@ -56,7 +56,6 @@ define(['jquery','util','fabric','widget_config','bootstrap','colorpicker','slid
         var ctrlWeatherBtn = $('#ctrl-weather');
         var weaterObject = null;
         ctrlWeatherBtn.click(function() {
-
             if(ctrlWeatherBtn.val() == 0){
                 if(widget_config.has_weather){
 
@@ -172,7 +171,7 @@ define(['jquery','util','fabric','widget_config','bootstrap','colorpicker','slid
 
         var updateWidgetFontSize = function(){
             activeObject.setFontSize(font_size.val());
-            if($("#text-layout") == 'match_parent'){
+            if($("#text-layout").val() == 'match_parent'){
                 canvas.centerObjectH(activeObject);
             }
             $(activeObject.xmlObject).attr('android:textSize',util.convertDp(font_size.val()));
