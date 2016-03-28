@@ -9,25 +9,25 @@
         <div class="col-md-4 col-sm-4 form-inline">
             <label>字体:</label><br/>
             <div class="form-inline">
-                <select class="form-control input-sm"  style="width: 150px" id = 'font-family-id' >
+                <select class="form-control input-sm"  style="width: 120px" id = 'font-family-id' >
 
                 </select>
             </div>
         </div>
 
-        <div class="col-md-3 col-sm-3 form-inline" >
+        <div class="col-md-4 col-sm-4 form-inline" >
             <label>字体大小:</label>
             <br/>
-            <button class="btn btn-sm btn-default" id = "font-size-minus">-</button>
+            <button class="btn btn-sm btn-default" id = "font-size-minus">- </button>
             <input class="form-control input-sm small_input" id = 'font-size' type="text" style="width: 40px">
-            <button class="btn btn-sm btn-default" id = "font-size-plus">+</button>
+            <button class="btn btn-sm btn-default" id = "font-size-plus"> +</button>
         </div>
 
-        <div class="col-md-3 col-sm-3  form-inline">
+        <div class="col-md-4 col-sm-4  form-inline">
             <label>字体颜色:</label>
             <div data-format="hex" class="input-group font-color-option">
-                <input type="text"  class="form-control" id = 'font-color' value=" #000000"/>
-                <span class="input-group-addon"><i style="background-color: #000000"></i></span>
+                <input type="text"  class="form-control input-sm" id = 'font-color' value=" #000000"/>
+                <span class="input-group-addon input-sm"><i style="background-color: #000000"></i></span>
             </div>
         </div>
     </div>

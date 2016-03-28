@@ -14,8 +14,9 @@ $widget_base_path = 'widgets/'.$theme.'/'.$widget . '/';
 $widget_preview = 'widgets/'.$theme.'/'.$widget . '.png';
 
 $font_array = getFontTypes($widget_base_path);
-$image_size = getBackgroundSize($widget_base_path);
-$weather_size = getWeatherIconSize($widget_base_path);
+$image_msg_array = getImageRes($widget_base_path);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -30,13 +31,8 @@ $weather_size = getWeatherIconSize($widget_base_path);
 <link  href="src/css/simple-slider.css" rel="stylesheet">
 <style>
     <?php
-   //echo font-face
-    foreach($font_array as $v){
-    $font_face = str_replace('%font-family%',$v['font_name'],$font_face_tmp);
-    $font_face = str_replace('%font-url%',$v['url'],$font_face);
-    echo $font_face;
-}
-?>
+        echo getFontsCssString($font_array);
+    ?>
 </style>
 
 <body>
@@ -46,9 +42,9 @@ $weather_size = getWeatherIconSize($widget_base_path);
 
 
 <input type="hidden" value="<?=$widget_base_path?>" id = 'widget-base-path'>
-<input type="hidden" value='<?= json_encode($image_size) ?>' id = 'bg-size'>
+<input type="hidden" value='<?= json_encode($image_msg_array) ?>' id = 'image-res'>
 <input type="hidden" value='<?= json_encode($font_array) ?>' id = 'default-fontfamily'>
-<input type="hidden" value='<?= $weather_size ?>' id = 'has-weather'>
+
 
 
 <div class="header">
@@ -83,13 +79,14 @@ $weather_size = getWeatherIconSize($widget_base_path);
         <div class = 'col-md-7 col-sm-7 pull-right' id = 'option-area'>
             <div>
                 <button class = "btn btn-xs btn-primary" id = 'save-widget'>保 存</button>
+                <button class = "btn btn-xs btn-primary bg-color" value="transparency.png">透明背景</button>
+                <button class = "btn btn-xs btn-primary bg-color" value="black.png">黑色背景</button>
             </div>
             <p></p>
 
             <?php require_once('include/option_text.php');?>
 
             <?php require_once('include/option_image.php');?>
-
 
         </div>
 

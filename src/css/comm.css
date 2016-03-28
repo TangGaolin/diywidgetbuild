@@ -29,7 +29,11 @@ body{
 .widget-area{
     width: inherit;
     height: auto;
-    background-image: url('../img/transparency.png');
+
+}
+
+.area-bg{
+    background-image: url('../img/black.png');
 }
 
 .nav>li>a {
