@@ -35,6 +35,9 @@ body{
 .area-bg{
     background-image: url('../img/black.png');
 }
+.area-bg-transparency{
+    background-image: url('../img/transparency.png');
+}
 
 .nav>li>a {
     position: relative;
@@ -48,4 +51,14 @@ body{
 .tab-content{
     padding-top: 10px;
     background-color: #ffffff;
+}
+
+
+.page-class .pagination{
+    margin: 0px;
+}
+.pagination .selected{
+    background-color: #428BCA;
+    color: #FFFFFF;
+    disabled:true;
 }

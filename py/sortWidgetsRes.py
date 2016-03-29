@@ -4,13 +4,15 @@ import os
 import shutil
 import fnmatch
 import re
+import time
+import pymysql
 
 
 ori_widget_path = '/mnt/nas/themebuild/widgets_abc/'
 # dst_widget_path = '/mnt/nas2/themebuild/diywidgets/'
 dst_widget_path = '/mnt/nas/themebuild/diywidgets/'
 
-ori_fonts_path = '/opt/lampp/htdocs/themebuild/Widgets/theme/assets/fonts/'
+ori_fonts_path = '/opt/lampp/htdocs/themebuild/Widgets/{theme}/assets/fonts/'
 
 preview1_path = '/res/drawable-xhdpi/widget_preview.png'
 preview2_path = '/res/drawable-xhdpi/widget_preview_2.png'
@@ -20,10 +22,20 @@ image_res1 = '/res/drawable-xhdpi/'
 image_res2 = '/res/drawable-xxhdpi/'
 
 log_file = 'logs/error.log'
+Host = 'localhost'
+User = 'cobo'
+Pwd = 'cobocobo'
+db = 'diy_widgets'
+sql_port = 3306
+
+# conn = pymysql.connect(host=Host, user=User, passwd=Pwd, db=db, port=sql_port, charset='utf8', cursorclass=pymysql.cursors.DictCursor)
+# cursor = conn.cursor()
+
+
 
 def printLog(msg):
     try:
-        with open(log_file, 'a') as logs:
+        with open(time.strftime('%Y-%m-%d %H:%M:%S :') + log_file, 'a') as logs:
             logs.write(msg+'\n')
     except:
         pass
@@ -33,7 +45,7 @@ def printLog(msg):
 def getWidgetName():
 
     themes = []
-    list = os.listdir(ori_widget_path)
+    list = os.listdir(dst_widget_path)
     for item in list:
         if '-' in item or '_' in item:
             themes.append(item)
@@ -43,6 +55,7 @@ def getWidgetName():
 
 
 def mkdirForDiyWidgets(widget_dir):
+
     print 'mkdir for widget:'+widget_dir
 
     fonts = widget_dir+'/'+'fonts'
@@ -116,8 +129,8 @@ def newDiyWidget(theme):
     if os.path.isdir(icons) is False:
         os.mkdir(icons)
 
-    getFontRes(theme)
-    getImageRes(theme)
+    # getImageRes(theme)
+    # getFontRes(theme)
 
     mkdirForDiyWidgets(widget_dir1)
     shutil.copy(ori_widget_path + theme + preview1_path, widget_dir1 + '.png')
@@ -131,10 +144,20 @@ def newDiyWidget(theme):
 def getFontRes(theme):
 
     print 'get ' + theme + ' fonts res '
-    fonts_path = ori_fonts_path.replace('theme', theme)
-    for font in fonts_path:
-        shutil.copy(fonts_path+font, dst_widget_path + theme + '/fonts/'+font.lower())
-        print font.lower()
+    theme_dir = theme.split('_')[0]
+    theme_dir = theme_dir.split('-')[0]
+    fonts_path = ori_fonts_path.replace('{theme}', theme_dir)
+    print fonts_path
+
+    if os.path.isdir(fonts_path) is False:
+        return
+
+    fonts = os.listdir(fonts_path)
+    for font in fonts:
+        font_path = fonts_path + font
+        if os.path.isfile(font_path):
+            shutil.copy(font_path, dst_widget_path + theme + '/fonts/'+font.lower())
+            print font.lower()
 
 
 def sortWidgetResMain():
@@ -142,13 +165,24 @@ def sortWidgetResMain():
     themes = getWidgetName()
     for item in themes:
         try:
-            newDiyWidget(item)
+            # newDiyWidget(item)
+            getFontRes(item)
+            # print item
+            # sql = 'insert into widgets  (theme,widget) VALUES ("'+item+'", "' + item+'_1'+'"), ("'+item+'", "'+item+'_2'+'"), ("'+item+'", "'+item+'_3'+'");'
+            # print sql
+            # cursor.execute(sql)
+
+
         except:
             printLog('sort error:' + item)
-
 
 
 if __name__ == "__main__":
 
     sortWidgetResMain()
+
+    # conn.commit()
+    # cursor.close()
+    # conn.close()
+
 
