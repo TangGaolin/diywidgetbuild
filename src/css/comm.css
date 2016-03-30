@@ -33,7 +33,7 @@ body{
 }
 
 .area-bg{
-    background-image: url('../img/black.png');
+    background-image: url('../img/transparency.png');
 }
 .area-bg-transparency{
     background-image: url('../img/transparency.png');
@@ -53,12 +53,24 @@ body{
     background-color: #ffffff;
 }
 
-
-.page-class .pagination{
-    margin: 0px;
+.checked{
+    outline: 2px solid #c12e2a;
 }
-.pagination .selected{
-    background-color: #428BCA;
-    color: #FFFFFF;
-    disabled:true;
+
+
+.show-info{
+    display: none;
+    width:400px;
+    padding: 5px;
+    font-size: 14px;
+    position: fixed;
+    top:190px;
+    left:50%;
+    margin: 0 auto 0 -200px;
+    z-index: 100;
+    text-align: center;
+}
+
+.thumbnail{
+    margin-bottom: 0px;
 }

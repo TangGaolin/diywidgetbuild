@@ -6,9 +6,8 @@
  * Time: 下午3:07
  */
 
-function getFontTypes($widget_base_path){
+function getFontTypes($font_path){
 
-    $font_path = $widget_base_path.'fonts/';
     $fonts = array();
     foreach(glob($font_path.'*.ttf') as $file) {
         $font['font_name'] = explode('.',end(explode('/',$file)))[0];
@@ -21,6 +20,14 @@ function getFontTypes($widget_base_path){
         $fonts[] = $font;
     }
     return $fonts;
+}
+
+function getIcons($icon_dir){
+    $icon_array = [];
+    foreach(glob($icon_dir.'*.png') as $file) {
+        $icon_array[] = pathinfo($file,PATHINFO_BASENAME);
+    }
+    return $icon_array;
 }
 
 function getImageRes($widget_base_path){

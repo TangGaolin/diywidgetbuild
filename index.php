@@ -68,7 +68,7 @@ $pagination = new Pagination($data);
                     </div>
                     <div class="caption">
                         <p>
-                            <a href="<?= $url ?>" class="btn btn-sm btn-primary">选择图片资源</a>
+
                         </p>
                     </div>
                 </div>
@@ -79,6 +79,8 @@ $pagination = new Pagination($data);
     <div>
         <?php echo $pagination->showPage(); ?>
     </div>
+
+
 
 
 </div>

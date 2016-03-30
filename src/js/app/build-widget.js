@@ -1,7 +1,7 @@
 /**
  * Created by tanggaolin on 16-3-21.
  */
-define(['jquery','util','fabric','widget_config','bootstrap','colorpicker','slider','masonry'],function($,util,fab,widget_config,bootstrap,colorpicker,slider,masonry) {
+define(['jquery','build_widget_util','fabric','widget_config','bootstrap','colorpicker','slider','masonry','time_format'],function($,util,fab,widget_config,bootstrap,colorpicker,slider,masonry,time_format) {
 
 
     widget_config.initWidgetConfig();
@@ -31,10 +31,11 @@ define(['jquery','util','fabric','widget_config','bootstrap','colorpicker','slid
 
     var elementListener = (function(){
 
-
         var chanegBgColorBtn = $('.bg-color');
         chanegBgColorBtn.click(function () {
-            $('.area-bg').css({'background-image':"url('src/img/"+$(this).attr('value')+"')"})
+            $('.area-bg').css({'background-image':"url('src/img/"+$(this).attr('value')+"')"});
+            $('.bg-color').removeClass('btn-success');
+            $(this).addClass('btn-success');
         });
 
         //add new Text Elemment
@@ -45,12 +46,9 @@ define(['jquery','util','fabric','widget_config','bootstrap','colorpicker','slid
             var data_format  = $(this).attr('data-format');
             var data_text  = $(this).text();
 
-            //console.log(text_type);
-            //console.log(data_format);
-            //console.log(data_text);
 
             var oText = new fabric.Text(data_text, {
-                fontFamily: widget_config.default_fontfamily,
+                fontFamily: widget_config.default_fontfamily == 'serif'? 'serif2' : widget_config.default_fontfamily,
                 fill:'#000000',
                 fontSize:12,
                 top:30
@@ -305,6 +303,11 @@ define(['jquery','util','fabric','widget_config','bootstrap','colorpicker','slid
             canvas.renderAll();
             console.log(activeObject);
         };
+
+        console.log(time_format.numToWords(888));
+
+
+
 
 
     })();

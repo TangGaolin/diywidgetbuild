@@ -12,8 +12,11 @@ require.config({
         'fabric':"js/lib/fabric.min",
         'colorpicker':"js/lib/bootstrap-colorpicker.min",
         'slider':"js/lib/simple-slider.min",
-        'util':"js/lib/util",
-        'widget_config':"js/app/widget-config"
+        'build_widget_util':"js/app/build-widget-util",
+        'util2':"js/lib/util2",
+        'widget_config':"js/app/widget-config",
+        'widget_res_pick':"js/app/widget-res-pick",
+        'time_format':"js/lib/time-format"
     },
     shim:{
         bootstrap:['jquery'],

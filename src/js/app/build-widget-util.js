@@ -3,105 +3,6 @@
 define(['jquery','widget_config'], function ($,widget_config) {
 	'use strict';
 
-	Object.create = Object.create || function( obj ){
-			var F = function(){};
-			F.prototype = obj;
-			return new F();
-	};
-
-
-	var TextElement = {
-		text:'',
-		width:'',
-		height:'',
-		top:0,
-		left:0,
-		fontFamily:'',
-		fill:'#000000',
-		textSize:'12',
-		textAlign:'left',
-		
-		setElementValue: function (text_element) {
-			// set text
-			if(typeof($(text_element).attr("android:text")) == "undefined"){
-				if(typeof($(text_element).attr("android:type")) == "undefined"){
-					this.text = TextElement.text;
-				}else{
-					this.text =  widget_config.getTextType($(text_element).attr("android:type"));
-				}
-			}
-
-			// set width
-			if($(text_element).attr("android:layout_width") == "match_parent"){
-				this.width = widget_config.getWidgetWidth();
-			}else if($(text_element).attr("android:layout_width") == "wrap_content"){
-				this.width = TextElement.width;
-			}else {
-				this.width =  parseInt($(text_element).attr("android:layout_width"));
-			}
-
-			// set height
-			if($(text_element).attr("android:layout_height") == "match_parent"){
-				this.height =  widget_config.getWidgetHeight();
-			}else if($(text_element).attr("android:layout_height") == "wrap_content"){
-				this.height = TextElement.height;
-			}else {
-				this.height = parseInt($(text_element).attr("android:layout_height"));
-			}
-
-			//set top
-			if(typeof($(text_element).attr("android:layout_y")) == "undefined"){
-				this.top = TextElement.top;
-			}else{
-				this.top =  parseInt($(text_element).attr("android:layout_y"));
-			}
-
-			//set left
-			if(typeof($(text_element).attr("android:layout_x")) == "undefined"){
-				this.left = TextElement.left;
-			}else{
-				this.left =  parseInt($(text_element).attr("android:layout_x"));
-			}
-
-			//set textAlign
-			if(typeof($(text_element).attr("android:alignment")) == "undefined"){
-				this.textAlign = TextElement.textAlign;
-			}else{
-				this.textAlign =  $(text_element).attr("android:alignment");
-			}
-
-			//set fontFamily
-			if(typeof($(text_element).attr("android:typeface")) == "undefined"){
-				this.fontFamily = TextElement.fontFamily;
-			}else{
-				this.fontFamily =  $(text_element).attr("android:typeface");
-			}
-
-			//set fill
-			if(typeof($(text_element).attr("android:textColor")) == "undefined"){
-				this.fill = TextElement.fill;
-			}else{
-				this.fill =  $(text_element).attr("android:textColor");
-			}
-
-			//set color
-			if(typeof($(text_element).attr("android:textColor")) == "undefined"){
-				this.fill = TextElement.fill;
-			}else{
-				this.fill =  '#'+$(text_element).attr("android:textColor").substring(3);
-			}
-
-			//set textSize
-			if(typeof($(text_element).attr("android:textSize")) == "undefined"){
-				this.textSize = TextElement.textSize;
-			}else{
-				this.textSize =  parseInt($(text_element).attr("android:textSize"));
-			}
-		}
-
-	};
-
-
 	var checkbox_html_temp = "<label class='checkbox-inline'> <input value='$key' type='checkbox'  class='text-type'> $value </label> ";
 	var getTextcheckBoxHTML = function(text_types){
 		var html = '';
@@ -135,7 +36,7 @@ define(['jquery','widget_config'], function ($,widget_config) {
 			$(TextElement).attr('android:textSize',"13dp");
 			$(TextElement).attr('android:type',text['text_type']);
 			$(TextElement).attr('android:data',getCalendarFormat(text['format']));
-			$(TextElement).attr('android:typeface','./fonts/'+widget_config.default_fontfamily_file);
+			$(TextElement).attr('android:typeface', getFontSrc());
 
 		}else{
 			$(TextElement).attr('android:layout_width',"match_parent");
@@ -145,7 +46,7 @@ define(['jquery','widget_config'], function ($,widget_config) {
 			$(TextElement).attr('android:textColor',"#FF000000");
 			$(TextElement).attr('android:textSize',"13dp");
 			$(TextElement).attr('android:text',text['text_value']);
-			$(TextElement).attr('android:typeface','./fonts/'+widget_config.default_fontfamily_file);
+			$(TextElement).attr('android:typeface', getFontSrc());
 		}
 
 		return TextElement;
@@ -193,6 +94,16 @@ define(['jquery','widget_config'], function ($,widget_config) {
 		return '{calendarFormat:"'+format+'"}';
 	};
 
+	var getFontSrc = function () {
+		console.log(widget_config.default_fontfamily_file);
+		if(widget_config.default_fontfamily_file == ''){
+			return widget_config.default_fontfamily;
+		}else{
+			return './fonts/' + widget_config.default_fontfamily_file;
+		}
+	};
+
+
 
 
 
@@ -231,6 +142,8 @@ define(['jquery','widget_config'], function ($,widget_config) {
 	};
 
 
+
+
 	return {
 		getTextcheckBoxHTML:getTextcheckBoxHTML,
 		createTextElement:createTextElement,
@@ -244,7 +157,6 @@ define(['jquery','widget_config'], function ($,widget_config) {
 		saveWidgetXML:saveWidgetXML
 
 
-		//updateObjectXMLConfig:updateObjectXMLConfig
 
 	};
 });

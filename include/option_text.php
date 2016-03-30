@@ -44,7 +44,7 @@
                     </div>
 
                     <div class="input-group">
-                        <input type="text" class="form-control input-sm" >
+                        <input type="text" class="form-control input-sm " >
                         <span class="input-group-btn">
                             <button class="btn btn-default btn-sm" type="button">添加</button>
                         </span>

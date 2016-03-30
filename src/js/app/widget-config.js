@@ -11,10 +11,10 @@ define(['jquery'], function ($) {
     var widget_height = 0;
     var px_dp_raito = 3;
 
-    var fonts_config = JSON.parse($('#default-fontfamily').val());
-    var default_font_url = fonts_config[0]['url'];
-    var default_fontfamily_file =  default_font_url.substring(default_font_url.lastIndexOf('/')+1);
-    var default_fontfamily =  fonts_config[0]['font_name'];
+    var fonts_config = {};
+
+    var default_fontfamily_file = '';
+    var default_fontfamily =  '';
 
     var has_bg_img = 0;
     var has_weather = 0;
@@ -97,6 +97,21 @@ define(['jquery'], function ($) {
 
         $(this.xml_config).find("AbsoluteElement").attr('android:layout_width', this.widget_width + 'dp');
         $(this.xml_config).find("AbsoluteElement").attr('android:layout_height', this.widget_height + 'dp');
+
+        var fonts_msg = JSON.parse($('#default-fontfamily').val());
+
+        if(fonts_msg.length > 0){
+            this.fonts_config = fonts_msg;
+            var default_font_url = fonts_msg[0]['url'];
+            this.default_fontfamily_file = default_font_url.substring(default_font_url.lastIndexOf('/')+1);
+            this.default_fontfamily = fonts_msg[0]['font_name'];
+        }else{
+            this.fonts_config = fonts_msg;
+            this.default_fontfamily_file = '';
+            this.default_fontfamily = 'serif';
+            console.log(default_fontfamily_file);
+        }
+
 
         return this;
     };

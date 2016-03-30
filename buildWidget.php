@@ -8,12 +8,14 @@
 
 require_once('phpService/getWidgetRes.php');
 
-$theme = isset($_GET['theme']) ? $_GET['theme'] : 'BeautyofLight';
-$widget = isset($_GET['widget']) ? $_GET['widget'] : 'BeautyofLight_3';
-$widget_base_path = 'widgets/'.$theme.'/'.$widget . '/';
-$widget_preview = 'widgets/'.$theme.'/'.$widget . '.png';
+$widget_path = 'diywidgets/';
 
-$font_array = getFontTypes($widget_base_path);
+$theme = isset($_GET['theme']) ? $_GET['theme'] : 'BeautyofLight_a';
+$widget = isset($_GET['widget']) ? $_GET['widget'] : 'BeautyofLight_a_3';
+$widget_base_path = $widget_path.$theme.'/'.$widget . '/';
+$widget_preview = $widget_path.$theme.'/'.$widget . '.png';
+
+$font_array = getFontTypes($widget_base_path . 'fonts/');
 $image_msg_array = getImageRes($widget_base_path);
 
 
@@ -30,6 +32,13 @@ $image_msg_array = getImageRes($widget_base_path);
 <link rel="stylesheet" href="src/css/comm.css"/>
 <link  href="src/css/simple-slider.css" rel="stylesheet">
 <style>
+
+    @font-face {
+        font-family:'serif2';
+        src:url('src/fonts/DroidSans.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
     <?php
         echo getFontsCssString($font_array);
     ?>
@@ -56,6 +65,12 @@ $image_msg_array = getImageRes($widget_base_path);
 </div>
 
 <div class="section">
+
+    <div>
+        <button class = "btn btn-xs btn-success bg-color" value="transparency.png">透明背景</button>
+        <button class = "btn btn-xs  bg-color" value="black.png">黑色背景</button>
+    </div>
+    <p></p>
     <div class = 'col-lg-12 col-md-12 col-sm-12 well'>
 
         <div class="col-md-4 col-sm-4">
@@ -79,8 +94,7 @@ $image_msg_array = getImageRes($widget_base_path);
         <div class = 'col-md-7 col-sm-7 pull-right' id = 'option-area'>
             <div>
                 <button class = "btn btn-xs btn-primary" id = 'save-widget'>保 存</button>
-                <button class = "btn btn-xs btn-primary bg-color" value="transparency.png">透明背景</button>
-                <button class = "btn btn-xs btn-primary bg-color" value="black.png">黑色背景</button>
+
             </div>
             <p></p>
 

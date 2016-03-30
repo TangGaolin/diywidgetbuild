@@ -23,7 +23,7 @@ class Pagination{
     //为每一个页码设置url地址
     public function setUrl($page_name,$page_value,$style){
 
-        $str = "<li><a disabled = 'disabled' class = ':style' href = ".$this->url.">".$page_name."</a></li>";
+        $str = "<li class = ':style'><a disabled = 'disabled'  href = ".$this->url.">".$page_name."</a></li>";
         $str = str_replace(":page",$page_value,$str);
         $str = str_replace(":style",$style,$str);
 
@@ -73,7 +73,7 @@ class Pagination{
         for($i = $start ; $i <= $end ; $i++){
 
             if($i == $this->nowPage){
-                $str .= $this->setUrl($i,$i,'selected');
+                $str .= $this->setUrl($i,$i,'active');
             }else{
                 $str .= $this->setUrl($i,$i,'Normal');
             }
