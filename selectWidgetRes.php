@@ -91,7 +91,7 @@ $build_url = 'buildWidget.php?theme='.$theme.'&widget='.$widget;
                     ?>
                     <div class="col-sm-2 col-md-2 col-lg-2 item">
                         <div class="thumbnail area-bg-transparency selected-icons" style="position: relative" data-name = '<?=$v?>'>
-                            <img style="width: 70%" src="<?=$preview?>">
+                            <img style="width: 100%" src="<?=$preview?>">
                         </div>
                         <div class="caption">
                             <p>
@@ -164,7 +164,7 @@ $build_url = 'buildWidget.php?theme='.$theme.'&widget='.$widget;
                 ?>
                 <div class="col-sm-2 col-md-2 col-lg-2 item">
                     <div class="thumbnail area-bg-transparency all-icons" style="position: relative" data-name = '<?=$v?>'>
-                        <img style="width: 70%" src="<?=$preview?>">
+                        <img style="width: 100%" src="<?=$preview?>">
                     </div>
                     <div class="caption">
                         <p>

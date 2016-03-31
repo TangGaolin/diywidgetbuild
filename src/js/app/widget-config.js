@@ -16,32 +16,21 @@ define(['jquery'], function ($) {
     var default_fontfamily_file = '';
     var default_fontfamily =  '';
 
+    var default_font_color =  '#000000';
+    var default_font_size =  12;
+    var default_text_top =  30;
+
     var has_bg_img = 0;
     var has_weather = 0;
     var has_battery = 0;
     var widget_base_path = $('#widget-base-path').val();
-    var defau_bg_img = widget_base_path + '/icons/widget_bg.png';
+    var default_bg_img = 'widget_bg.png';
 
     var image_list = [];
 
     var default_weather_icon = widget_base_path + '/icons/w01d.png';
     var default_battery_icon = widget_base_path + '/icons/battery_20.png';
 
-    //var default_weather_width = ;
-    //var default_weather_height = ;
-
-    var date_text_types = [
-        'DATE',
-        'DATE_YEAR',
-        'DATE_LONG_YEAR'
-    ];
-
-    var time_text_types = [
-        'TIME_AMPM',
-        'TIME',
-        'TIME_DIGITAL_HOUR',
-        'TIME_DIGITAL_12HOUR'
-    ];
 
 
     var text_type_value = {
@@ -119,8 +108,7 @@ define(['jquery'], function ($) {
     return {
 
         text_type_value:text_type_value,
-        date_text_types:date_text_types,
-        time_text_types:time_text_types,
+
         widget_width:widget_width,
         widget_height:widget_height,
         has_bg_img:has_bg_img,
@@ -129,10 +117,13 @@ define(['jquery'], function ($) {
         fonts_config:fonts_config,
         default_fontfamily:default_fontfamily,
         default_fontfamily_file:default_fontfamily_file,
+        default_font_size:  default_font_size,
+        default_text_top:  default_text_top,
+        default_font_color:default_font_color,
         has_weather:has_weather,
         has_battery:has_battery,
         default_weather_icon:default_weather_icon,
-        defau_bg_img:defau_bg_img,
+        default_bg_img:default_bg_img,
         px_dp_raito:px_dp_raito,
         image_list:image_list,
         default_battery_icon:default_battery_icon,

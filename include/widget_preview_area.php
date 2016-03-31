@@ -3,7 +3,6 @@
             <img src="<?=$widget_preview?>" id = 'widget-preview'>
         </div>
 
-
         <div class="widget-area area-bg" style="float: left;">
             <canvas id="canvas" ></canvas>
         </div>

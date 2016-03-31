@@ -106,6 +106,11 @@ $image_msg_array = getImageRes($widget_base_path);
 
     </div>
 </div>
+
+<div>
+    <p class="alert  show-info" id = 'show-msg'></p>
+</div>
+
 <script>
 
     require(['app/build-widget'],function(build_widget){

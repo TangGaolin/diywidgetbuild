@@ -22,19 +22,24 @@ define(['jquery'], function ($) {
 		return str;
 	}
 	var date = new Date();
+
 	var getTimeString = function(str){
 		var res = '';
 		switch (str) {
 			case 'yy':
-				res = date.getFullYear().toString().substring(-2);
+				res = date.getFullYear().toString().substr(-2);
 				break;
 
 			case 'yyyy':
 				res = date.getFullYear().toString();
 				break;
 
-			case 'MM':
+			case 'M':
 				res = (date.getMonth()+1).toString();
+				break;
+
+			case 'MM':
+				res = ('0'+(date.getMonth()+1).toString()).substr(-2);
 				break;
 			case 'MMM':
 				res = ab_mounts[date.getMonth()];
@@ -55,7 +60,7 @@ define(['jquery'], function ($) {
 				break;
 
 			case 'mm':
-				res = date.getMinutes().toString();
+				res = ('0'+date.getMinutes().toString()).substr(-2);
 				break;
 
 			case 'mmmm':
@@ -74,11 +79,11 @@ define(['jquery'], function ($) {
 				break;
 
 			case 'A':
-				res = date.getHours() > 12 ? 'am' : 'pm';
+				res = date.getHours() < 12 ? 'am' : 'pm';
 				break;
 
 			case 'a':
-				res = date.getHours() > 12 ? 'am' : 'pm';
+				res = date.getHours() < 12 ? 'am' : 'pm';
 				break;
 
 			default:
@@ -94,18 +99,94 @@ define(['jquery'], function ($) {
 
 		var result = '';
 		var tmp = '';
+		var curr_char = '';
+		var next_char = '';
 
-
-
-
-
-
-
+		for (var i = 0;i < format_string.length;i++){
+			curr_char = format_string.charAt(i);
+			tmp += curr_char;
+			next_char = i+1 < format_string.length ? format_string.charAt(i+1) : '';
+			if(curr_char != next_char){
+				result += getTimeString(tmp);
+				tmp = '';
+			}
+		}
+		result += getTimeString(tmp);
 		return result;
 	};
 
+
+
+	var getWeatherString = function(str){
+		var res = '';
+		switch (str) {
+			case 'T':
+				res = '30';
+				break;
+			case 'U':
+				res = '℃';
+				break;
+			case 'L':
+				res = '0';
+				break;
+
+			case 'H':
+				res = '40';
+				break;
+			case 'S':
+				res = 'Sunny';
+				break;
+			case 'W':
+				res = '12km/h';
+				break;
+			case 'A':
+				res = 'beijing';
+				break;
+			default:
+				res = str;
+		}
+
+		return res;
+	};
+
+
+
+	var weatherFormat = function(format_string){
+
+		var result = '';
+		for (var i = 0;i < format_string.length;i++){
+			result += getWeatherString(format_string.charAt(i));
+		}
+		return result;
+	};
+	
+	
+	var otherFormat = function (format_string) {
+		var res = '';
+		switch (format_string) {
+			case 'BATTERY_LEVEL':
+				res = '80%';
+				break;
+			case 'SMS_UNREAD':
+				res = '8';
+				break;
+			case 'TELEPHONY_MISSED_CALLS':
+				res = '2';
+				break;
+			default:
+				res = format_string;
+		}
+
+		return res;
+	};
+
+
+
+
 	return {
 		timeFormat:timeFormat,
-		numToWords:numToWords
+		numToWords:numToWords,
+		weatherFormat:weatherFormat,
+		otherFormat:otherFormat
 	};
 });

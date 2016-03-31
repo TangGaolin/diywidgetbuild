@@ -1,7 +1,9 @@
 /**
  * Created by tanggaolin on 16-3-21.
  */
-define(['jquery','build_widget_util','fabric','widget_config','bootstrap','colorpicker','slider','masonry','time_format'],function($,util,fab,widget_config,bootstrap,colorpicker,slider,masonry,time_format) {
+define(['jquery', 'build_widget_util','fabric',
+    'widget_config','bootstrap','colorpicker',
+    'slider','data_format','util2'],function($,build_widget_util,fab,widget_config,bootstrap,colorpicker,slider,format_data,util) {
 
 
     widget_config.initWidgetConfig();
@@ -15,11 +17,11 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
 
         if(widget_config.has_bg_img){
             //widget_config
-            fabric.Image.fromURL(widget_config.defau_bg_img,  function(oImg) {
+            fabric.Image.fromURL(widget_config.widget_base_path+'icons/'+widget_config.default_bg_img,  function(oImg) {
                 oImg.setWidth(canvas.width);
                 oImg.setHeight(canvas.height);
                 oImg.selectable = false;
-                oImg.xmlObject = util.createImageElement('bg');
+                oImg.xmlObject = build_widget_util.createImageElement('bg',widget_config.default_bg_img);
                 widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
                 canvas.add(oImg);
             });
@@ -29,8 +31,45 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
     };
 
 
+    var createTextOption = function(text_type,data_format){
+
+        var data_text = '';
+        if(text_type == 'CALENDAR'){
+            data_text = format_data.timeFormat(data_format);
+        }else if(text_type == 'WEATHER'){
+            data_text = format_data.weatherFormat(data_format);
+        }else if(text_type == 'OTHER'){
+            data_text = format_data.otherFormat(data_format);
+        }else if(text_type == 'CUSTOM'){
+            data_text = data_format;
+        }else{
+            data_text = data_format;
+        }
+
+        var oText = new fabric.Text(data_text, {
+            fontFamily: widget_config.default_fontfamily == 'serif'? 'serif2' : widget_config.default_fontfamily,
+            fill:widget_config.default_font_color,
+            fontSize:widget_config.default_font_size,
+            top:widget_config.default_text_top
+        });
+
+        oText.xmlObject = build_widget_util.createTextElement(text_type,data_format);
+
+
+        widget_config.xml_config.firstChild.appendChild(oText.xmlObject);
+        canvas.centerObjectH(oText);
+        oText.lockMovementX = true;
+        oText.hasControls = false;
+        canvas.add(oText);
+        activeObject = oText;
+        $('#option-modfiy-area').show();
+        initTextOptionModfiyArea()
+    };
+
+
     var elementListener = (function(){
 
+        //change Bg Color
         var chanegBgColorBtn = $('.bg-color');
         chanegBgColorBtn.click(function () {
             $('.area-bg').css({'background-image':"url('src/img/"+$(this).attr('value')+"')"});
@@ -40,42 +79,52 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
 
         //add new Text Elemment
         var tab_pane = 'tab-pane';
-        $("#option-area").on('click','.text-ele', function() {
-            var root_ele  = util.findRootTag($(this),tab_pane);
-            var text_type  = root_ele.attr('text-type');
+        $(".text-ele").click(function() {
+            var root_ele  = build_widget_util.findRootTag($(this),tab_pane);
+            var text_type  = root_ele.attr('data-type');
             var data_format  = $(this).attr('data-format');
-            var data_text  = $(this).text();
+            createTextOption(text_type,data_format);
+        });
 
+        $(".add-text-ele").click(function () {
+            var root_ele= build_widget_util.findRootTag($(this),tab_pane);
+            var text_type = root_ele.attr('data-type');
 
-            var oText = new fabric.Text(data_text, {
-                fontFamily: widget_config.default_fontfamily == 'serif'? 'serif2' : widget_config.default_fontfamily,
-                fill:'#000000',
-                fontSize:12,
-                top:30
+            var data_format = $('.input-format',root_ele).val();
+            if(data_format.length == 0){
+                util.showMessage('输入框不能为空!',util.msg_style_danger);
+            }else{
+                createTextOption(text_type,data_format);
+            }
+
+        });
+
+        var addImageBtn = $('.add-image-ele');
+        addImageBtn.click(function () {
+            var image_name = $(this).attr('data-name');
+            fabric.Image.fromURL(widget_config.widget_base_path+'icons/'+image_name,  function(oImg) {
+                oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
+                oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
+                oImg.xmlObject = build_widget_util.createImageElement('image',image_name);
+                widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
+                oImg.hasControls = false;
+                activeObject = oImg;
+                console.log(activeObject);
+                canvas.add(oImg);
+                initImageOptionModfiyArea();
             });
-
-            oText.xmlObject = util.createTextElement({text_value:'',text_type:text_type,format:data_format});
-            widget_config.xml_config.firstChild.appendChild(oText.xmlObject);
-            canvas.centerObjectH(oText);
-            oText.lockMovementX = true;
-            oText.hasControls = false;
-            canvas.add(oText);
-            activeObject = oText;
-            $('#option-modfiy-area').show();
-            initTextOptionModfiyArea()
         });
 
         //show weather icon or not
         var ctrlWeatherBtn = $('#ctrl-weather');
         var weaterObject = null;
         ctrlWeatherBtn.click(function() {
-            if(ctrlWeatherBtn.val() == 0){
+            if(ctrlWeatherBtn.attr('data-value') == 0){
                 if(widget_config.has_weather){
-
                     fabric.Image.fromURL(widget_config.default_weather_icon,  function(oImg) {
                         oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
                         oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
-                        oImg.xmlObject = util.createImageElement('weather');
+                        oImg.xmlObject = build_widget_util.createImageElement('weather','');
                         widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
                         weaterObject = oImg;
                         oImg.hasControls = false;
@@ -84,16 +133,18 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
                         canvas.add(oImg);
                         initImageOptionModfiyArea();
                     });
-                    ctrlWeatherBtn.val(1);
+                    ctrlWeatherBtn.attr('data-value',1);
+                    ctrlWeatherBtn.addClass('btn-success');
 
                 }else{
-                    alert('该插件没有天气元素');
+                    util.showMessage('该插件没有天气元素',util.msg_style_danger);
                 }
             }else{
                 canvas.remove(weaterObject);
                 widget_config.xml_config.firstChild.removeChild(weaterObject.xmlObject);
                 activeObject = weaterObject = null;
-                ctrlWeatherBtn.val(0);
+                ctrlWeatherBtn.attr('data-value',0);
+                ctrlWeatherBtn.removeClass('btn-success');
                 initImageOptionModfiyArea();
             }
 
@@ -105,12 +156,12 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
         var ctrlbatteryBtn = $('#ctrl-battery');
         var ctrlbatteryObject = null;
         ctrlbatteryBtn.click(function() {
-            if(ctrlbatteryBtn.val() == 0){
+            if(ctrlbatteryBtn.attr('data-value') == 0){
                 if(widget_config.has_battery){
                     fabric.Image.fromURL(widget_config.default_battery_icon,  function(oImg) {
                         oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
                         oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
-                        oImg.xmlObject = util.createImageElement('battery');
+                        oImg.xmlObject = build_widget_util.createImageElement('battery','');
                         widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
                         ctrlbatteryObject = oImg;
                         oImg.hasControls = false;
@@ -119,21 +170,24 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
                         canvas.add(oImg);
                         initImageOptionModfiyArea();
                     });
-                    ctrlbatteryBtn.val(1);
+                    ctrlbatteryBtn.attr('data-value',1);
+                    ctrlbatteryBtn.addClass('btn-success');
 
                 }else{
-                    alert('该插件没有电量元素');
+                    util.showMessage('该插件没有电量元素',util.msg_style_danger);
                 }
             }else{
                 canvas.remove(ctrlbatteryObject);
                 widget_config.xml_config.firstChild.removeChild(ctrlbatteryObject.xmlObject);
                 activeObject = ctrlbatteryObject = null;
-                ctrlbatteryBtn.val(0);
+                ctrlbatteryBtn.attr('data-value',0);
+                ctrlbatteryBtn.removeClass('btn-success');
                 initImageOptionModfiyArea();
             }
 
-            //initTextOptionModfiyArea()
         });
+
+
 
         // observe canvas activeObject chanege
         canvas.observe('object:selected', function () {
@@ -149,16 +203,16 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
 
         canvas.observe('object:modified', function () {
             if(activeObject.get('type') == 'text'){
-                $(activeObject.xmlObject).attr('android:layout_y',util.convertDp(activeObject.getTop()));
+                $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(activeObject.getTop()));
                 if($("#text-layout").val() != 'match_parent'){
-                    $(activeObject.xmlObject).attr('android:layout_x',util.convertDp(activeObject.getLeft()));
+                    $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
                 }
                 initTextOptionModfiyArea();
             }
 
             if(activeObject.get('type') == 'image'){
-                $(activeObject.xmlObject).attr('android:layout_y',util.convertDp(activeObject.getTop()));
-                $(activeObject.xmlObject).attr('android:layout_x',util.convertDp(activeObject.getLeft()));
+                $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(activeObject.getTop()));
+                $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
                 initImageOptionModfiyArea();
             }
         });
@@ -167,7 +221,7 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
         //监听 保存widget xml ----------------------save xml--------------------start
         var saveWidgetBtn = $('#save-widget');
         saveWidgetBtn.click(function () {
-            util.saveWidgetXML()
+            build_widget_util.saveWidgetXML()
         });
         //----end
     })();
@@ -187,7 +241,7 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
                 //$('#text-layout-x-span').hide();
             }else{
                 activeObject.lockMovementX = false;
-                $(activeObject.xmlObject).attr('android:layout_x',util.convertDp(activeObject.getLeft()));
+                $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
                 $(activeObject.xmlObject).removeAttr("android:alignment");
                 //$('#text-layout-x-span').show();
             }
@@ -201,7 +255,7 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
         var font_familys = $("#font-family-id");
         font_familys.change(function(){
             activeObject.setFontFamily($(this).val());
-            $(activeObject.xmlObject).attr('android:typeface','./' + $(this).val()+'.ttf');
+            $(activeObject.xmlObject).attr('android:typeface','./fonts/' + $(this).val()+'.ttf');
             canvas.renderAll();
         });
         //------------------end
@@ -227,7 +281,7 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
             if($("#text-layout").val() == 'match_parent'){
                 canvas.centerObjectH(activeObject);
             }
-            $(activeObject.xmlObject).attr('android:textSize',util.convertDp(font_size.val()));
+            $(activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(font_size.val()));
             console.log($(activeObject.xmlObject).attr('android:textSize'));
             canvas.renderAll();
         };
@@ -240,7 +294,7 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
         font_color_option.colorpicker().on(
             'changeColor.colorpicker', function () {
                 activeObject.setFill(font_color.val());
-                $(activeObject.xmlObject).attr('android:textColor',util.convertColor(font_color.val()));
+                $(activeObject.xmlObject).attr('android:textColor',build_widget_util.convertColor(font_color.val()));
                 canvas.renderAll();
             }
         );
@@ -296,19 +350,23 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
             var image_height = Math.round(image_w.val() * activeObject.getHeight() /  activeObject.getWidth());
             activeObject.setWidth(parseInt(image_w.val()));
             activeObject.setHeight(image_height);
-            $(activeObject.xmlObject).attr('android:layout_width',util.convertDp(image_w.val()));
-            $(activeObject.xmlObject).attr('android:layout_height',util.convertDp(image_height));
+            $(activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(image_w.val()));
+            $(activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(image_height));
             console.log($(activeObject.xmlObject).attr('android:layout_width'));
             console.log($(activeObject.xmlObject).attr('android:layout_height'));
             canvas.renderAll();
             console.log(activeObject);
         };
 
-        console.log(time_format.numToWords(888));
 
 
-
-
+        var deleteTextBtn = $('#delete-image');
+        deleteTextBtn.click(function(){
+            canvas.remove(activeObject);
+            widget_config.xml_config.firstChild.removeChild(activeObject.xmlObject);
+            activeObject = null;
+            initImageOptionModfiyArea();
+        });
 
     })();
 
@@ -343,16 +401,9 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
 
     
     var initOption = function () {
-        //$("#date-area").html(util.getTextcheckBoxHTML(widget_config.date_text_types));
-        //$("#weather-area").html(util.getTextcheckBoxHTML(widget_config.time_text_types));
 
-        $("#font-family-id").html(util.getFontsSelectHTML());
+        $("#font-family-id").html(build_widget_util.getFontsSelectHTML());
 
-
-        var container = $('.masonry-container');
-
-        container.html(util.getImageListHTML());
-        return this;
     };
 
 
@@ -373,7 +424,6 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
             $("#diy_self").addClass('active');
             $("#choose_temp").removeClass('active');
             switch (e.which) {
-
                 case 37:
                     e.preventDefault();
                     activeObject.setLeft(activeObject.left - 1);
@@ -396,10 +446,10 @@ define(['jquery','build_widget_util','fabric','widget_config','bootstrap','color
             }
 
             canvas.renderAll();
-            $(activeObject.xmlObject).attr('android:layout_y',util.convertDp(activeObject.getTop()));
+            $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(activeObject.getTop()));
             if(typeof ($(activeObject.xmlObject).attr('android:alignment')) == "undefined"
                 || $(activeObject.xmlObject).attr('android:alignment') != "center"){
-                    $(activeObject.xmlObject).attr('android:layout_x',util.convertDp(activeObject.getLeft()));
+                    $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
             }
 
 

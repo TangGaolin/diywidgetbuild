@@ -16,12 +16,10 @@ require.config({
         'util2':"js/lib/util2",
         'widget_config':"js/app/widget-config",
         'widget_res_pick':"js/app/widget-res-pick",
-        'time_format':"js/lib/time-format"
+        'data_format':"js/lib/data-format"
     },
     shim:{
         bootstrap:['jquery'],
         slider:['jquery']
-        //masonry:['jquery']
-
     }
 });

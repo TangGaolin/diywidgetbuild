@@ -5,61 +5,92 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#date-area" aria-controls="home" role="tab" data-toggle="tab">日期 / 时间</a></li>
             <li role="presentation"><a href="#weather-area"  role="tab" data-toggle="tab">天气</a></li>
+            <li role="presentation"><a href="#other-area"  role="tab" data-toggle="tab">电量/提醒</a></li>
             <li role="presentation"><a href="#custom-area"   role="tab" data-toggle="tab">自定义</a></li>
         </ul>
 
         <!-- Tab panes -->
         <div class="tab-content" style="background-color: #ffffff">
 
-            <div role="tabpanel" class="tab-pane active" id="date-area" text-type = 'CALENDAR'>
+            <div role="tabpanel" class="tab-pane active" id="date-area" data-type = 'CALENDAR'>
 
                 <div>
                     <div class="btn-group btn-sm" role="group" >
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'yyyy'>2015</button>
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'dd'>Jan 2015</button>
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = "EEE">Tue</button>
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'yyyy.MM.dd'>2015.12.11</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'JJ:mm'>10:28</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'JJ'>10(小时)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = "mm">28(分钟)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'A'>am/pm</button>
                     </div>
 
                     <div class="btn-group btn-sm" role="group" >
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'A'>am/pm</button>
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'JJ:mm'>10:28</button>
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'JJ'>10(小时)</button>
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'mm'>28(分钟)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'MMMM'>January</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'MMM'>Jan</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'MM'>03(月)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'EEEE'>wednesday</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'E'>wed</button>
                     </div>
                 </div>
 
-                <div class="form-inline">
-                    <div class="btn-group btn-sm" role="group">
-                        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Action <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
-                        </ul>
-                    </div>
-
-                    <div class="input-group">
-                        <input type="text" class="form-control input-sm " >
-                        <span class="input-group-btn">
-                            <button class="btn btn-default btn-sm" type="button">添加</button>
-                        </span>
-                     </div>
+                <div class="form-inline" style="padding: 5px 10px">
+                    <input class="form-control input-sm input-format" type="text" placeholder="自定义日期格式"/>
+                    <button type="button" class = 'btn btn-sm btn-default add-text-ele' >添加</button>
+                    <br/>
+                    <span class="text-danger small">例:yyyy-MM-dd = 2016-3-28</span>
                 </div>
 
-            </div>
-            <div role="tabpanel" class="tab-pane" id="weather-area">
 
             </div>
-            <div role="tabpanel" class="tab-pane" id="custom-area">
 
-                <div class="form-inline" >
-                    <input class="form-control input-sm" type="text" placeholder="输入文本"/>
-                    <input type="button" class = 'btn btn-sm btn-default' value="添加"/>
+            <div role="tabpanel" class="tab-pane" id="weather-area" data-type="WEATHER">
+                <div>
+                    <div class="btn-group btn-sm" role="group" >
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'TU'>50℃ (气温)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'W'>12km/h (风速)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = "S">Sunny (天气状态)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'R'>30% (湿度)</button>
+
+                    </div>
+
+                    <div class="btn-group btn-sm" role="group" >
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'A'>beijing (位置)</button>
+                    </div>
+
+                </div>
+
+                <div class="form-inline" style="padding: 5px 10px">
+                    <input class="form-control input-sm input-format" type="text"  placeholder="自定义天气格式"/>
+                    <button type="button" class = 'btn btn-sm btn-default add-text-ele' >添加</button>
+                    <br/>
+                    <span class="text-danger small">例:L/H U = 0/15 ℃ </span>
+                </div>
+            </div>
+
+
+            <div role="tabpanel" class="tab-pane" id="other-area" data-type="OTHER">
+                <div>
+                    <div class="btn-group btn-sm" role="group" >
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'SMS_UNREAD'>SMS:8 (未读消息)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'TELEPHONY_MISSED_CALLS'>Call:2 (未接来电)</button>
+
+
+                    </div>
+
+                    <div class="btn-group btn-sm" role="group" >
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = "BATTERY_LEVEL">80% (电量)</button>
+                    </div>
+
+                </div>
+
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="custom-area" data-type="CUSTOM">
+
+                <div class="form-inline" style="padding: 5px 10px">
+                    <input class="form-control input-sm input-format" type="text"  placeholder="自定义文字"/>
+                    <button type="button" class = 'btn btn-sm btn-default add-text-ele' >添加</button>
+                    <br/>
+                    <span class="text-danger small">注:插件上固定的文字 如:Call </span>
                 </div>
 
             </div>
@@ -67,6 +98,5 @@
     </div>
 
     <p></p>
-    <p></p>
-    <p></p>
+
 </div>
