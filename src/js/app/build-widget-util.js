@@ -1,16 +1,8 @@
 
 
-define(['jquery','widget_config'], function ($,widget_config) {
+define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 	'use strict';
 
-	var checkbox_html_temp = "<label class='checkbox-inline'> <input value='$key' type='checkbox'  class='text-type'> $value </label> ";
-	var getTextcheckBoxHTML = function(text_types){
-		var html = '';
-		for(var i = 0, l = text_types.length; i < l; i++) {
-			html += checkbox_html_temp.replace('$key',text_types[i]).replace('$value',widget_config.getTextType(text_types[i]));
-		}
-		return html;
-	};
 
 
 	var getFontsSelectHTML = function () {
@@ -111,30 +103,15 @@ define(['jquery','widget_config'], function ($,widget_config) {
 
 
 
-	var getImageListHTML = function () {
-		var tmp_image_list = ['<div class="col-md-3 col-sm-3 item">',
-			'<div class="thumbnail"><img src="image_src" alt="" width="80%"/></div>',
-			'<div class="caption"><p><button class="btn btn-xs btn-default add-image-ele">添加</button></p></div></div>' ].join('');
-		var html = '',image_src;
-		for(var i = 0, l = widget_config.image_list.length; i < l; i++) {
-
-
-			image_src =  widget_config.widget_base_path+'icons/'+widget_config.image_list[i];
-			html += tmp_image_list.replace(/image_src/g,image_src);
-		}
-		return html;
-	};
-
 	var saveWidgetXML = function () {
 		$.post('phpService/saveWidgetXML.php',
-			{widget_xml:(new XMLSerializer()).serializeToString(widget_config.xml_config)},
+			{theme:widget_config.theme,widget:widget_config.widget,widget_xml:(new XMLSerializer()).serializeToString(widget_config.xml_config)},
 			function(data,status){
-			if(data == 1 && status=='success'){
-				//comm.showMessage('排序成功～',comm.msg_style_info);
-				//setTimeout("location.reload();",1500);
-			}else{
-				//comm.showMessage('操作失败',comm.msg_style_danger);
-			}
+				if(data == 1 && status=='success'){
+					util.showMessage('保存成功...',util.msg_style_info);
+				}else{
+					util.showMessage('保存失败!!!',util.msg_style_danger);
+				}
 		});
 	};
 
@@ -147,18 +124,33 @@ define(['jquery','widget_config'], function ($,widget_config) {
 	};
 
 
+	var getXmlRes = function(xml_type){
+
+		$.post('phpService/addWidgetXml.php',
+			{theme:widget_config.theme,widget:widget_config.widget,xml_type:xml_type},
+			function(data,status){
+				if(data == 1 && status=='success'){
+					util.showMessage('加载天气文件成功...',util.msg_style_info);
+				}else{
+					util.showMessage('加载天气文件失败!',util.msg_style_danger);
+				}
+			});
+
+	};
+
 
 
 	return {
-		getTextcheckBoxHTML:getTextcheckBoxHTML,
+
 		createTextElement:createTextElement,
 		createImageElement:createImageElement,
 		getFontsSelectHTML:getFontsSelectHTML,
-		getImageListHTML:getImageListHTML,
+
 		convertDp:convertDp,
 		findRootTag:findRootTag,
 
 		convertColor:convertColor,
+		getXmlRes:getXmlRes,
 		saveWidgetXML:saveWidgetXML
 
 

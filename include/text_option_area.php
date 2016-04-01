@@ -5,12 +5,34 @@
 </div>
 
 <div>
+
+
+    <div class="row">
+        <div class="col-md-4 col-sm-4 form-inline">
+            <label>布局与位置:</label><br/>
+            <div class="form-inline">
+                <select class="form-control input-sm"  style="width: 120px" id = 'text-layout' >
+                    <option value="match_parent">独占行</option>
+                    <option value="wrap_content">适应内容</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4 form-inline" >
+            <label>字母大小写:</label><br/>
+            <button class="btn btn-sm" id = "change-letter-size" data-value = '0'>A/a</button>
+        </div>
+    </div>
+    <p></p>
     <div class="row">
         <div class="col-md-4 col-sm-4 form-inline">
             <label>字体:</label><br/>
             <div class="form-inline">
                 <select class="form-control input-sm"  style="width: 120px" id = 'font-family-id' >
-
+                    <?php foreach($font_array as $v){
+                        ?>
+                        <option value="<?=pathinfo($v['url'],PATHINFO_BASENAME)?>" style="font-family: '<?=$v['font_name']?>'" ><?=$v['font_name']?></option>
+                    <?php } ?>
                 </select>
             </div>
         </div>
@@ -32,21 +54,6 @@
         </div>
     </div>
 
-    <p></p>
-
-    <div class="row">
-        <div class="col-md-3 col-sm-3 form-inline">
-            <label>布局与位置:</label><br/>
-            <div class="form-inline">
-                <select class="form-control input-sm"  style="width: 150px" id = 'text-layout' >
-                    <option value="match_parent">独占行</option>
-                    <option value="wrap_content">适应内容</option>
-                </select>
-
-                &nbsp;&nbsp;&nbsp;
-            </div>
-        </div>
-    </div>
 
     <p></p>
     <div class="row">
@@ -59,4 +66,27 @@
     </div>
 
     <p></p>
+
+
+    <div>
+        <p class="text-danger">
+            <label>快捷键:</label>
+            <br/>
+            位置
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+            &nbsp;&nbsp;
+            <br/>
+            旋转
+            ctrl + <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>,
+            ctrl + <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            &nbsp;&nbsp;
+            <br/>
+            缩放
+            ctrl + <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>,
+            ctrl + <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </p>
+    </div>
 </div>

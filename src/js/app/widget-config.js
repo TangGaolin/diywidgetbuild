@@ -23,7 +23,11 @@ define(['jquery'], function ($) {
     var has_bg_img = 0;
     var has_weather = 0;
     var has_battery = 0;
-    var widget_base_path = $('#widget-base-path').val();
+
+    var theme = $('#theme-name').val();
+    var widget = $('#widget-name').val();
+
+    var widget_base_path = 'diywidgets/' + theme + '/' + widget + '/';
     var default_bg_img = 'widget_bg.png';
 
     var image_list = [];
@@ -112,6 +116,8 @@ define(['jquery'], function ($) {
         widget_width:widget_width,
         widget_height:widget_height,
         has_bg_img:has_bg_img,
+        widget:widget,
+        theme:theme,
         widget_base_path:widget_base_path,
         xml_config:xml_config,
         fonts_config:fonts_config,

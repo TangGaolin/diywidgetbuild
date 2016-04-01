@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <level-list xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:image="./iconss/w01d.png"
+    <item android:image="./icons/w01d.png"
         android:maxLevel="11"
         android:minLevel="10"/>
     <item android:image="./icons/w02d.png"

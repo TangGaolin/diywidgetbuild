@@ -48,7 +48,7 @@ define(['jquery'], function ($) {
 				res = full_mounts[date.getMonth()];
 				break;
 			case 'dd':
-				res = date.getUTCDate().toString();
+				res = ('0'+date.getUTCDate()).toString().substr(-2);
 				break;
 
 			case 'JJ':

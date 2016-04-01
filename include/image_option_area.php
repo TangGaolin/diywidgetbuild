@@ -19,4 +19,27 @@
     </div>
 
     <p></p>
+
+
+    <div>
+        <p class="text-danger">
+            <label>快捷键:</label>
+            <br/>
+            位置
+            <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+            &nbsp;&nbsp;
+            <br/>
+            旋转
+            ctrl + <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>,
+            ctrl + <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+            &nbsp;&nbsp;
+            <br/>
+            缩放
+            ctrl + <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>,
+            ctrl + <span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+        </p>
+    </div>
 </div>

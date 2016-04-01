@@ -55,7 +55,6 @@ define(['jquery', 'build_widget_util','fabric',
 
         oText.xmlObject = build_widget_util.createTextElement(text_type,data_format);
 
-
         widget_config.xml_config.firstChild.appendChild(oText.xmlObject);
         canvas.centerObjectH(oText);
         oText.lockMovementX = true;
@@ -135,7 +134,7 @@ define(['jquery', 'build_widget_util','fabric',
                     });
                     ctrlWeatherBtn.attr('data-value',1);
                     ctrlWeatherBtn.addClass('btn-success');
-
+                    build_widget_util.getXmlRes('weather');
                 }else{
                     util.showMessage('该插件没有天气元素',util.msg_style_danger);
                 }
@@ -254,8 +253,9 @@ define(['jquery', 'build_widget_util','fabric',
         //监听文字字体的变化--------family-----------------start
         var font_familys = $("#font-family-id");
         font_familys.change(function(){
-            activeObject.setFontFamily($(this).val());
-            $(activeObject.xmlObject).attr('android:typeface','./fonts/' + $(this).val()+'.ttf');
+
+            activeObject.setFontFamily($(this).val().split('.')[0]);
+            $(activeObject.xmlObject).attr('android:typeface','./fonts/' + $(this).val());
             canvas.renderAll();
         });
         //------------------end
@@ -311,7 +311,25 @@ define(['jquery', 'build_widget_util','fabric',
 
         //-----------------end
 
+        //监听文字大小写------------------------------------------start
+        var letterSizeBtn = $('#change-letter-size');
+        letterSizeBtn.click(function () {
+            if(letterSizeBtn.attr('data-value') == 0){
+                activeObject.setText(activeObject.getText().toUpperCase());
+                $(activeObject.xmlObject).attr('android:textAllCaps','true');
+                letterSizeBtn.attr('data-value',1);
+                letterSizeBtn.addClass('btn-success');
+            }else{
+                activeObject.setText(activeObject.getText().toLowerCase());
+                $(activeObject.xmlObject).attr('android:textAllCaps','false');
+                letterSizeBtn.attr('data-value',0);
+                letterSizeBtn.removeClass('btn-success');
+            }
 
+            canvas.renderAll();
+        });
+
+        //-----------------end
 
         //删除当前文字元素----------------------angle--------------------start
         var deleteTextBtn = $('#delete-text');
@@ -402,7 +420,7 @@ define(['jquery', 'build_widget_util','fabric',
     
     var initOption = function () {
 
-        $("#font-family-id").html(build_widget_util.getFontsSelectHTML());
+        //$("#font-family-id").html(build_widget_util.getFontsSelectHTML());
 
     };
 
@@ -413,10 +431,12 @@ define(['jquery', 'build_widget_util','fabric',
 
     var listenKeyBoard = (function () {
         var key_values = [37, 38, 39, 40];
+
+        var new_width,new_height,new_fonts_size;
         $(document.body).on('keydown', function (e) {
 
             //console.log(e.which);
-            if($.inArray(e.which, key_values) == -1){
+            if($.inArray(e.which, key_values) == -1 || activeObject == null){
                 return;
             }
             $("#banner_model").hide();
@@ -426,31 +446,96 @@ define(['jquery', 'build_widget_util','fabric',
             switch (e.which) {
                 case 37:
                     e.preventDefault();
-                    activeObject.setLeft(activeObject.left - 1);
+
+                    if(e.ctrlKey){
+                        activeObject.setAngle(parseInt(activeObject.getAngle()) - 1);
+                        $(activeObject.xmlObject).attr('android:rotation',activeObject.getAngle());
+                        break;
+                    }
+                    if($(activeObject.xmlObject).attr('android:layout_width') != "match_parent"
+                        || typeof ($(activeObject.xmlObject).attr('android:alignment')) == "undefined" ){
+                        activeObject.setLeft(activeObject.left - 1);
+                        $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
+                    }
                     break;
 
                 case 38:
                     e.preventDefault();
+
+                    if(e.ctrlKey){
+                        if(activeObject.get('type') == 'image'){
+                            new_width = activeObject.getWidth()+1;
+                            new_height = Math.round( new_width * activeObject.getHeight() /  activeObject.getWidth());
+                            activeObject.setWidth(parseInt(new_width));
+                            activeObject.setHeight(new_height);
+                            $(activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(new_width));
+                            $(activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(new_height));
+
+                        }
+
+                        if(activeObject.get('type') == 'text'){
+                            var new_fonts_size = parseInt(activeObject.getFontSize()+1);
+                            activeObject.setFontSize(new_fonts_size);
+                            $(activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(new_fonts_size));
+                            console.log($(activeObject.xmlObject).attr('android:textSize'));
+                            if($(activeObject.xmlObject).attr('android:layout_width') == "match_parent"){
+                                canvas.centerObjectH(activeObject);
+                            }
+                        }
+                        break;
+                    }
+
                     activeObject.setTop(activeObject.top - 1);
+                    $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(activeObject.getTop()));
                     break;
 
                 case 39:
                     e.preventDefault();
-                    activeObject.setLeft(activeObject.left + 1);
+
+                    if(e.ctrlKey){
+                        activeObject.setAngle(parseInt(activeObject.getAngle()) + 1);
+                        $(activeObject.xmlObject).attr('android:rotation',activeObject.getAngle());
+                        break;
+                    }
+
+                    if($(activeObject.xmlObject).attr('android:layout_width') != "match_parent"
+                        || typeof ($(activeObject.xmlObject).attr('android:alignment')) == "undefined" ){
+                        activeObject.setLeft(activeObject.left + 1);
+                        $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
+                    }
                     break;
 
                 case 40:
                     e.preventDefault();
+
+                    if(e.ctrlKey){
+                        if(activeObject.get('type') == 'image'){
+                            new_width = activeObject.getWidth() - 1;
+                            new_height = Math.round( new_width * activeObject.getHeight() /  activeObject.getWidth());
+                            activeObject.setWidth(parseInt(new_width));
+                            activeObject.setHeight(new_height);
+                            $(activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(new_width));
+                            $(activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(new_height));
+                        }
+
+                        if(activeObject.get('type') == 'text'){
+                            new_fonts_size = parseInt(activeObject.getFontSize() - 1);
+                            activeObject.setFontSize(new_fonts_size);
+                            $(activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(new_fonts_size));
+                            console.log($(activeObject.xmlObject).attr('android:textSize'));
+                            if($(activeObject.xmlObject).attr('android:layout_width') == "match_parent"){
+                                canvas.centerObjectH(activeObject);
+                            }
+                        }
+                        break;
+                    }
+
                     activeObject.setTop(activeObject.top + 1);
+                    $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(activeObject.getTop()));
                     break;
             }
 
             canvas.renderAll();
-            $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(activeObject.getTop()));
-            if(typeof ($(activeObject.xmlObject).attr('android:alignment')) == "undefined"
-                || $(activeObject.xmlObject).attr('android:alignment') != "center"){
-                    $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
-            }
 
 
 

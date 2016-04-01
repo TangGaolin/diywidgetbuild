@@ -50,7 +50,8 @@ $image_msg_array = getImageRes($widget_base_path);
 <script src="src/js/app.js"></script>
 
 
-<input type="hidden" value="<?=$widget_base_path?>" id = 'widget-base-path'>
+<input type = 'hidden' value="<?=$theme?>" id="theme-name">
+<input type = 'hidden' value="<?=$widget?>" id="widget-name">
 <input type="hidden" value='<?= json_encode($image_msg_array) ?>' id = 'image-res'>
 <input type="hidden" value='<?= json_encode($font_array) ?>' id = 'default-fontfamily'>
 
@@ -85,7 +86,11 @@ $image_msg_array = getImageRes($widget_base_path);
                 <div id = 'option-modfiy-image-area' style="display: none">
                     <?php require_once('include/image_option_area.php') ?>
                 </div>
+
+
             </div>
+
+
 
         </div>
 
