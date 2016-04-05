@@ -8,7 +8,7 @@
 
 
     <div class="row">
-        <div class="col-md-4 col-sm-4 form-inline">
+        <div class="col-md-3 col-sm-3 form-inline">
             <label>布局与位置:</label><br/>
             <div class="form-inline">
                 <select class="form-control input-sm"  style="width: 120px" id = 'text-layout' >
@@ -18,9 +18,13 @@
             </div>
         </div>
 
-        <div class="col-md-4 col-sm-4 form-inline" >
+        <div class="col-md-6 col-sm-6 form-inline" >
             <label>字母大小写:</label><br/>
-            <button class="btn btn-sm" id = "change-letter-size" data-value = '0'>A/a</button>
+            <button class="btn btn-sm change-letter-size" data-type = 'lower'>i am</button>
+            <button class="btn btn-sm change-letter-size" data-type = 'capitalize'>I am</button>
+            <button class="btn btn-sm change-letter-size" data-type = 'upper'>I AM</button>
+            <button class="btn btn-sm change-letter-size btn-success" data-type = 'title'>I Am</button>
+
         </div>
     </div>
     <p></p>

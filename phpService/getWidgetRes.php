@@ -22,6 +22,8 @@ function getFontTypes($font_path){
     return $fonts;
 }
 
+
+
 function getIcons($icon_dir){
     $icon_array = [];
     foreach(glob($icon_dir.'*.png') as $file) {
@@ -128,4 +130,14 @@ EOF;
     }
 
     return $fonts_css_string;
+}
+
+
+function checkZipFlie($zip_file){
+
+    if(is_file($zip_file)){
+        return true;
+    }else{
+        return false;
+    }
 }

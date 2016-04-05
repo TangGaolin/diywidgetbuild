@@ -23,6 +23,10 @@
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane " id="image-area">
+
+                <div>
+                    
+                </div>
                 <div class="well area-bg">
                     <div class="row image-container">
                         <?php

@@ -6,7 +6,19 @@
  * Time: 上午10:43
  */
 
+require_once('db.php');
 
+function saveDB($theme,$widget){
+
+    $pdo = Db::getInstance()->connect();
+    $sql = 'update widgets set state = 1,build_time = :build_time where theme = :theme and widget = :widget';
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->bindParam(":build_time", time());
+    $stmt->bindParam(":theme", $theme);
+    $stmt->bindParam(":widget", $widget);
+    $stmt->execute();
+}
 
 function Zip($source, $destination)
 {
@@ -68,6 +80,7 @@ $widget_zip = $widget_dir.'.zip';
 
 if(file_put_contents($widget_xml_file,$_POST['widget_xml'],LOCK_EX) != false){
     if(Zip($widget_dir,$widget_zip)){
+        saveDB($theme,$widget);
         echo 1;
     }else{
         echo 0;

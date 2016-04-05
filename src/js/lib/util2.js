@@ -12,9 +12,22 @@ define(['jquery'], function ($) {
 		setTimeout("$('#show-msg').fadeOut('slow');",1200);
 	};
 
+	var isImage  = function (filename) {
+		switch (filename.split('.').pop().toLowerCase()) {
+			case 'jpg':
+			case 'gif':
+			case 'bmp':
+			case 'png':
+				//etc
+				return true;
+		}
+		return false;
+	};
+
 	return {
 		msg_style_info:msg_style_info,
 		msg_style_danger:msg_style_danger,
-		showMessage:showMessage
+		showMessage:showMessage,
+		isImage:isImage
 	};
 });

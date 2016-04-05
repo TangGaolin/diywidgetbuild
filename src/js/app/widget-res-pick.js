@@ -23,6 +23,7 @@ define(['jquery','bootstrap','masonry','imagesloaded','util2'],function($,bootst
     var select_fonts = [];
     var selected_widget_fonts = [];
 
+
     icon.click(function(){
         var icon_name = $(this).attr('data-name');
         var index = $.inArray(icon_name, select_icons);
@@ -34,6 +35,8 @@ define(['jquery','bootstrap','masonry','imagesloaded','util2'],function($,bootst
             $(this).removeClass('checked');
         }
     });
+
+
 
     selected_icon.click(function(){
         var icon_name = $(this).attr('data-name');
@@ -175,6 +178,19 @@ define(['jquery','bootstrap','masonry','imagesloaded','util2'],function($,bootst
         }
 
     });
+
+
+
+    var imgUplaodBtn = $('#img-upload');
+    imgUplaodBtn.change(function(){
+            if(util2.isImage(imgUplaodBtn.val())){
+                console.log('file ok....');
+                $("#img-form").submit();
+            }else{
+                util2.showMessage('请上传图片!!',util2.msg_style_danger);
+            }
+        }
+    );
 
 
 });

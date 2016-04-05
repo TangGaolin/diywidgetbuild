@@ -46,6 +46,8 @@ define(['jquery', 'build_widget_util','fabric',
             data_text = data_format;
         }
 
+        data_text = build_widget_util.stringCapitalize(data_text,'title');
+
         var oText = new fabric.Text(data_text, {
             fontFamily: widget_config.default_fontfamily == 'serif'? 'serif2' : widget_config.default_fontfamily,
             fill:widget_config.default_font_color,
@@ -171,7 +173,7 @@ define(['jquery', 'build_widget_util','fabric',
                     });
                     ctrlbatteryBtn.attr('data-value',1);
                     ctrlbatteryBtn.addClass('btn-success');
-
+                    build_widget_util.getXmlRes('battery');
                 }else{
                     util.showMessage('该插件没有电量元素',util.msg_style_danger);
                 }
@@ -312,21 +314,15 @@ define(['jquery', 'build_widget_util','fabric',
         //-----------------end
 
         //监听文字大小写------------------------------------------start
-        var letterSizeBtn = $('#change-letter-size');
+        var letterSizeBtn = $('.change-letter-size');
         letterSizeBtn.click(function () {
-            if(letterSizeBtn.attr('data-value') == 0){
-                activeObject.setText(activeObject.getText().toUpperCase());
-                $(activeObject.xmlObject).attr('android:textAllCaps','true');
-                letterSizeBtn.attr('data-value',1);
-                letterSizeBtn.addClass('btn-success');
-            }else{
-                activeObject.setText(activeObject.getText().toLowerCase());
-                $(activeObject.xmlObject).attr('android:textAllCaps','false');
-                letterSizeBtn.attr('data-value',0);
-                letterSizeBtn.removeClass('btn-success');
-            }
 
+            letterSizeBtn.removeClass('btn-success');
+            $(activeObject.xmlObject).attr('android:textCaps',$(this).attr('data-type'));
+            activeObject.setText(build_widget_util.stringCapitalize(activeObject.getText(),$(this).attr('data-type')));
             canvas.renderAll();
+            $(this).addClass('btn-success');
+            console.log(activeObject.xmlObject);
         });
 
         //-----------------end
@@ -418,11 +414,6 @@ define(['jquery', 'build_widget_util','fabric',
 
 
     
-    var initOption = function () {
-
-        //$("#font-family-id").html(build_widget_util.getFontsSelectHTML());
-
-    };
 
 
 
@@ -547,8 +538,7 @@ define(['jquery', 'build_widget_util','fabric',
 
 
     return {
-        initWidget:initWidget,
-        initOption:initOption
+        initWidget:initWidget
     };
 
 });

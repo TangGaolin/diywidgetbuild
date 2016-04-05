@@ -14,11 +14,12 @@ $theme = isset($_GET['theme']) ? $_GET['theme'] : 'BeautyofLight_a';
 $widget = isset($_GET['widget']) ? $_GET['widget'] : 'BeautyofLight_a_3';
 $widget_base_path = $widget_path.$theme.'/'.$widget . '/';
 $widget_preview = $widget_path.$theme.'/'.$widget . '.png';
+$widget_zip = $widget_path.$theme.'/'.$widget . '.zip';
 
 $font_array = getFontTypes($widget_base_path . 'fonts/');
 $image_msg_array = getImageRes($widget_base_path);
 
-
+$is_build = checkZipFlie($widget_zip);
 ?>
 
 <!DOCTYPE html>
@@ -98,8 +99,11 @@ $image_msg_array = getImageRes($widget_base_path);
 
         <div class = 'col-md-7 col-sm-7 pull-right' id = 'option-area'>
             <div>
-                <button class = "btn btn-xs btn-primary" id = 'save-widget'>保 存</button>
+                <button class = "btn btn-xs btn-success" id = 'save-widget'>保 存</button>
 
+                <?php  if($is_build){ ?>
+                    <a class="pull-right"  href="<?=$widget_zip?>">下 载</a>
+                <?php } ?>
             </div>
             <p></p>
 
@@ -119,7 +123,7 @@ $image_msg_array = getImageRes($widget_base_path);
 <script>
 
     require(['app/build-widget'],function(build_widget){
-        build_widget.initWidget().initOption();
+        build_widget.initWidget();
     });
 
 </script>

@@ -27,6 +27,7 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		$(TextElement).attr('android:textColor',convertColor(widget_config.default_font_color));
 		$(TextElement).attr('android:textSize',convertDp(widget_config.default_font_size));
 		$(TextElement).attr('android:typeface', getFontSrc());
+		$(TextElement).attr('android:textCaps', 'title');
 		if(text_type == 'CALENDAR'){
 			$(TextElement).attr('android:type',text_type);
 			$(TextElement).attr('android:data',getCalendarFormat(data_format));
@@ -129,15 +130,41 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		$.post('phpService/addWidgetXml.php',
 			{theme:widget_config.theme,widget:widget_config.widget,xml_type:xml_type},
 			function(data,status){
-				if(data == 1 && status=='success'){
-					util.showMessage('加载天气文件成功...',util.msg_style_info);
+				console.log(data);
+				if(data['code'] == 1 && status=='success'){
+					util.showMessage(data['msg'],util.msg_style_info);
 				}else{
-					util.showMessage('加载天气文件失败!',util.msg_style_danger);
+					util.showMessage(data['msg'],util.msg_style_danger);
 				}
-			});
+			},'json');
 
 	};
 
+	var stringCapitalize = function(string,type){
+		var res = '';
+		switch (type) {
+			case 'lower':
+				res = string.toLowerCase();
+				break;
+			case 'capitalize':
+				res = string.charAt(0).toUpperCase() + string.substr(1).toLowerCase();
+				break;
+			case 'upper':
+				res = string.toUpperCase();
+				break;
+			case 'title':
+				res = string.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+				break;
+
+			default:
+				res = string.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+		}
+
+
+
+		return res;
+
+	};
 
 
 	return {
@@ -151,7 +178,8 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 
 		convertColor:convertColor,
 		getXmlRes:getXmlRes,
-		saveWidgetXML:saveWidgetXML
+		saveWidgetXML:saveWidgetXML,
+		stringCapitalize:stringCapitalize
 
 
 
