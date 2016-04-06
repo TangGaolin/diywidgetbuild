@@ -38,6 +38,21 @@ class Widgetdata {
         return $data;
     }
 
+    public function getBuildOKWidget($start){
+
+
+        $pdo = Db::getInstance()->connect();
+        $sql = 'select * from widgets where state = 1  order by build_time desc limit :page_start,:page_size';
+
+        $stmt = $pdo->prepare($sql);
+
+        $stmt->bindValue(":page_start",$start*$this->page_size,PDO::PARAM_INT);
+        $stmt->bindValue(":page_size",$this->page_size,PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        return $data;
+    }
 
 
 }

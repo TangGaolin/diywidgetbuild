@@ -308,7 +308,8 @@ define(['jquery', 'build_widget_util','fabric',
         text_angle.bind("slider:changed", function (event, data) {
             activeObject.setAngle(data.value);
             $(activeObject.xmlObject).attr('android:rotation',data.value);
-            canvas.renderAll();
+            canvas.renderAll(activeObject.xmlObject);
+            console.log(activeObject.xmlObject);
         });
 
         //-----------------end
@@ -528,6 +529,10 @@ define(['jquery', 'build_widget_util','fabric',
 
             canvas.renderAll();
 
+
+            console.log(activeObject.xmlObject);
+            console.log(activeObject.getWidth());
+            console.log(activeObject.getWidth() * Math.sin(activeObject.getAngle()));
 
 
         });
