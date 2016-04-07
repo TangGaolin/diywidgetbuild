@@ -21,5 +21,7 @@ require.config({
     shim:{
         bootstrap:['jquery'],
         slider:['jquery']
-    }
+    },
+
+    urlArgs: "v=0.90"
 });

@@ -52,14 +52,16 @@ define(['jquery', 'build_widget_util','fabric',
             fontFamily: widget_config.default_fontfamily == 'serif'? 'serif2' : widget_config.default_fontfamily,
             fill:widget_config.default_font_color,
             fontSize:widget_config.default_font_size,
-            top:widget_config.default_text_top
+            top:widget_config.default_text_top,
+            left:widget_config.default_text_left
         });
 
         oText.xmlObject = build_widget_util.createTextElement(text_type,data_format);
+        oText.oldPositon = {top:widget_config.default_text_top, left:widget_config.default_text_left};
 
         widget_config.xml_config.firstChild.appendChild(oText.xmlObject);
-        canvas.centerObjectH(oText);
-        oText.lockMovementX = true;
+        //canvas.centerObjectH(oText);
+        //oText.lockMovementX = true;
         oText.hasControls = false;
         canvas.add(oText);
         activeObject = oText;
@@ -107,10 +109,10 @@ define(['jquery', 'build_widget_util','fabric',
                 oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
                 oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
                 oImg.xmlObject = build_widget_util.createImageElement('image',image_name);
+                oImg.oldPositon = {top:0, left:0};
                 widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
                 oImg.hasControls = false;
                 activeObject = oImg;
-                console.log(activeObject);
                 canvas.add(oImg);
                 initImageOptionModfiyArea();
             });
@@ -126,11 +128,11 @@ define(['jquery', 'build_widget_util','fabric',
                         oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
                         oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
                         oImg.xmlObject = build_widget_util.createImageElement('weather','');
+                        oImg.oldPositon = {top:0, left:0};
                         widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
                         weaterObject = oImg;
                         oImg.hasControls = false;
                         activeObject = oImg;
-                        console.log(activeObject);
                         canvas.add(oImg);
                         initImageOptionModfiyArea();
                     });
@@ -162,12 +164,13 @@ define(['jquery', 'build_widget_util','fabric',
                     fabric.Image.fromURL(widget_config.default_battery_icon,  function(oImg) {
                         oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
                         oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
+
                         oImg.xmlObject = build_widget_util.createImageElement('battery','');
                         widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
+                        oImg.oldPositon = {top:0, left:0};
                         ctrlbatteryObject = oImg;
                         oImg.hasControls = false;
                         activeObject = oImg;
-                        console.log(activeObject);
                         canvas.add(oImg);
                         initImageOptionModfiyArea();
                     });
@@ -203,19 +206,15 @@ define(['jquery', 'build_widget_util','fabric',
         });
 
         canvas.observe('object:modified', function () {
+            updateElePosition();
             if(activeObject.get('type') == 'text'){
-                $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(activeObject.getTop()));
-                if($("#text-layout").val() != 'match_parent'){
-                    $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
-                }
                 initTextOptionModfiyArea();
             }
 
             if(activeObject.get('type') == 'image'){
-                $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(activeObject.getTop()));
-                $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
                 initImageOptionModfiyArea();
             }
+
         });
 
 
@@ -228,6 +227,31 @@ define(['jquery', 'build_widget_util','fabric',
     })();
 
 
+    var updateElePosition = function(){
+
+        var df_top = activeObject.top - activeObject.oldPositon.top;
+        var df_left = activeObject.left - activeObject.oldPositon.left;
+
+        var new_top = parseInt($(activeObject.xmlObject).attr('android:layout_y')) + df_top;
+        $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(new_top));
+
+        var new_left = parseInt($(activeObject.xmlObject).attr('android:layout_x')) + df_left;
+        $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(new_left));
+
+        activeObject.oldPositon.top = activeObject.top;
+        activeObject.oldPositon.left = activeObject.left;
+
+    };
+
+
+    var updateEleAngle = function(){
+        $(activeObject.xmlObject).attr('android:rotation', activeObject.angle);
+        activeObject.oldPositon.top = activeObject.top;
+        activeObject.oldPositon.left = activeObject.left;
+
+    };
+
+
     var modfiyTextListener = (function () {
 
         //监听文字元素的布局方式----------layout-----------------------start
@@ -237,15 +261,14 @@ define(['jquery', 'build_widget_util','fabric',
             if(layout_width == 'match_parent'){
                 canvas.centerObjectH(activeObject);
                 activeObject.lockMovementX = true;
-                $(activeObject.xmlObject).removeAttr('android:layout_x');
                 $(activeObject.xmlObject).attr("android:alignment",'center');
-                //$('#text-layout-x-span').hide();
+                updateElePosition();
             }else{
                 activeObject.lockMovementX = false;
-                $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
+                updateElePosition();
                 $(activeObject.xmlObject).removeAttr("android:alignment");
-                //$('#text-layout-x-span').show();
             }
+
             $(activeObject.xmlObject).attr('android:layout_width',layout_width);
             canvas.renderAll();
         });
@@ -284,9 +307,11 @@ define(['jquery', 'build_widget_util','fabric',
                 canvas.centerObjectH(activeObject);
             }
             $(activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(font_size.val()));
-            console.log($(activeObject.xmlObject).attr('android:textSize'));
+
             canvas.renderAll();
         };
+
+
 
         //------------------end
 
@@ -307,9 +332,9 @@ define(['jquery', 'build_widget_util','fabric',
         var text_angle = $('#text-angle');
         text_angle.bind("slider:changed", function (event, data) {
             activeObject.setAngle(data.value);
-            $(activeObject.xmlObject).attr('android:rotation',data.value);
-            canvas.renderAll(activeObject.xmlObject);
-            console.log(activeObject.xmlObject);
+            updateEleAngle();
+            canvas.renderAll();
+
         });
 
         //-----------------end
@@ -323,7 +348,6 @@ define(['jquery', 'build_widget_util','fabric',
             activeObject.setText(build_widget_util.stringCapitalize(activeObject.getText(),$(this).attr('data-type')));
             canvas.renderAll();
             $(this).addClass('btn-success');
-            console.log(activeObject.xmlObject);
         });
 
         //-----------------end
@@ -336,7 +360,6 @@ define(['jquery', 'build_widget_util','fabric',
             activeObject = null;
             initTextOptionModfiyArea();
         });
-
 
     })();
 
@@ -367,10 +390,8 @@ define(['jquery', 'build_widget_util','fabric',
             activeObject.setHeight(image_height);
             $(activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(image_w.val()));
             $(activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(image_height));
-            console.log($(activeObject.xmlObject).attr('android:layout_width'));
-            console.log($(activeObject.xmlObject).attr('android:layout_height'));
+
             canvas.renderAll();
-            console.log(activeObject);
         };
 
 
@@ -390,15 +411,19 @@ define(['jquery', 'build_widget_util','fabric',
             $('#option-modfiy-image-area').hide();
             $('#option-modfiy-text-area').show();
             $('#show-text-value').html(activeObject.getText());
-            $('#font_family_id').val(activeObject.getFontFamily());
-            //$('#text_layout_y').val(activeObject.getTop());
-            //$('#text_layout_x').val(activeObject.getLeft());
-            $('#font-size').val(activeObject.getFontSize());
+            $('#font_family_id').val(activeObject.fontFamily);
+            $('#text-layout').val($(activeObject.xmlObject).attr('android:layout_width'));
+            $('#font-size').val(activeObject.fontSize);
+            $('.change-letter-size').removeClass('btn-success');
+            $("button[data-type][data-type='"+$(activeObject.xmlObject).attr('android:textCaps')+"']").addClass('btn-success');
 
+            $('#font-color').val(activeObject.getFill());
+
+            $('.font-color-option i').css({'background-color':function(){return activeObject.getFill();}});
         }else{
             $('#option-modfiy-text-area').hide();
         }
-        console.log(widget_config.xml_config);
+
     };
 
     var initImageOptionModfiyArea = function () {
@@ -410,7 +435,7 @@ define(['jquery', 'build_widget_util','fabric',
             $('#option-modfiy-image-area').hide();
 
         }
-        console.log(widget_config.xml_config);
+
     };
 
 
@@ -427,7 +452,7 @@ define(['jquery', 'build_widget_util','fabric',
         var new_width,new_height,new_fonts_size;
         $(document.body).on('keydown', function (e) {
 
-            //console.log(e.which);
+
             if($.inArray(e.which, key_values) == -1 || activeObject == null){
                 return;
             }
@@ -441,13 +466,13 @@ define(['jquery', 'build_widget_util','fabric',
 
                     if(e.ctrlKey){
                         activeObject.setAngle(parseInt(activeObject.getAngle()) - 1);
-                        $(activeObject.xmlObject).attr('android:rotation',activeObject.getAngle());
+                        updateEleAngle();
                         break;
                     }
                     if($(activeObject.xmlObject).attr('android:layout_width') != "match_parent"
                         || typeof ($(activeObject.xmlObject).attr('android:alignment')) == "undefined" ){
                         activeObject.setLeft(activeObject.left - 1);
-                        $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
+                        updateElePosition();
                     }
                     break;
 
@@ -466,10 +491,9 @@ define(['jquery', 'build_widget_util','fabric',
                         }
 
                         if(activeObject.get('type') == 'text'){
-                            var new_fonts_size = parseInt(activeObject.getFontSize()+1);
+                            var new_fonts_size = parseInt(activeObject.getFontSize())+1;
                             activeObject.setFontSize(new_fonts_size);
                             $(activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(new_fonts_size));
-                            console.log($(activeObject.xmlObject).attr('android:textSize'));
                             if($(activeObject.xmlObject).attr('android:layout_width') == "match_parent"){
                                 canvas.centerObjectH(activeObject);
                             }
@@ -478,7 +502,7 @@ define(['jquery', 'build_widget_util','fabric',
                     }
 
                     activeObject.setTop(activeObject.top - 1);
-                    $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(activeObject.getTop()));
+                    updateElePosition();
                     break;
 
                 case 39:
@@ -486,14 +510,14 @@ define(['jquery', 'build_widget_util','fabric',
 
                     if(e.ctrlKey){
                         activeObject.setAngle(parseInt(activeObject.getAngle()) + 1);
-                        $(activeObject.xmlObject).attr('android:rotation',activeObject.getAngle());
+                        updateEleAngle();
                         break;
                     }
 
                     if($(activeObject.xmlObject).attr('android:layout_width') != "match_parent"
                         || typeof ($(activeObject.xmlObject).attr('android:alignment')) == "undefined" ){
                         activeObject.setLeft(activeObject.left + 1);
-                        $(activeObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(activeObject.getLeft()));
+                        updateElePosition();
                     }
                     break;
 
@@ -511,10 +535,10 @@ define(['jquery', 'build_widget_util','fabric',
                         }
 
                         if(activeObject.get('type') == 'text'){
-                            new_fonts_size = parseInt(activeObject.getFontSize() - 1);
+                            new_fonts_size = parseInt(activeObject.getFontSize()) - 1;
                             activeObject.setFontSize(new_fonts_size);
                             $(activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(new_fonts_size));
-                            console.log($(activeObject.xmlObject).attr('android:textSize'));
+
                             if($(activeObject.xmlObject).attr('android:layout_width') == "match_parent"){
                                 canvas.centerObjectH(activeObject);
                             }
@@ -523,22 +547,15 @@ define(['jquery', 'build_widget_util','fabric',
                     }
 
                     activeObject.setTop(activeObject.top + 1);
-                    $(activeObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(activeObject.getTop()));
+                    updateElePosition();
                     break;
             }
 
             canvas.renderAll();
 
 
-            console.log(activeObject.xmlObject);
-            console.log(activeObject.getWidth());
-            console.log(activeObject.getWidth() * Math.sin(activeObject.getAngle()));
-
-
         });
     })();
-
-
 
 
 

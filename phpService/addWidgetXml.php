@@ -28,10 +28,12 @@ if($xml_type == 'weather'){
     $src_xml = '../tmps/level_weather.xml';
     $dst_xml = $base_path.'/level_weather.xml';
     if(!copy($src_xml,$dst_xml)){
+        responseMsg(0,'天气文件加载失败!!!');
+
+    }else{
         responseMsg(1,'天气文件加载成功....');
-        die();
     }
-    echo 1;
+
     die();
 }else if($xml_type == 'battery'){
 

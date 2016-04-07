@@ -57,7 +57,7 @@ $pagination = new Pagination($data);
     <div class = 'col-lg-12 col-md-12 col-sm-12 well masonry-container'>
 
             <?php foreach($widget_data['list']  as $v){
-                $preview =  'http://localhost/diywidgets/'.$v['theme'] . '/' . $v['widget'] .'.png';
+                $preview =  'diywidgets/'.$v['theme'] . '/' . $v['widget'] .'.png';
                 $url = 'selectWidgetRes.php?theme='.$v['theme'].'&widget='.$v['widget'];
                 ?>
                 <div class="col-sm-3 col-md-3 col-lg-3 item">

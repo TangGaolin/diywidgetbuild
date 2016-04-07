@@ -18,7 +18,8 @@ $data = $widget_data_obj->getBuildOKWidget($page);
 
 $response_array = array(
     'code'=>'200',
-    'data'=>array()
+    'data'=>array(),
+    'page'=>$page
 );
 
 $widget = array();

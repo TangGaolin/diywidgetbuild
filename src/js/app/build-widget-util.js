@@ -20,10 +20,10 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 	var createTextElement = function (text_type, data_format) {
 
 		var TextElement = widget_config.xml_config.createElement('TextElement');
-		$(TextElement).attr('android:layout_width',"match_parent");
+		$(TextElement).attr('android:layout_width',"wrap_content");
 		$(TextElement).attr('android:layout_height',"wrap_content");
 		$(TextElement).attr('android:layout_y',convertDp(widget_config.default_text_top));
-		$(TextElement).attr('android:alignment',"center");
+		$(TextElement).attr('android:layout_x',convertDp(widget_config.default_text_left));
 		$(TextElement).attr('android:textColor',convertColor(widget_config.default_font_color));
 		$(TextElement).attr('android:textSize',convertDp(widget_config.default_font_size));
 		$(TextElement).attr('android:typeface', getFontSrc());
@@ -69,6 +69,9 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 			$(ImageElement).attr('android:src',"./icons/"+image_name);
 		}
 
+		$(ImageElement).attr('android:layout_y',"0dp");
+		$(ImageElement).attr('android:layout_x',"0dp");
+
 		return ImageElement;
 	};
 	
@@ -100,11 +103,20 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 	};
 
 
+	var checkWidgetXML = function () {
+		$(widget_config.xml_config).find('TextElement').each(function(){
+			if($(this).attr('android:layout_width') == "match_parent"
+				&& $(this).attr('android:alignment') == "center" ){
+				$(this).removeAttr('android:layout_x');
+			}
+		});
 
+	};
 
 
 
 	var saveWidgetXML = function () {
+		checkWidgetXML();
 		$.post('phpService/saveWidgetXML.php',
 			{theme:widget_config.theme,widget:widget_config.widget,widget_xml:(new XMLSerializer()).serializeToString(widget_config.xml_config)},
 			function(data,status){
@@ -130,7 +142,6 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		$.post('phpService/addWidgetXml.php',
 			{theme:widget_config.theme,widget:widget_config.widget,xml_type:xml_type},
 			function(data,status){
-				console.log(data);
 				if(data['code'] == 1 && status=='success'){
 					util.showMessage(data['msg'],util.msg_style_info);
 				}else{

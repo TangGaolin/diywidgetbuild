@@ -51,7 +51,7 @@ define(['jquery'], function ($) {
 				res = ('0'+date.getUTCDate()).toString().substr(-2);
 				break;
 
-			case 'JJ':
+			case 'jj':
 				res = date.getHours().toString();
 				break;
 

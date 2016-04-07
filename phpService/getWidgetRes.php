@@ -10,13 +10,13 @@ function getFontTypes($font_path){
 
     $fonts = array();
     foreach(glob($font_path.'*.ttf') as $file) {
-        $font['font_name'] = explode('.',end(explode('/',$file)))[0];
-        $font['url'] = $font_path.end(explode('/',$file));
+        $font['font_name'] = pathinfo($file,PATHINFO_FILENAME);
+        $font['url'] = $font_path.pathinfo($file,PATHINFO_BASENAME);
         $fonts[] = $font;
     }
     foreach(glob($font_path.'*.otf') as $file) {
-        $font['font_name'] = explode('.',end(explode('/',$file)))[0];
-        $font['url'] = $font_path.end(explode('/',$file));
+        $font['font_name'] = pathinfo($file,PATHINFO_FILENAME);
+        $font['url'] = $font_path.pathinfo($file,PATHINFO_BASENAME);
         $fonts[] = $font;
     }
     return $fonts;

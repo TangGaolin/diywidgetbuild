@@ -16,8 +16,8 @@
 
                 <div>
                     <div class="btn-group btn-sm" role="group" >
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'JJ:mm'>10:28</button>
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'JJ'>10(小时)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'jj:mm'>10:28</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'jj'>10(小时)</button>
                         <button type="button" class="btn btn-sm btn-default text-ele" data-format = "mm">28(分钟)</button>
                         <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'A'>am/pm</button>
                     </div>

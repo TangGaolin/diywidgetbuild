@@ -25,7 +25,7 @@ class Db {
     public function connect() {
         if(!self::$_connectSource) {
             $_opts_values = array(PDO::ATTR_PERSISTENT=>true,PDO::ATTR_ERRMODE=>2,PDO::MYSQL_ATTR_INIT_COMMAND=>'SET NAMES utf8');
-            self::$_connectSource = new PDO('mysql:host=localhost;dbname=diy_widgets', 'cobo', 'cobocobo', $_opts_values);;
+            self::$_connectSource = new PDO('mysql:host=s1.cobo;dbname=diy_widgets', 'cobo', 'cobocobo', $_opts_values);;
 
             if(!self::$_connectSource) {
                 throw new Exception('mysql connect error ' . mysql_error());

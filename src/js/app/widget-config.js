@@ -17,8 +17,9 @@ define(['jquery'], function ($) {
     var default_fontfamily =  '';
 
     var default_font_color =  '#000000';
-    var default_font_size =  12;
+    var default_font_size =  16;
     var default_text_top =  30;
+    var default_text_left =  30;
 
     var has_bg_img = 0;
     var has_weather = 0;
@@ -125,6 +126,7 @@ define(['jquery'], function ($) {
         default_fontfamily_file:default_fontfamily_file,
         default_font_size:  default_font_size,
         default_text_top:  default_text_top,
+        default_text_left:  default_text_left,
         default_font_color:default_font_color,
         has_weather:has_weather,
         has_battery:has_battery,
