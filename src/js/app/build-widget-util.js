@@ -63,6 +63,9 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 			$(ImageElement).attr('android:layout_width',"match_parent");
 			$(ImageElement).attr('android:layout_height',"match_parent");
 			$(ImageElement).attr('android:src',"./icons/"+image_name);
+
+		}else if(type == 'clock'){
+
 		}else{
 			$(ImageElement).attr('android:layout_width',"wrap_content");
 			$(ImageElement).attr('android:layout_height',"wrap_content");
@@ -82,7 +85,7 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 	};
 
 	var convertColor = function (color) {
-		return '#FF'+color.substring(1);
+		return '#FF' + color.substring(1).toUpperCase();
 	};
 	
 	var getCalendarFormat = function (format) {

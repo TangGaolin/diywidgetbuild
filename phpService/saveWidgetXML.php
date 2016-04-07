@@ -14,7 +14,8 @@ function saveDB($theme,$widget){
     $sql = 'update widgets set state = 1,build_time = :build_time where theme = :theme and widget = :widget';
 
     $stmt = $pdo->prepare($sql);
-    $stmt->bindParam(":build_time", time());
+    $build_time = time();
+    $stmt->bindParam(":build_time", $build_time);
     $stmt->bindParam(":theme", $theme);
     $stmt->bindParam(":widget", $widget);
     $stmt->execute();

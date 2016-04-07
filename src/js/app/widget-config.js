@@ -35,6 +35,7 @@ define(['jquery'], function ($) {
 
     var default_weather_icon = widget_base_path + '/icons/w01d.png';
     var default_battery_icon = widget_base_path + '/icons/battery_20.png';
+    var default_clock_icon = 'src/img/clock_center.png';
 
 
 
@@ -135,6 +136,7 @@ define(['jquery'], function ($) {
         px_dp_raito:px_dp_raito,
         image_list:image_list,
         default_battery_icon:default_battery_icon,
+        default_clock_icon:default_clock_icon,
 
         initWidgetConfig:initWidgetConfig,
         setWidgetWidth:setWidgetWidth,

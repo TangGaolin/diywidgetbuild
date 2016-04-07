@@ -112,8 +112,9 @@ define(['jquery', 'build_widget_util','fabric',
                 oImg.oldPositon = {top:0, left:0};
                 widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
                 oImg.hasControls = false;
-                activeObject = oImg;
                 canvas.add(oImg);
+                canvas.renderAll();
+                activeObject = oImg;
                 initImageOptionModfiyArea();
             });
         });
@@ -130,10 +131,11 @@ define(['jquery', 'build_widget_util','fabric',
                         oImg.xmlObject = build_widget_util.createImageElement('weather','');
                         oImg.oldPositon = {top:0, left:0};
                         widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
-                        weaterObject = oImg;
                         oImg.hasControls = false;
-                        activeObject = oImg;
+                        weaterObject = oImg;
                         canvas.add(oImg);
+                        canvas.renderAll();
+                        activeObject = oImg;
                         initImageOptionModfiyArea();
                     });
                     ctrlWeatherBtn.attr('data-value',1);
@@ -156,10 +158,10 @@ define(['jquery', 'build_widget_util','fabric',
 
 
         //show battery icon or not
-        var ctrlbatteryBtn = $('#ctrl-battery');
+        var ctrlBatteryBtn = $('#ctrl-battery');
         var ctrlbatteryObject = null;
-        ctrlbatteryBtn.click(function() {
-            if(ctrlbatteryBtn.attr('data-value') == 0){
+        ctrlBatteryBtn.click(function() {
+            if(ctrlBatteryBtn.attr('data-value') == 0){
                 if(widget_config.has_battery){
                     fabric.Image.fromURL(widget_config.default_battery_icon,  function(oImg) {
                         oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
@@ -168,14 +170,17 @@ define(['jquery', 'build_widget_util','fabric',
                         oImg.xmlObject = build_widget_util.createImageElement('battery','');
                         widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
                         oImg.oldPositon = {top:0, left:0};
-                        ctrlbatteryObject = oImg;
+
                         oImg.hasControls = false;
-                        activeObject = oImg;
+                        ctrlbatteryObject = oImg;
                         canvas.add(oImg);
+                        canvas.renderAll();
+                        activeObject = oImg;
+
                         initImageOptionModfiyArea();
                     });
-                    ctrlbatteryBtn.attr('data-value',1);
-                    ctrlbatteryBtn.addClass('btn-success');
+                    ctrlBatteryBtn.attr('data-value',1);
+                    ctrlBatteryBtn.addClass('btn-success');
                     build_widget_util.getXmlRes('battery');
                 }else{
                     util.showMessage('该插件没有电量元素',util.msg_style_danger);
@@ -184,13 +189,12 @@ define(['jquery', 'build_widget_util','fabric',
                 canvas.remove(ctrlbatteryObject);
                 widget_config.xml_config.firstChild.removeChild(ctrlbatteryObject.xmlObject);
                 activeObject = ctrlbatteryObject = null;
-                ctrlbatteryBtn.attr('data-value',0);
-                ctrlbatteryBtn.removeClass('btn-success');
+                ctrlBatteryBtn.attr('data-value',0);
+                ctrlBatteryBtn.removeClass('btn-success');
                 initImageOptionModfiyArea();
             }
 
         });
-
 
 
         // observe canvas activeObject chanege
@@ -395,6 +399,52 @@ define(['jquery', 'build_widget_util','fabric',
         };
 
 
+        var ctrlClockBtn = $('#ctrl-clock');
+        var ctrlClockObject = null;
+        ctrlClockBtn.click(function() {
+            if(ctrlClockBtn.attr('data-value') == 0){
+
+                fabric.Image.fromURL(widget_config.default_clock_icon,  function(oImg) {
+                    oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
+                    oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
+                    oImg.xmlObject = build_widget_util.createImageElement('clock','');
+                    oImg.oldPositon = {top:0, left:0};
+                    ctrlClockObject = oImg;
+                    oImg.hasControls = false;
+                    activeObject = oImg;
+                    canvas.add(oImg);
+                    //initImageOptionModfiyArea();
+                });
+                ctrlClockBtn.attr('data-value',1);
+                ctrlClockBtn.addClass('btn-success');
+                canvas.renderAll();
+            }else{
+                canvas.remove(ctrlClockObject);
+                activeObject = ctrlClockObject = null;
+                ctrlClockBtn.attr('data-value',0);
+                ctrlClockBtn.removeClass('btn-success');
+                //initImageOptionModfiyArea();
+            }
+
+        });
+
+
+        var setImageTypeBtn = $('.set-image-type');
+        setImageTypeBtn.click(function () {
+            if(ctrlClockObject != null){
+                setImageTypeBtn.removeClass('btn-success');
+                $(this).addClass('btn-success');
+                $(activeObject.xmlObject).attr('android:type',$(this).attr('data-type'));
+                $(activeObject.xmlObject).attr('android:rotationX',build_widget_util.convertDp(Math.round(ctrlClockObject.left + ctrlClockObject.left/2)));
+                $(activeObject.xmlObject).attr('android:rotationY',build_widget_util.convertDp(Math.round(ctrlClockObject.top + ctrlClockObject.height/2)));
+                console.log(activeObject.xmlObject);
+            }else{
+                util.showMessage('请先确定旋转点!!!',util.msg_style_danger);
+            }
+
+        });
+
+
 
         var deleteTextBtn = $('#delete-image');
         deleteTextBtn.click(function(){
@@ -433,9 +483,7 @@ define(['jquery', 'build_widget_util','fabric',
             $('#image-w').val(activeObject.getWidth());
         }else{
             $('#option-modfiy-image-area').hide();
-
         }
-
     };
 
 
@@ -452,14 +500,10 @@ define(['jquery', 'build_widget_util','fabric',
         var new_width,new_height,new_fonts_size;
         $(document.body).on('keydown', function (e) {
 
-
             if($.inArray(e.which, key_values) == -1 || activeObject == null){
                 return;
             }
-            $("#banner_model").hide();
-            $("#edit_area").show();
-            $("#diy_self").addClass('active');
-            $("#choose_temp").removeClass('active');
+
             switch (e.which) {
                 case 37:
                     e.preventDefault();
@@ -491,7 +535,7 @@ define(['jquery', 'build_widget_util','fabric',
                         }
 
                         if(activeObject.get('type') == 'text'){
-                            var new_fonts_size = parseInt(activeObject.getFontSize())+1;
+                            new_fonts_size = parseInt(activeObject.getFontSize())+1;
                             activeObject.setFontSize(new_fonts_size);
                             $(activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(new_fonts_size));
                             if($(activeObject.xmlObject).attr('android:layout_width') == "match_parent"){

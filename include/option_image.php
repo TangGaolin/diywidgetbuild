@@ -5,6 +5,7 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#weather-image-area" aria-controls="home" role="tab" data-toggle="tab">天气</a></li>
             <li role="presentation"><a href="#battery-area"  role="tab" data-toggle="tab">电量</a></li>
+            <li role="presentation"><a href="#clock-area"  role="tab" data-toggle="tab">时钟</a></li>
             <li role="presentation"><a href="#image-area"  role="tab" data-toggle="tab">图片资源</a></li>
         </ul>
 
@@ -20,6 +21,13 @@
 
                 <div class="btn-group btn-sm" role="group" >
                     <button type="button" data-value="0"  class="btn btn-sm btn-default" id = 'ctrl-battery'>加载电量图标</button>
+                </div>
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="clock-area">
+
+                <div class="btn-group btn-sm" role="group" >
+                    <button type="button" data-value="0"  class="btn btn-sm btn-default" id = 'ctrl-clock'>确定时钟旋转点</button>
                 </div>
             </div>
             <div role="tabpanel" class="tab-pane " id="image-area">

@@ -5,8 +5,6 @@
 
 <div>
     <div class="row">
-
-
         <div class="col-md-5 col-sm-5 form-inline" >
             <label>图片大小:</label>
             <br/>
@@ -14,7 +12,17 @@
             <button class="btn btn-sm btn-default" id = "image-size-minus">- </button>
             <input class="form-control input-sm small_input" id = 'image-w' type="text" style="width: 50px">
             <button class="btn btn-sm btn-default" id = "image-size-plus"> +</button>
+        </div>
+    </div>
 
+    <p></p>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 form-inline" >
+            <label>设置图片角色:</label>
+            <br/>
+
+            <button class="btn btn-sm set-image-type" data-type = 'time_minute_rotate'>设置为分针</button>
+            <button class="btn btn-sm set-image-type" data-type = 'time_hour_rotate'>设置为时针</button>
         </div>
     </div>
 
