@@ -31,6 +31,31 @@ if(sizeof($selected_widget_icons) > 0){
         }
     }
 
+    if($type == 'set_clock_min'){
+        $src_icon = $base_path . $selected_widget_icons[0];
+        $dst_icon = $base_path . 'widget_min.png';
+        if(rename($src_icon,$dst_icon)){
+            echo 1;
+            die();
+        }else{
+            echo 0;
+            die();
+        }
+    }
+
+
+    if($type == 'set_clock_hour'){
+        $src_icon = $base_path . $selected_widget_icons[0];
+        $dst_icon = $base_path . 'widget_hour.png';
+        if(rename($src_icon,$dst_icon)){
+            echo 1;
+            die();
+        }else{
+            echo 0;
+            die();
+        }
+    }
+
     if($type == 'delete_icons'){
 
         foreach($selected_widget_icons as $v){

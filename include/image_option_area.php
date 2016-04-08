@@ -16,17 +16,7 @@
     </div>
 
     <p></p>
-    <div class="row">
-        <div class="col-md-12 col-sm-12 form-inline" >
-            <label>设置图片角色:</label>
-            <br/>
 
-            <button class="btn btn-sm set-image-type" data-type = 'time_minute_rotate'>设置为分针</button>
-            <button class="btn btn-sm set-image-type" data-type = 'time_hour_rotate'>设置为时针</button>
-        </div>
-    </div>
-
-    <p></p>
 
 
     <div>

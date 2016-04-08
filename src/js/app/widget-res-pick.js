@@ -181,10 +181,53 @@ define(['jquery','bootstrap','masonry','imagesloaded','util2'],function($,bootst
 
 
 
+    var setClockMinBtn = $('#set-clock-min-btn');
+    setClockMinBtn.click(function(){
+            if(selected_widget_icons.length == 1){
+                var widget = $('#widget-name').val();
+                var theme = $('#theme-name').val();
+                $.post('phpService/modfiyIcon.php',
+                    {widget:widget, theme:theme,selected_widget_icons:selected_widget_icons,type:'set_clock_min'},
+                    function(data,status){
+                        if(data == 1 && status=='success'){
+                            util2.showMessage('设置成功...',util2.msg_style_info);
+                            setTimeout("location.reload();",1000);
+                        }else{
+                            util2.showMessage('设置失败',util2.msg_style_danger);
+                        }
+                    });
+            }else{
+                util2.showMessage('选择图片数目不对',util2.msg_style_danger);
+            }
+        }
+    );
+
+
+    var setClockHourBtn = $('#set-clock-hour-btn');
+    setClockHourBtn.click(function(){
+            if(selected_widget_icons.length == 1){
+                var widget = $('#widget-name').val();
+                var theme = $('#theme-name').val();
+                $.post('phpService/modfiyIcon.php',
+                    {widget:widget, theme:theme,selected_widget_icons:selected_widget_icons,type:'set_clock_hour'},
+                    function(data,status){
+                        if(data == 1 && status=='success'){
+                            util2.showMessage('设置成功...',util2.msg_style_info);
+                            setTimeout("location.reload();",1000);
+                        }else{
+                            util2.showMessage('设置失败',util2.msg_style_danger);
+                        }
+                    });
+            }else{
+                util2.showMessage('选择图片数目不对',util2.msg_style_danger);
+            }
+        }
+    );
+
+
     var imgUplaodBtn = $('#img-upload');
     imgUplaodBtn.change(function(){
             if(util2.isImage(imgUplaodBtn.val())){
-                console.log('file ok....');
                 $("#img-form").submit();
             }else{
                 util2.showMessage('请上传图片!!',util2.msg_style_danger);

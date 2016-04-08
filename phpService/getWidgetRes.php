@@ -40,15 +40,13 @@ function getImageRes($widget_base_path){
         'has_bg_img'=>0,
         'has_battery'=>0,
         'has_weather'=>0,
+        'has_clock'=>0,
         'bg_img_size'=>array(
           'w'=>400,
           'h'=>500,
         ),
-        'battery_img_size'=>array(),
-        'weather_img_size'=>array(),
-        'battery_list'=>array(),
-        'weather_list'=>array(),
-        'all_image_list'=>array(),
+
+        'all_image_list'=>array()
     );
 
     $bg_image = $widget_base_path.'icons/'.'widget_bg.png';
@@ -65,44 +63,30 @@ function getImageRes($widget_base_path){
     }
 
     $battery_array = [];
-    foreach(glob($image_src_path.'battery*.png') as $file) {
-        $battery_array[] = pathinfo($file,PATHINFO_BASENAME);
-    }
-    if(sizeof($battery_array) > 0){
+    if(sizeof($battery_array) > 0 && is_file($widget_base_path.'icons/battery_100.png')){
         $image_msg_array['has_battery'] = '1';
-        $battery_image = $widget_base_path.'icons/'.$battery_array[0];
-        list($image_width,$image_height) = getimagesize($battery_image);
-
-        $image_msg_array['battery_img_size'] = array(
-            'w'=>$image_width,
-            'h'=>$image_height
-        );
-        $image_msg_array['battery_list'] = $battery_array;
-
-
     }
-
 
     $weather_array = [];
     foreach(glob($image_src_path.'w*d.png') as $file) {
         $weather_array[] = pathinfo($file,PATHINFO_BASENAME);
     }
 
-    if(sizeof($weather_array) > 0){
-        $weather_array[] = 'weather_na.png';
-        $image_msg_array['has_weather'] = '1';
-        $weather_image = $widget_base_path.'icons/'.$weather_array[0];
-        list($image_width,$image_height) = getimagesize($weather_image);
 
-        $image_msg_array['weather_img_size'] = array(
-            'w'=>$image_width,
-            'h'=>$image_height
-        );
-        $image_msg_array['weather_list'] = $weather_array;
+    if(sizeof($weather_array) == 10 && is_file($widget_base_path.'icons/w01d.png')){
+        $image_msg_array['has_weather'] = '1';
+    }
+
+
+    $clock_min_image = $widget_base_path.'icons/'.'widget_min.png';
+    $clock_hour_image = $widget_base_path.'icons/'.'widget_hour.png';
+
+    if(is_file($clock_min_image) && is_file($clock_hour_image)){
+        $image_msg_array['has_clock'] = '1';
     }
 
     foreach(glob($image_src_path.'*.png') as $file) {
-        $image_msg_array['all_image_list'][]  = pathinfo($file,PATHINFO_BASENAME);
+        $image_msg_array['all_image_list'][] = pathinfo($file,PATHINFO_BASENAME);
     }
 
     return $image_msg_array;

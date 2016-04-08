@@ -15,6 +15,7 @@ function responseMsg($code,$msg){
     echo json_encode($msg_array);
 }
 
+
 if(!isset($_POST['theme']) || !isset($_POST['widget']) ){
     responseMsg(0,'Invalid request!!');
     die();
@@ -102,6 +103,20 @@ if($xml_type == 'weather'){
     die();
 
 
+}else if($xml_type = 'clock'){
+    $src_hour_xml = '../tmps/time_hour.xml';
+    $dst_hour_xml = $base_path.'/time_hour.xml';
+
+    $src_min_xml = '../tmps/time_min.xml';
+    $dst_min_xml = $base_path.'/time_min.xml';
+
+    if(copy($src_hour_xml,$dst_hour_xml) && copy($src_min_xml,$dst_min_xml)){
+        responseMsg(0,'时钟文件加载成功....');
+    }else{
+        responseMsg(1,'时钟文件加载失败!!!');
+    }
+
+    die();
 }else{
     responseMsg(0,'Invalid request!!');
     die();

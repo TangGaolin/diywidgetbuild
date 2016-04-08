@@ -23,7 +23,9 @@ define(['jquery'], function ($) {
 
     var has_bg_img = 0;
     var has_weather = 0;
+    var weather_image_num = 0;
     var has_battery = 0;
+    var has_clock = 0;
 
     var theme = $('#theme-name').val();
     var widget = $('#widget-name').val();
@@ -31,37 +33,13 @@ define(['jquery'], function ($) {
     var widget_base_path = 'diywidgets/' + theme + '/' + widget + '/';
     var default_bg_img = 'widget_bg.png';
 
-    var image_list = [];
-
     var default_weather_icon = widget_base_path + '/icons/w01d.png';
-    var default_battery_icon = widget_base_path + '/icons/battery_20.png';
-    var default_clock_icon = 'src/img/clock_center.png';
+    var default_battery_icon = widget_base_path + '/icons/battery_100.png';
+
+    var default_clock_min_icon = widget_base_path + '/icons/widget_min.png';
+    var default_clock_hour_icon = widget_base_path + '/icons/widget_hour.png';
 
 
-
-    var text_type_value = {
-        'DATE':'2016/10/10',
-        'DATE_YEAR':'16',
-        'DATE_LONG_YEAR':'2016',
-        'TIME_AMPM':'am',
-        'TIME':'10:28',
-        'TIME_DIGITAL_HOUR':'24',
-        'TIME_DIGITAL_12HOUR':'10'
-    };
-
-    var setWidgetWidth = function (width) {
-        widget_width = width / px_dp_raito;
-    };
-
-    var setWidgetHeight = function (height) {
-        widget_height = height / px_dp_raito;
-    };
-
-
-
-    var getTextType = function(type){
-        return text_type_value[type];
-    };
 
 
     var initWidgetConfig = function () {
@@ -75,17 +53,18 @@ define(['jquery'], function ($) {
         //weather
         this.has_weather = image_msg['has_weather'];
         if(this.has_weather){
-            this.default_weather_icon = widget_base_path + 'icons/' + image_msg['weather_list'][0];
+            this.default_weather_icon = widget_base_path + 'icons/w01d.png';
         }
 
         //batter
         this.has_battery = image_msg['has_battery'];
         if(this.has_battery){
-            this.default_battery_icon = widget_base_path + 'icons/' + image_msg['battery_list'][0];
+            this.default_battery_icon = widget_base_path + 'icons/battery_100.png';
         }
 
-        //image_list
-        this.image_list = image_msg['all_image_list'];
+        //clock
+        this.has_clock = image_msg['has_clock'];
+
 
         $('.widget-area').css({'width':this.widget_width,'height':this.widget_height});
         $('#widget-preview').css({'width':this.widget_width});
@@ -113,7 +92,6 @@ define(['jquery'], function ($) {
 
     return {
 
-        text_type_value:text_type_value,
 
         widget_width:widget_width,
         widget_height:widget_height,
@@ -130,17 +108,17 @@ define(['jquery'], function ($) {
         default_text_left:  default_text_left,
         default_font_color:default_font_color,
         has_weather:has_weather,
+        weather_image_num:weather_image_num,
         has_battery:has_battery,
+        has_clock:has_clock,
         default_weather_icon:default_weather_icon,
         default_bg_img:default_bg_img,
         px_dp_raito:px_dp_raito,
-        image_list:image_list,
         default_battery_icon:default_battery_icon,
-        default_clock_icon:default_clock_icon,
+        default_clock_hour_icon:default_clock_hour_icon,
+        default_clock_min_icon:default_clock_min_icon,
 
-        initWidgetConfig:initWidgetConfig,
-        setWidgetWidth:setWidgetWidth,
-        setWidgetHeight:setWidgetHeight,
-        getTextType:getTextType
+        initWidgetConfig:initWidgetConfig
+
     };
 });

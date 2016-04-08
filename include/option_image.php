@@ -25,16 +25,45 @@
             </div>
 
             <div role="tabpanel" class="tab-pane" id="clock-area">
-
                 <div class="btn-group btn-sm" role="group" >
-                    <button type="button" data-value="0"  class="btn btn-sm btn-default" id = 'ctrl-clock'>确定时钟旋转点</button>
+                    <button type="button" data-value="0"  class="btn btn-sm btn-default" id = 'ctrl-clock'>加载时钟图标</button>
+                </div>
+
+                <p></p>
+
+                <div class="container clock-area-option" style="display: none">
+                    <div class="form-inline">
+                        <label>时钟中心点位置:</label>
+                        <br/>
+                        <label>left:</label>
+                        <button class="btn btn-sm btn-default" id = "clock-center-left-minus">- </button>
+                        <input class="form-control input-sm small_input" id = 'clock-center-left' type="text" style="width: 50px">
+                        <button class="btn btn-sm btn-default" id = "clock-center-left-plus"> +</button>
+                        &nbsp;&nbsp;&nbsp;
+                        <label>top:</label>
+                        <button class="btn btn-sm btn-default" id = "clock-center-top-minus">- </button>
+                        <input class="form-control input-sm small_input" id = 'clock-center-top' type="text" style="width: 50px">
+                        <button class="btn btn-sm btn-default" id = "clock-center-top-plus"> +</button>
+                    </div>
+                    <p></p>
+                    <div class="form-inline">
+
+                        <label>时针大小:</label><br/>
+                        <button class="btn btn-sm btn-default" id = "img-hour-size-minus">- </button>
+                        <input class="form-control input-sm small_input" id = 'img-hour-size' type="text" style="width: 50px" >
+                        <button class="btn btn-sm btn-default" id = "img-hour-size-plus"> +</button>
+                        <br/>
+
+                        <label>分针大小:</label><br/>
+                        <button class="btn btn-sm btn-default" id = "img-min-size-minus">- </button>
+                        <input class="form-control input-sm small_input" id = 'img-min-size' type="text" style="width: 50px" >
+                        <button class="btn btn-sm btn-default" id = "img-min-size-plus"> +</button>
+                    </div>
                 </div>
             </div>
+
             <div role="tabpanel" class="tab-pane " id="image-area">
 
-                <div>
-                    
-                </div>
                 <div class="well area-bg">
                     <div class="row image-container">
                         <?php

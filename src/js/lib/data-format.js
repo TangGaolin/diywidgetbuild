@@ -1,4 +1,4 @@
-define(['jquery'], function ($) {
+define(function () {
 	'use strict';
 	var full_mounts = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 	var ab_mounts = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
@@ -21,7 +21,8 @@ define(['jquery'], function ($) {
 		str += (n[5] != 0) ? ((str != '') ? 'and ' : '') + (a[Number(n[5])] || b[n[5][0]] + '-' + a[n[5][1]]) : '';
 		return str;
 	}
-	var date = new Date();
+	var date = new Date(2015, 8, 23, 10, 28, 12);
+
 
 	var getTimeString = function(str){
 		var res = '';
@@ -95,6 +96,7 @@ define(['jquery'], function ($) {
 
 
 
+
 	var timeFormat = function(format_string){
 
 		var result = '';
@@ -121,26 +123,26 @@ define(['jquery'], function ($) {
 		var res = '';
 		switch (str) {
 			case 'T':
-				res = '30';
+				res = '50';
 				break;
 			case 'U':
-				res = '℃';
+				res = '℉';
 				break;
 			case 'L':
-				res = '0';
+				res = '46';
 				break;
 
 			case 'H':
-				res = '40';
+				res = '50';
 				break;
 			case 'S':
 				res = 'Sunny';
 				break;
 			case 'W':
-				res = '12km/h';
+				res = '10km/h';
 				break;
 			case 'A':
-				res = 'beijing';
+				res = 'New York';
 				break;
 			default:
 				res = str;
@@ -165,13 +167,13 @@ define(['jquery'], function ($) {
 		var res = '';
 		switch (format_string) {
 			case 'BATTERY_LEVEL':
-				res = '80%';
+				res = '100%';
 				break;
 			case 'SMS_UNREAD':
-				res = '8';
+				res = '2';
 				break;
 			case 'TELEPHONY_MISSED_CALLS':
-				res = '2';
+				res = '1';
 				break;
 			default:
 				res = format_string;

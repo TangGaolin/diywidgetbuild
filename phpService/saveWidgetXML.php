@@ -66,6 +66,17 @@ function Zip($source, $destination)
     return $zip->close();
 }
 
+
+function base64_to_jpeg($base64_string, $output_file) {
+    $ifp = fopen($output_file, "wb");
+    $data = explode(',', $base64_string);
+    fwrite($ifp, base64_decode($data[1]));
+    fclose($ifp);
+    return $output_file;
+}
+
+
+
 if(!isset($_POST['theme']) || !isset($_POST['widget']) ){
     echo 0;
     die();
@@ -73,13 +84,16 @@ if(!isset($_POST['theme']) || !isset($_POST['widget']) ){
 
 $theme = $_POST['theme'];
 $widget = $_POST['widget'];
-
+$widget_preview = $_POST['widget_preview'];
 $widget_dir = '../diywidgets/'.$theme.'/'.$widget;
 $widget_xml_file = $widget_dir.'/widget.xml';
+$widget_preview_file = '../diywidget_previews/'.$widget.'.png';
 
 $widget_zip = $widget_dir.'.zip';
 
 if(file_put_contents($widget_xml_file,$_POST['widget_xml'],LOCK_EX) != false){
+
+    base64_to_jpeg($widget_preview,$widget_preview_file);
     if(Zip($widget_dir,$widget_zip)){
         saveDB($theme,$widget);
         echo 1;

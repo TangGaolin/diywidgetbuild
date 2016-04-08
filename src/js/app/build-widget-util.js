@@ -3,19 +3,6 @@
 define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 	'use strict';
 
-
-
-	var getFontsSelectHTML = function () {
-		var select_html_temp = ['<option value="font_name" style="',
-			"font-family: 'font_name'",
-			'">font_name</option>' ].join('');
-		var html = '',font_config;
-		for(var i = 0, l = widget_config.fonts_config.length; i < l; i++) {
-			font_config =  widget_config.fonts_config[i];
-			html += select_html_temp.replace(/font_name/g,font_config['font_name']);
-		}
-		return html;
-	};
 	
 	var createTextElement = function (text_type, data_format) {
 
@@ -62,14 +49,24 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		}else if(type == 'bg'){
 			$(ImageElement).attr('android:layout_width',"match_parent");
 			$(ImageElement).attr('android:layout_height',"match_parent");
-			$(ImageElement).attr('android:src',"./icons/"+image_name);
+			$(ImageElement).attr('android:src',"./icons/" + image_name);
 
-		}else if(type == 'clock'){
+		}else if(type == 'clock_min'){
+			$(ImageElement).attr('android:layout_width',"wrap_content");
+			$(ImageElement).attr('android:layout_height',"wrap_content");
+			$(ImageElement).attr('android:src',"./time_min.xml");
+			$(ImageElement).attr('android:type',"TIME_MINUTE_IMAGE");
+
+		}else if(type == 'clock_hour'){
+			$(ImageElement).attr('android:layout_width',"wrap_content");
+			$(ImageElement).attr('android:layout_height',"wrap_content");
+			$(ImageElement).attr('android:src',"./time_hour.xml");
+			$(ImageElement).attr('android:type',"TIME_HOUR_IMAGE");
 
 		}else{
 			$(ImageElement).attr('android:layout_width',"wrap_content");
 			$(ImageElement).attr('android:layout_height',"wrap_content");
-			$(ImageElement).attr('android:src',"./icons/"+image_name);
+			$(ImageElement).attr('android:src',"./icons/" + image_name);
 		}
 
 		$(ImageElement).attr('android:layout_y',"0dp");
@@ -174,8 +171,6 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 				res = string.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		}
 
-
-
 		return res;
 
 	};
@@ -185,7 +180,6 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 
 		createTextElement:createTextElement,
 		createImageElement:createImageElement,
-		getFontsSelectHTML:getFontsSelectHTML,
 
 		convertDp:convertDp,
 		findRootTag:findRootTag,
@@ -193,7 +187,8 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		convertColor:convertColor,
 		getXmlRes:getXmlRes,
 		saveWidgetXML:saveWidgetXML,
-		stringCapitalize:stringCapitalize
+		stringCapitalize:stringCapitalize,
+		checkWidgetXML:checkWidgetXML
 
 
 

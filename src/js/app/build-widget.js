@@ -20,10 +20,13 @@ define(['jquery', 'build_widget_util','fabric',
             fabric.Image.fromURL(widget_config.widget_base_path+'icons/'+widget_config.default_bg_img,  function(oImg) {
                 oImg.setWidth(canvas.width);
                 oImg.setHeight(canvas.height);
+                oImg.setTop(-1/2);
+                oImg.setLeft(-1/2);
                 oImg.selectable = false;
                 oImg.xmlObject = build_widget_util.createImageElement('bg',widget_config.default_bg_img);
                 widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
                 canvas.add(oImg);
+
             });
         }
         canvas.renderAll();
@@ -142,7 +145,7 @@ define(['jquery', 'build_widget_util','fabric',
                     ctrlWeatherBtn.addClass('btn-success');
                     build_widget_util.getXmlRes('weather');
                 }else{
-                    util.showMessage('该插件没有天气元素',util.msg_style_danger);
+                    util.showMessage('天气资源错误!!!',util.msg_style_danger);
                 }
             }else{
                 canvas.remove(weaterObject);
@@ -157,6 +160,9 @@ define(['jquery', 'build_widget_util','fabric',
 
 
 
+
+
+
         //show battery icon or not
         var ctrlBatteryBtn = $('#ctrl-battery');
         var ctrlbatteryObject = null;
@@ -166,11 +172,9 @@ define(['jquery', 'build_widget_util','fabric',
                     fabric.Image.fromURL(widget_config.default_battery_icon,  function(oImg) {
                         oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
                         oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
-
                         oImg.xmlObject = build_widget_util.createImageElement('battery','');
                         widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
                         oImg.oldPositon = {top:0, left:0};
-
                         oImg.hasControls = false;
                         ctrlbatteryObject = oImg;
                         canvas.add(oImg);
@@ -183,7 +187,7 @@ define(['jquery', 'build_widget_util','fabric',
                     ctrlBatteryBtn.addClass('btn-success');
                     build_widget_util.getXmlRes('battery');
                 }else{
-                    util.showMessage('该插件没有电量元素',util.msg_style_danger);
+                    util.showMessage('电量资源错误!!!',util.msg_style_danger);
                 }
             }else{
                 canvas.remove(ctrlbatteryObject);
@@ -197,37 +201,189 @@ define(['jquery', 'build_widget_util','fabric',
         });
 
 
-        // observe canvas activeObject chanege
-        canvas.observe('object:selected', function () {
-            activeObject =  canvas.getActiveObject();
-            if(activeObject.get('type') == 'text'){
-                initTextOptionModfiyArea();
-            }else if(activeObject.get('type') == 'image'){
-                initImageOptionModfiyArea();
+
+
+        //-----clock image
+        var ctrlClockBtn = $('#ctrl-clock');
+        var clockMinObject = null;
+        var clockHourObject = null;
+        var clock_center = {left:canvas.width / 2,top:canvas.height / 2};
+        ctrlClockBtn.click(function() {
+
+            if(widget_config.has_clock == 1){
+                if(ctrlClockBtn.attr('data-value') == 0){
+                    //add min-clock
+                    fabric.Image.fromURL(widget_config.default_clock_min_icon,  function(oImg) {
+                        oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
+                        oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
+
+                        oImg.setLeft(clock_center.left - oImg.width/2);
+                        oImg.setTop(clock_center.top - oImg.height/2);
+
+                        oImg.xmlObject = build_widget_util.createImageElement('clock_min','');
+                        $(oImg.xmlObject).attr('android:layout_x',build_widget_util.convertDp(oImg.left));
+                        $(oImg.xmlObject).attr('android:layout_y',build_widget_util.convertDp(oImg.top));
+                        widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
+                        oImg.selectable = false;
+                        clockMinObject = oImg;
+                        canvas.add(oImg);
+                        canvas.renderAll();
+
+                        initClockModfiyArea();
+                    });
+
+                    //add hour-clock
+                    fabric.Image.fromURL(widget_config.default_clock_hour_icon,  function(oImg) {
+                        oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
+                        oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
+
+                        oImg.setLeft(clock_center.left - oImg.width/2);
+                        oImg.setTop(clock_center.top - oImg.height/2);
+
+                        oImg.xmlObject = build_widget_util.createImageElement('clock_hour','');
+
+                        $(oImg.xmlObject).attr('android:layout_x',build_widget_util.convertDp(oImg.left));
+                        $(oImg.xmlObject).attr('android:layout_y',build_widget_util.convertDp(oImg.top));
+                        widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
+                        oImg.selectable = false;
+                        clockHourObject = oImg;
+                        canvas.add(oImg);
+                        canvas.renderAll();
+
+                        initClockModfiyArea();
+                    });
+
+                    //initClockModfiyArea();
+                    build_widget_util.getXmlRes('clock');
+
+                    ctrlClockBtn.attr('data-value',1);
+                    ctrlClockBtn.addClass('btn-success');
+                    canvas.renderAll();
+                }else{
+                    canvas.remove(clockMinObject);
+                    canvas.remove(clockHourObject);
+                    clockMinObject = clockHourObject = null;
+
+                    initClockModfiyArea();
+                    ctrlClockBtn.attr('data-value',0);
+                    ctrlClockBtn.removeClass('btn-success');
+                }
+            }else{
+                util.showMessage('时钟资源错误!!!',util.msg_style_danger);
+            }
+
+
+        });
+
+
+        var initClockModfiyArea = function () {
+
+            if(clockMinObject == null && clockHourObject == null){
+                $('.clock-area-option').hide();
             }else{
 
+                $('#clock-center-left').val(clock_center.left);
+                $('#clock-center-top').val(clock_center.top);
+
+                if(clockMinObject != null){
+                    $('#img-min-size').val(clockMinObject.width);
+                }
+
+                if(clockHourObject != null){
+                    $('#img-hour-size').val(clockHourObject.width);
+                }
+
+
+                $('.clock-area-option').show();
             }
+
+        };
+
+        var clockCenterLeftMinus = $("#clock-center-left-minus");
+        clockCenterLeftMinus.click(function () {
+            clock_center.left -= 1;
+            reanderClock();
         });
 
-        canvas.observe('object:modified', function () {
-            updateElePosition();
-            if(activeObject.get('type') == 'text'){
-                initTextOptionModfiyArea();
-            }
-
-            if(activeObject.get('type') == 'image'){
-                initImageOptionModfiyArea();
-            }
-
+        var clockCenterLeftPlus = $("#clock-center-left-plus");
+        clockCenterLeftPlus.click(function () {
+            clock_center.left += 1;
+            reanderClock();
         });
 
 
-        //监听 保存widget xml ----------------------save xml--------------------start
-        var saveWidgetBtn = $('#save-widget');
-        saveWidgetBtn.click(function () {
-            build_widget_util.saveWidgetXML()
+        var clockCenterTopMinus = $("#clock-center-top-minus");
+        clockCenterTopMinus.click(function () {
+            clock_center.top -= 1;
+            reanderClock();
         });
-        //----end
+
+        var clockCenterTopPlus = $("#clock-center-top-plus");
+        clockCenterTopPlus.click(function () {
+            clock_center.top += 1;
+            reanderClock();
+        });
+
+
+        var clockHourSizeMinus = $("#img-hour-size-minus");
+        clockHourSizeMinus.click(function () {
+            clockHourObject.width -= 1;
+            clockHourObject.height -= 1;
+            reanderClock();
+        });
+
+        var clockHourSizeMinusPlus = $("#img-hour-size-plus");
+        clockHourSizeMinusPlus.click(function () {
+            clockHourObject.width += 1;
+            clockHourObject.height += 1;
+            reanderClock();
+        });
+
+
+        var clockMinSizeMinus = $("#img-min-size-minus");
+        clockMinSizeMinus.click(function () {
+            clockMinObject.width -= 1;
+            clockMinObject.height -= 1;
+
+            $(clockHourObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(clockHourObject.width));
+            $(clockHourObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(clockHourObject.height));
+            reanderClock();
+        });
+
+        var clockMinSizeMinusPlus = $("#img-min-size-plus");
+        clockMinSizeMinusPlus.click(function () {
+            clockMinObject.width += 1;
+            clockMinObject.height += 1;
+
+            $(clockMinObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(clockMinObject.width));
+            $(clockMinObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(clockMinObject.width));
+            reanderClock();
+        });
+
+
+        function reanderClock(){
+
+
+            clockMinObject.setLeft(clock_center.left - clockMinObject.width / 2);
+            clockMinObject.setTop(clock_center.top - clockMinObject.height / 2);
+
+            clockHourObject.setLeft(clock_center.left - clockHourObject.width / 2);
+            clockHourObject.setTop(clock_center.top - clockHourObject.height / 2);
+
+            $(clockMinObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(clockMinObject.left));
+            $(clockMinObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(clockMinObject.top));
+
+            $(clockHourObject.xmlObject).attr('android:layout_x',build_widget_util.convertDp(clockHourObject.left));
+            $(clockHourObject.xmlObject).attr('android:layout_y',build_widget_util.convertDp(clockHourObject.top));
+
+
+            canvas.renderAll();
+            initClockModfiyArea();
+
+        }
+
+
+
     })();
 
 
@@ -370,7 +526,6 @@ define(['jquery', 'build_widget_util','fabric',
 
     var modfiyImageListener = (function () {
 
-
         //监听图片大小的变化------------------size--------------start
         var image_w = $("#image-w");
         var image_size_minus = $("#image-size-minus");
@@ -397,52 +552,6 @@ define(['jquery', 'build_widget_util','fabric',
 
             canvas.renderAll();
         };
-
-
-        var ctrlClockBtn = $('#ctrl-clock');
-        var ctrlClockObject = null;
-        ctrlClockBtn.click(function() {
-            if(ctrlClockBtn.attr('data-value') == 0){
-
-                fabric.Image.fromURL(widget_config.default_clock_icon,  function(oImg) {
-                    oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
-                    oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
-                    oImg.xmlObject = build_widget_util.createImageElement('clock','');
-                    oImg.oldPositon = {top:0, left:0};
-                    ctrlClockObject = oImg;
-                    oImg.hasControls = false;
-                    activeObject = oImg;
-                    canvas.add(oImg);
-                    //initImageOptionModfiyArea();
-                });
-                ctrlClockBtn.attr('data-value',1);
-                ctrlClockBtn.addClass('btn-success');
-                canvas.renderAll();
-            }else{
-                canvas.remove(ctrlClockObject);
-                activeObject = ctrlClockObject = null;
-                ctrlClockBtn.attr('data-value',0);
-                ctrlClockBtn.removeClass('btn-success');
-                //initImageOptionModfiyArea();
-            }
-
-        });
-
-
-        var setImageTypeBtn = $('.set-image-type');
-        setImageTypeBtn.click(function () {
-            if(ctrlClockObject != null){
-                setImageTypeBtn.removeClass('btn-success');
-                $(this).addClass('btn-success');
-                $(activeObject.xmlObject).attr('android:type',$(this).attr('data-type'));
-                $(activeObject.xmlObject).attr('android:rotationX',build_widget_util.convertDp(Math.round(ctrlClockObject.left + ctrlClockObject.left/2)));
-                $(activeObject.xmlObject).attr('android:rotationY',build_widget_util.convertDp(Math.round(ctrlClockObject.top + ctrlClockObject.height/2)));
-                console.log(activeObject.xmlObject);
-            }else{
-                util.showMessage('请先确定旋转点!!!',util.msg_style_danger);
-            }
-
-        });
 
 
 
@@ -485,6 +594,9 @@ define(['jquery', 'build_widget_util','fabric',
             $('#option-modfiy-image-area').hide();
         }
     };
+
+
+
 
 
     
@@ -602,6 +714,60 @@ define(['jquery', 'build_widget_util','fabric',
     })();
 
 
+
+
+
+    // observe canvas activeObject chanege
+    canvas.observe('object:selected', function () {
+        activeObject =  canvas.getActiveObject();
+        if(activeObject.get('type') == 'text'){
+            initTextOptionModfiyArea();
+        }else if(activeObject.get('type') == 'image'){
+            initImageOptionModfiyArea();
+        }else{
+
+        }
+    });
+
+    canvas.observe('object:modified', function () {
+        updateElePosition();
+        if(activeObject.get('type') == 'text'){
+            initTextOptionModfiyArea();
+        }
+
+        if(activeObject.get('type') == 'image'){
+            initImageOptionModfiyArea();
+        }
+
+    });
+
+
+    //监听 保存widget xml ----------------------save xml--------------------start
+    var saveWidgetBtn = $('#save-widget');
+    saveWidgetBtn.click(function () {
+        build_widget_util.checkWidgetXML();
+        $.post('phpService/saveWidgetXML.php',
+            {
+                theme:widget_config.theme,
+                widget:widget_config.widget,
+                widget_xml:(new XMLSerializer()).serializeToString(widget_config.xml_config),
+                widget_preview: canvas.toDataURL({
+                    format: 'png',
+                    left: 0,
+                    top: 0,
+                    multiplier:3,
+                    quality:0.8
+                })
+            },
+            function(data,status){
+                if(data == 1 && status=='success'){
+                    util.showMessage('保存成功...',util.msg_style_info);
+                }else{
+                    util.showMessage('保存失败!!!',util.msg_style_danger);
+                }
+            });
+    });
+    //----end
 
     return {
         initWidget:initWidget

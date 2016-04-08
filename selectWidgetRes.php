@@ -80,15 +80,20 @@ $build_url = 'buildWidget.php?theme='.$theme.'&widget='.$widget;
 
             <div >
                 <label>已选图片:</label>
+                &nbsp;&nbsp;&nbsp;
+                <form style="display: inline-block" action="phpService/uploadImage.php" method="post"  enctype='multipart/form-data' id = 'img-form'>
+                    <input type = 'hidden' value="<?=$theme?>" name="theme" >
+                    <input type = 'hidden' value="<?=$widget?>" name="widget">
+                    <button class="btn btn-xs btn-primary box " id = 'apk_btn'>
+                        <span class="glyphicon glyphicon-folder-open"></span> 上传图片
+                        <input class="fileupload btn-xs" style="width: 80px" type="file" id = 'img-upload' name="img_file" />
+                    </button>
+                </form>
+                <span  style="margin-left: 200px">
+                    <button class="btn btn-xs btn-warning " id = 'set-clock-hour-btn'>设为时针图</button>
+                    <button class="btn btn-xs btn-warning " id = 'set-clock-min-btn'>设为分针图</button>
+                </span>
                 <span class="pull-right">
-                    <form style="display: inline-block" action="phpService/uploadImage.php" method="post"  enctype='multipart/form-data' id = 'img-form'>
-                        <input type = 'hidden' value="<?=$theme?>" name="theme" >
-                        <input type = 'hidden' value="<?=$widget?>" name="widget">
-                        <button class="btn btn-xs btn-primary box " id = 'apk_btn'>
-                            <span class="glyphicon glyphicon-folder-open"></span> 上传图片
-                            <input class="fileupload btn-xs" style="width: 80px" type="file" id = 'img-upload' name="img_file" />
-                        </button>
-                    </form>
                     <button class="btn btn-xs btn-primary " id = 'set-bg-btn'>设为背景图</button>
                     <button class="btn btn-xs btn-danger " id = 'del-icon-btn'>删除</button>
                 </span>
