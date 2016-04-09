@@ -1,7 +1,7 @@
 define(function () {
 	'use strict';
 	var full_mounts = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-	var ab_mounts = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sept','Oct','Nov','Dec'];
+	var ab_mounts = ['Jan','Feb','Mar','Apr','May','June','July','Aug','Sep','Oct','Nov','Dec'];
 
 	var full_weeks = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 	var ab_weeks = ['Sunday','Mon','Tue','Wed','Thu','Fri','Sat','Sun'];

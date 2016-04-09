@@ -57,14 +57,10 @@ $is_build = checkZipFlie($widget_zip);
 <input type="hidden" value='<?= json_encode($font_array) ?>' id = 'default-fontfamily'>
 
 
+<?php
+    require_once('include/header.php');
+?>
 
-<div class="header">
-    <nav class="navbar navbar-default  navbar-fixed-top" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="index.php">Cobo DIY widget</a>
-        </div>
-    </nav>
-</div>
 
 <div class="section">
 

@@ -49,13 +49,10 @@ $build_url = 'buildWidget.php?theme='.$theme.'&widget='.$widget;
 <input type = 'hidden' value="<?=$theme?>" id="theme-name" >
 <input type = 'hidden' value="<?=$widget?>" id="widget-name">
 
-<div class="header">
-    <nav class="navbar navbar-default  navbar-fixed-top" role="navigation">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="index.php">Cobo DIY widget</a>
-        </div>
-    </nav>
-</div>
+<?php
+require_once('include/header.php');
+?>
+
 
 <div class="section">
     <div class = 'col-lg-12 col-md-12 col-sm-12 well'>
@@ -129,7 +126,7 @@ $build_url = 'buildWidget.php?theme='.$theme.'&widget='.$widget;
                     ?>
                     <div class="col-sm-2 col-md-2 col-lg-2 selected-fonts" data-name = '<?=$font_file?>'>
                         <p style="font-family: '<?=$v['font_name']?>';font-size: 35px; cursor: pointer" >
-                            10:28 am Turs
+                            10:28 am wednesday
                         </p>
                     </div>
                 <?php } ?>

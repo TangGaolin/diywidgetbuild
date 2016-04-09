@@ -41,7 +41,7 @@ body{
     background-image: url('../img/transparency.png');
 }
 
-.nav>li>a {
+#option-area>.nav>li>a {
     position: relative;
     display: block;
     padding: 5px 24px;

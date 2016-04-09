@@ -23,7 +23,7 @@ $response_array = array(
 );
 
 $widget = array();
-foreach($data as $v){
+foreach($data['list'] as $v){
     $widget['zip'] = $base_url.'/'.$v['theme'].'/'.$v['widget'].'.zip';
     $widget['preiview'] = $base_url.'/'.$v['theme'].'/'.$v['widget'].'.png';
 

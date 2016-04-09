@@ -14,7 +14,7 @@ $data_obj = new Widgetdata();
 $page = isset($_GET['page'])? $_GET['page'] : 1;
 
 
-$widget_data = $data_obj->getUnBuildWidget($page-1);
+$widget_data = $data_obj->getBuildOKWidget($page-1);
 $data = array(
     'pageNum'=> $widget_data['page_num'],
     'nowPage'=>$page,
@@ -35,14 +35,9 @@ $pagination = new Pagination($data);
 <link rel="stylesheet" href="src/css/comm.css"/>
 <body>
 
-
-
-
 <?php
     require_once('include/header.php');
 ?>
-
-
 
 <div class="section">
 
@@ -52,23 +47,23 @@ $pagination = new Pagination($data);
 
     <div class = 'col-lg-12 col-md-12 col-sm-12 well masonry-container'>
 
-            <?php foreach($widget_data['list']  as $v){
-                $preview =  'diywidgets/'.$v['theme'] . '/' . $v['widget'] .'.png';
-                $url = 'selectWidgetRes.php?theme='.$v['theme'].'&widget='.$v['widget'];
-                ?>
-                <div class="col-sm-3 col-md-3 col-lg-3 item">
-                    <div class="thumbnail area-bg-transparency " style="position: relative">
-                        <a href="<?=$url ?>">
-                            <img style="width: 80%" src="<?=$preview?>">
-                        </a>
-                    </div>
-                    <div class="caption">
-                        <p>
-
-                        </p>
-                    </div>
+        <?php foreach($widget_data['list']  as $v){
+            $preview =  'diywidget_previews/'. $v['widget'] .'.png';
+            $url = 'selectWidgetRes.php?theme='.$v['theme'].'&widget='.$v['widget'];
+            ?>
+            <div class="col-sm-3 col-md-3 col-lg-3 item">
+                <div class="thumbnail area-bg-transparency " style="position: relative">
+                    <a href="<?=$url ?>">
+                        <img style="width: 80%" src="<?=$preview?>">
+                    </a>
                 </div>
-            <?php } ?>
+                <div class="caption">
+                    <p>
+
+                    </p>
+                </div>
+            </div>
+        <?php } ?>
 
     </div>
 

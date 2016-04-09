@@ -69,7 +69,7 @@ $widget = $_POST['widget'];
 
 $to_path = '../diywidgets/'.$theme.'/'.$widget.'/icons/'.$_FILES["img_file"]["name"];
 upload_fun($_FILES['img_file'],$to_path);
-$back_url = 'http://localhost/diywidgetbuild/selectWidgetRes.php?theme='.$theme.'&widget='.$widget;
+$back_url = 'http://s1.cobo/diywidgetbuild/selectWidgetRes.php?theme='.$theme.'&widget='.$widget;
 
 header("Location: $back_url");
 

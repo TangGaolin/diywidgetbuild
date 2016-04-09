@@ -49,9 +49,18 @@ class Widgetdata {
         $stmt->bindValue(":page_start",$start*$this->page_size,PDO::PARAM_INT);
         $stmt->bindValue(":page_size",$this->page_size,PDO::PARAM_INT);
         $stmt->execute();
-        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $data['list'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $sql_row = 'select * from widgets where state = 1';
+
+        $stmt_row = $pdo->prepare($sql_row);
+        $stmt_row->execute();
+        $page_num = ceil($stmt_row->rowcount() / $this->page_size);
+
+        $data['page_num'] = $page_num;
 
         return $data;
+
     }
 
 
