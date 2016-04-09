@@ -260,10 +260,12 @@ define(['jquery', 'build_widget_util','fabric',
                     ctrlClockBtn.addClass('btn-success');
                     canvas.renderAll();
                 }else{
+
+                    widget_config.xml_config.firstChild.removeChild(clockMinObject.xmlObject);
+                    widget_config.xml_config.firstChild.removeChild(clockHourObject.xmlObject);
                     canvas.remove(clockMinObject);
                     canvas.remove(clockHourObject);
                     clockMinObject = clockHourObject = null;
-
                     initClockModfiyArea();
                     ctrlClockBtn.attr('data-value',0);
                     ctrlClockBtn.removeClass('btn-success');
@@ -329,6 +331,9 @@ define(['jquery', 'build_widget_util','fabric',
         clockHourSizeMinus.click(function () {
             clockHourObject.width -= 1;
             clockHourObject.height -= 1;
+
+            $(clockHourObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(clockHourObject.width));
+            $(clockHourObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(clockHourObject.height));
             reanderClock();
         });
 
@@ -336,6 +341,9 @@ define(['jquery', 'build_widget_util','fabric',
         clockHourSizeMinusPlus.click(function () {
             clockHourObject.width += 1;
             clockHourObject.height += 1;
+
+            $(clockHourObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(clockHourObject.width));
+            $(clockHourObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(clockHourObject.width));
             reanderClock();
         });
 
@@ -345,8 +353,8 @@ define(['jquery', 'build_widget_util','fabric',
             clockMinObject.width -= 1;
             clockMinObject.height -= 1;
 
-            $(clockHourObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(clockHourObject.width));
-            $(clockHourObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(clockHourObject.height));
+            $(clockMinObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(clockMinObject.width));
+            $(clockMinObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(clockMinObject.height));
             reanderClock();
         });
 
