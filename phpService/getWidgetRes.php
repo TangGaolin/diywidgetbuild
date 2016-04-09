@@ -63,6 +63,10 @@ function getImageRes($widget_base_path){
     }
 
     $battery_array = [];
+
+    foreach(glob($image_src_path.'battery*.png') as $file) {
+        $battery_array[] = pathinfo($file,PATHINFO_BASENAME);
+    }
     if(sizeof($battery_array) > 0 && is_file($widget_base_path.'icons/battery_100.png')){
         $image_msg_array['has_battery'] = '1';
     }

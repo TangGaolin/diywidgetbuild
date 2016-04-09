@@ -531,7 +531,7 @@ define(['jquery', 'build_widget_util','fabric',
         var image_size_minus = $("#image-size-minus");
         var image_size_plus = $("#image-size-plus");
         image_size_minus.click(function(){
-            image_w.val( parseInt(image_w.val()) - 1);
+            image_w.val(parseInt(image_w.val()) - 1);
             updateWidgetImageSize();
         });
         image_size_plus.click(function() {
@@ -539,16 +539,19 @@ define(['jquery', 'build_widget_util','fabric',
             updateWidgetImageSize();
         });
         image_w.keyup(function(){
+
             updateWidgetImageSize();
         });
 
         var updateWidgetImageSize = function(){
 
-            var image_height = Math.round(image_w.val() * activeObject.getHeight() /  activeObject.getWidth());
-            activeObject.setWidth(parseInt(image_w.val()));
-            activeObject.setHeight(image_height);
-            $(activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(image_w.val()));
-            $(activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(image_height));
+            var image_height = parseFloat(parseInt(image_w.val())* activeObject.height /  activeObject.width);
+
+            activeObject.setWidth(parseFloat(image_w.val()));
+            activeObject.setHeight(parseFloat(image_height));
+
+            $(activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(activeObject.width));
+            $(activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(activeObject.height));
 
             canvas.renderAll();
         };
@@ -682,10 +685,10 @@ define(['jquery', 'build_widget_util','fabric',
 
                     if(e.ctrlKey){
                         if(activeObject.get('type') == 'image'){
-                            new_width = activeObject.getWidth() - 1;
-                            new_height = Math.round( new_width * activeObject.getHeight() /  activeObject.getWidth());
-                            activeObject.setWidth(parseInt(new_width));
-                            activeObject.setHeight(new_height);
+                            new_width = activeObject.width - 1;
+                            new_height = new_width * activeObject.height /  activeObject.width;
+                            activeObject.setWidth(parseFloat(new_width));
+                            activeObject.setHeight(parseFloat(new_height));
                             $(activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(new_width));
                             $(activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(new_height));
                         }
