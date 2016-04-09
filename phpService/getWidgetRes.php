@@ -76,6 +76,9 @@ function getImageRes($widget_base_path){
         $weather_array[] = pathinfo($file,PATHINFO_BASENAME);
     }
 
+    if(is_file($image_src_path.'weather_na.png')){
+        $weather_array[] = 'weather_na.png';
+    }
 
     if(sizeof($weather_array) == 10 && is_file($widget_base_path.'icons/w01d.png')){
         $image_msg_array['has_weather'] = '1';

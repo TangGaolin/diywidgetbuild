@@ -631,7 +631,7 @@ define(['jquery', 'build_widget_util','fabric',
                 case 37:
                     e.preventDefault();
 
-                    if(e.ctrlKey){
+                    if(e.ctrlKey || e.altKey){
                         activeObject.setAngle(parseInt(activeObject.getAngle()) - 1);
                         updateEleAngle();
                         break;
@@ -646,7 +646,7 @@ define(['jquery', 'build_widget_util','fabric',
                 case 38:
                     e.preventDefault();
 
-                    if(e.ctrlKey){
+                    if(e.ctrlKey || e.altKey){
                         if(activeObject.get('type') == 'image'){
                             new_width = activeObject.getWidth()+1;
                             new_height = Math.round( new_width * activeObject.getHeight() /  activeObject.getWidth());
@@ -675,8 +675,8 @@ define(['jquery', 'build_widget_util','fabric',
                 case 39:
                     e.preventDefault();
 
-                    if(e.ctrlKey){
-                        activeObject.setAngle(parseInt(activeObject.getAngle()) + 1);
+                    if(e.ctrlKey || e.altKey){
+                        activeObject.setAngle(parseInt(activeObject.angle) + 1);
                         updateEleAngle();
                         break;
                     }
@@ -691,7 +691,7 @@ define(['jquery', 'build_widget_util','fabric',
                 case 40:
                     e.preventDefault();
 
-                    if(e.ctrlKey){
+                    if(e.ctrlKey || e.altKey){
                         if(activeObject.get('type') == 'image'){
                             new_width = activeObject.width - 1;
                             new_height = new_width * activeObject.height /  activeObject.width;

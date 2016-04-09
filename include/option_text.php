@@ -35,7 +35,7 @@
                     <input class="form-control input-sm input-format" type="text" placeholder="自定义日期格式"/>
                     <button type="button" class = 'btn btn-sm btn-default add-text-ele' >添加</button>
                     <br/>
-                    <span class="text-danger small">例:yyyy-MM-dd = 2016-3-28</span>
+                    <span class="text-danger small">例:yyyy-MM-dd = 2016-03-28</span>
                 </div>
 
 
