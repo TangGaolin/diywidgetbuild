@@ -28,18 +28,25 @@
         </div>
     </div>
     <p></p>
+
     <div class="row">
         <div class="col-md-4 col-sm-4 form-inline">
             <label>字体:</label><br/>
             <div class="form-inline">
-                <select class="form-control input-sm"  style="width: 120px" id = 'font-family-id' >
+                <select class="form-control"  id = 'font-family-id' >
                     <?php foreach($font_array as $v){
                         ?>
-                        <option value="<?=pathinfo($v['url'],PATHINFO_BASENAME)?>" style="font-family: '<?=$v['font_name']?>'" ><?=$v['font_name']?></option>
+                        <option value="<?=pathinfo($v['url'],PATHINFO_BASENAME)?>" style="font-family: '<?=$v['font_name']?>';" >10:28 am Wednesday</option>
                     <?php } ?>
                 </select>
             </div>
         </div>
+    </div>
+    <p></p>
+
+
+    <div class="row">
+
 
         <div class="col-md-4 col-sm-4 form-inline" >
             <label>字体大小:</label>

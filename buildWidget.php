@@ -79,14 +79,12 @@ $is_build = checkZipFlie($widget_zip);
             ?>
             <div class="row">
                 <div id = 'option-modfiy-text-area' style="display: none">
-                    <?php require_once('include/text_option_area.php') ?>
+                    <?php require_once('include/text_option_area.php'); ?>
                 </div>
 
                 <div id = 'option-modfiy-image-area' style="display: none">
-                    <?php require_once('include/image_option_area.php') ?>
+                    <?php require_once('include/image_option_area.php'); ?>
                 </div>
-
-
             </div>
 
 
@@ -103,7 +101,7 @@ $is_build = checkZipFlie($widget_zip);
                     <span class="pull-right">
                         <a  href="<?=$widget_zip?>">下 载</a>
                         &nbsp;&nbsp;
-                        <a  href="<?=$widget_xml?>">查看xml</a>
+                        <a  href="<?=$widget_xml?>" target="_blank">查看xml</a>
                     </span>
 
                 <?php } ?>

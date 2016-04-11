@@ -24,6 +24,8 @@ define(['jquery'], function ($) {
 		return false;
 	};
 
+
+
 	return {
 		msg_style_info:msg_style_info,
 		msg_style_danger:msg_style_danger,

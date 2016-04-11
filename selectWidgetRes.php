@@ -68,11 +68,14 @@ require_once('include/header.php');
         <div class="col-md-offset-1 col-md-7 col-sm-7">
 
             <div>
-                <a href = '<?=$build_url?>' class="btn btn-xs btn-success pull-right">
+                <span class="pull-left">
+                    <button class="btn btn-xs btn-default" id="error-btn">添加报错</button>
+                </span>
+                <a href = '<?=$build_url?>' class="btn btn-xs btn-success pull-right" target="_blank">
                     去 制 作 <span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
                 </a>
             </div>
-            <p></p>
+<!--            <p></p>-->
             <hr/>
 
             <div >

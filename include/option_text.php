@@ -91,6 +91,7 @@
                     <button type="button" class = 'btn btn-sm btn-default add-text-ele' >添加</button>
                     <br/>
                     <span class="text-danger small">注:插件上固定的文字 如:Call </span>
+
                 </div>
 
             </div>

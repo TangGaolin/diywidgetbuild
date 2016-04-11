@@ -453,6 +453,7 @@ define(['jquery', 'build_widget_util','fabric',
             activeObject.setFontFamily($(this).val().split('.')[0]);
             $(activeObject.xmlObject).attr('android:typeface','./fonts/' + $(this).val());
             canvas.renderAll();
+            initTextOptionModfiyArea();
         });
         //------------------end
 

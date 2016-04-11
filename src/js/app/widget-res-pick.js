@@ -235,5 +235,22 @@ define(['jquery','bootstrap','masonry','imagesloaded','util2'],function($,bootst
         }
     );
 
+    var errorBtn = $("#error-btn");
+    errorBtn.click(function(){
+        var widget =  $('#widget-name').val();
+        $.post('phpService/errorWidget.php',
+            {widget:widget},
+            function(data,status){
+                if(data == 1 && status=='success'){
+                    util2.showMessage('添加成功...',util2.msg_style_info);
+                    errorBtn.addClass('btn-danger');
+                    errorBtn.removeClass('error-btn');
+                    errorBtn.html('有误插件');
+                }else{
+                    util2.showMessage('系统异常',util2.msg_style_danger);
+                }
+            });
+    });
+
 
 });

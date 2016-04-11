@@ -18,6 +18,7 @@ function echoActive($tab){
             <ul class="nav navbar-nav">
                 <li <?php echo echoActive('index.php'); ?> ><a href="index.php">首页</a></li>
                 <li  <?php echo echoActive('showRes.php'); ?>  ><a href="showRes.php">查看结果</a></li>
+                <li  <?php echo echoActive('errorWidget.php'); ?>  ><a href="errorWidget.php">有误插件</a></li>
                 <li ><a href="http://wiki.cobo/index.php/Dev/diy_widget" target="_blank">制作教程</a></li>
             </ul>
 
