@@ -16,12 +16,13 @@ require.config({
         'util2':"js/lib/util2",
         'widget_config':"js/app/widget-config",
         'widget_res_pick':"js/app/widget-res-pick",
-        'data_format':"js/lib/data-format"
+        'data_format':"js/lib/data-format",
+        'color_thief':"js/lib/color-thief"
     },
     shim:{
         bootstrap:['jquery'],
         slider:['jquery']
     },
 
-    urlArgs: "v=1.2"
+    urlArgs: "v=1.3"
 });

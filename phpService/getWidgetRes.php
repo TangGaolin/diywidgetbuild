@@ -102,6 +102,7 @@ function getImageRes($widget_base_path){
 
 
 
+
 function getFontsCssString($font_array){
     $fonts_css_string = '';
 

@@ -15,11 +15,13 @@ $widget = isset($_GET['widget']) ? $_GET['widget'] : 'BeautyofLight_a_3';
 $widget_base_path = $widget_path.$theme.'/'.$widget . '/';
 $widget_preview = $widget_path.$theme.'/'.$widget . '.png';
 $widget_zip = $widget_path.$theme.'/'.$widget . '.zip';
+$widget_xml = $widget_path.$theme.'/'.$widget . '/widget.xml';
 
 $font_array = getFontTypes($widget_base_path . 'fonts/');
 $image_msg_array = getImageRes($widget_base_path);
 
 $is_build = checkZipFlie($widget_zip);
+
 ?>
 
 <!DOCTYPE html>
@@ -98,7 +100,12 @@ $is_build = checkZipFlie($widget_zip);
                 <button class = "btn btn-xs btn-success" id = 'save-widget'>保 存</button>
 
                 <?php  if($is_build){ ?>
-                    <a class="pull-right"  href="<?=$widget_zip?>">下 载</a>
+                    <span class="pull-right">
+                        <a  href="<?=$widget_zip?>">下 载</a>
+                        &nbsp;&nbsp;
+                        <a  href="<?=$widget_xml?>">查看xml</a>
+                    </span>
+
                 <?php } ?>
             </div>
             <p></p>

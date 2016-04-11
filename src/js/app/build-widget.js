@@ -30,6 +30,9 @@ define(['jquery', 'build_widget_util','fabric',
             });
         }
         canvas.renderAll();
+
+
+        //$('#show-color').html(build_widget_util.getPreviewColors());
         return this;
     };
 
@@ -484,13 +487,17 @@ define(['jquery', 'build_widget_util','fabric',
         //------------------end
 
         //监听文字颜色的变化-----------------color----------------start
-        var font_color = $("#font-color");
         var font_color_option = $(".font-color-option");
-        font_color_option.colorpicker().on(
-            'changeColor.colorpicker', function () {
-                activeObject.setFill(font_color.val());
-                $(activeObject.xmlObject).attr('android:textColor',build_widget_util.convertColor(font_color.val()));
+        font_color_option.colorpicker({
+            colorSelectors:widget_config.preview_colors,
+            format: 'rgba'
+        }).on(
+            'changeColor.colorpicker', function (e) {
+
+                activeObject.setFill(build_widget_util.convertRgbString(e.color.toRGB()));
+                $(activeObject.xmlObject).attr('android:textColor',build_widget_util.convertColor(e.color.toRGB()));
                 canvas.renderAll();
+
             }
         );
 

@@ -1,7 +1,7 @@
 /**
  * Created by tanggaolin on 16-3-21.
  */
-define(['jquery'], function ($) {
+define(['jquery','color_thief'], function ($,color_thief) {
 
 
     var widget_tmp_xml = '<AbsoluteElement xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="524dp" android:layout_height="768dp"></AbsoluteElement>';
@@ -39,7 +39,7 @@ define(['jquery'], function ($) {
     var default_clock_min_icon = widget_base_path + '/icons/widget_min.png';
     var default_clock_hour_icon = widget_base_path + '/icons/widget_hour.png';
 
-
+    var preview_colors = {};
 
 
     var initWidgetConfig = function () {
@@ -65,9 +65,9 @@ define(['jquery'], function ($) {
         //clock
         this.has_clock = image_msg['has_clock'];
 
-
+        var widget_preview = $('#widget-preview');
         $('.widget-area').css({'width':this.widget_width,'height':this.widget_height});
-        $('#widget-preview').css({'width':this.widget_width});
+        widget_preview.css({'width':this.widget_width});
 
         $(this.xml_config).find("AbsoluteElement").attr('android:layout_width', this.widget_width + 'dp');
         $(this.xml_config).find("AbsoluteElement").attr('android:layout_height', this.widget_height + 'dp');
@@ -83,8 +83,17 @@ define(['jquery'], function ($) {
             this.fonts_config = fonts_msg;
             this.default_fontfamily_file = '';
             this.default_fontfamily = 'serif';
-            console.log(default_fontfamily_file);
         }
+
+        var colorThief = new ColorThief();
+
+        var colors = colorThief.getPalette(widget_preview[0], 10);
+        var rgb = '';
+        for(var i = 0;i < colors.length;i++){
+            rgb = '#' + colors[i][0].toString(16) + colors[i][1].toString(16) + colors[i][2].toString(16);
+            this.preview_colors[rgb] = rgb;
+        }
+
 
 
         return this;
@@ -117,6 +126,7 @@ define(['jquery'], function ($) {
         default_battery_icon:default_battery_icon,
         default_clock_hour_icon:default_clock_hour_icon,
         default_clock_min_icon:default_clock_min_icon,
+        preview_colors:preview_colors,
 
         initWidgetConfig:initWidgetConfig
 

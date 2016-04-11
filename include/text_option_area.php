@@ -8,17 +8,17 @@
 
 
     <div class="row">
-        <div class="col-md-3 col-sm-3 form-inline">
+        <div class="col-md-4 col-sm-4 form-inline">
             <label>布局与位置:</label><br/>
             <div class="form-inline">
                 <select class="form-control input-sm"  style="width: 120px" id = 'text-layout' >
-                    <option value="match_parent">独占行</option>
+                    <option value="match_parent">居中</option>
                     <option value="wrap_content">适应内容</option>
                 </select>
             </div>
         </div>
 
-        <div class="col-md-6 col-sm-6 form-inline" >
+        <div class="col-md-8 col-sm-8 form-inline" >
             <label>字母大小写:</label><br/>
             <button class="btn btn-sm change-letter-size" data-type = 'lower'>i am</button>
             <button class="btn btn-sm change-letter-size" data-type = 'capitalize'>I am</button>
@@ -51,7 +51,7 @@
 
         <div class="col-md-4 col-sm-4  form-inline">
             <label>字体颜色:</label>
-            <div data-format="hex" class="input-group font-color-option">
+            <div  class="input-group font-color-option">
                 <input type="text"  class="form-control input-sm" id = 'font-color' value=" #000000"/>
                 <span class="input-group-addon input-sm"><i style="background-color: #000000"></i></span>
             </div>

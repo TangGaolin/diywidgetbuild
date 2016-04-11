@@ -82,9 +82,14 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 	};
 
 	var convertColor = function (color) {
-		return '#FF' + color.substring(1).toUpperCase();
+		return '#' + parseInt(color.a * 255).toString(16) + parseInt(color.r).toString(16) + parseInt(color.g).toString(16) + parseInt(color.b).toString(16);
 	};
-	
+
+
+	var convertRgbString = function (color) {
+		return 'rgba(' + color.r +','+ color.g +',' + color.b +','+ color.a + ')';
+	};
+
 	var getCalendarFormat = function (format) {
 		return '{calendarFormat:"'+format+'"}';
 	};
@@ -175,7 +180,6 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 
 	};
 
-
 	return {
 
 		createTextElement:createTextElement,
@@ -185,6 +189,7 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		findRootTag:findRootTag,
 
 		convertColor:convertColor,
+		convertRgbString:convertRgbString,
 		getXmlRes:getXmlRes,
 		saveWidgetXML:saveWidgetXML,
 		stringCapitalize:stringCapitalize,
