@@ -16,7 +16,7 @@ define(['jquery','color_thief'], function ($,color_thief) {
     var default_fontfamily_file = '';
     var default_fontfamily =  '';
 
-    var default_font_color =  '#000000';
+    var default_font_color =  {a:1,r:0,g:0,b:0};
     var default_font_size =  16;
     var default_text_top =  30;
     var default_text_left =  30;

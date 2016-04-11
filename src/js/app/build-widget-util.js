@@ -81,8 +81,12 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		return Math.round(lenght) + 'dp';
 	};
 
+	var toHexadecimal = function(num){
+		return ('0' + parseInt(num).toString(16)).substr(-2);
+	};
+
 	var convertColor = function (color) {
-		return '#' + parseInt(color.a * 255).toString(16) + parseInt(color.r).toString(16) + parseInt(color.g).toString(16) + parseInt(color.b).toString(16);
+		return '#' + toHexadecimal(color.a * 255) + toHexadecimal(color.r) + toHexadecimal(color.g) + toHexadecimal(color.b);
 	};
 
 
