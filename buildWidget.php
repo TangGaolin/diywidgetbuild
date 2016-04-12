@@ -57,7 +57,7 @@ $is_build = checkZipFlie($widget_zip);
 <input type = 'hidden' value="<?=$widget?>" id="widget-name">
 <input type="hidden" value='<?= json_encode($image_msg_array) ?>' id = 'image-res'>
 <input type="hidden" value='<?= json_encode($font_array) ?>' id = 'default-fontfamily'>
-
+<input type="hidden" value="<?=$is_build?>" id = 'build_state'/>
 
 <?php
     require_once('include/header.php');
@@ -69,6 +69,7 @@ $is_build = checkZipFlie($widget_zip);
     <div>
         <button class = "btn btn-xs btn-success bg-color" value="transparency.png">透明背景</button>
         <button class = "btn btn-xs  bg-color" value="black.png">黑色背景</button>
+        <a class = "btn btn-xs  bg-color" href="selectWidgetRes.php?theme=<?=$theme?>&widget=<?=$widget?>">返回选择资源</a>
     </div>
     <p></p>
     <div class = 'col-lg-12 col-md-12 col-sm-12 well'>
@@ -97,7 +98,9 @@ $is_build = checkZipFlie($widget_zip);
             <div>
                 <button class = "btn btn-xs btn-success" id = 'save-widget'>保 存</button>
 
+
                 <?php  if($is_build){ ?>
+                    <input type="hidden" value='<?=file_get_contents($widget_xml)?>' id = 'widget_xml_string'/>
                     <span class="pull-right">
                         <a  href="<?=$widget_zip?>">下 载</a>
                         &nbsp;&nbsp;

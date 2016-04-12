@@ -22,14 +22,14 @@ image_res1 = '/res/drawable-xhdpi/'
 image_res2 = '/res/drawable-xxhdpi/'
 
 log_file = 'logs/error.log'
-Host = 'localhost'
+Host = 's1.cobo'
 User = 'cobo'
 Pwd = 'cobocobo'
 db = 'diy_widgets'
 sql_port = 3306
 
-# conn = pymysql.connect(host=Host, user=User, passwd=Pwd, db=db, port=sql_port, charset='utf8', cursorclass=pymysql.cursors.DictCursor)
-# cursor = conn.cursor()
+conn = pymysql.connect(host=Host, user=User, passwd=Pwd, db=db, port=sql_port, charset='utf8', cursorclass=pymysql.cursors.DictCursor)
+cursor = conn.cursor()
 
 
 
@@ -171,18 +171,47 @@ def sortWidgetResMain():
             # sql = 'insert into widgets  (theme,widget) VALUES ("'+item+'", "' + item+'_1'+'"), ("'+item+'", "'+item+'_2'+'"), ("'+item+'", "'+item+'_3'+'");'
             # print sql
             # cursor.execute(sql)
-
-
         except:
             printLog('sort error:' + item)
 
 
+def getWidgetFont(fonts_path):
+    fonts = os.listdir(fonts_path)
+    for font in fonts:
+        if ' ' in font:
+            font_path = fonts_path + font
+            new_font_path = fonts_path + font.replace(' ', '_')
+            shutil.move(font_path, new_font_path)
+            print new_font_path
+
+
+
+
+
+def changeFontName():
+
+    sql = 'select theme,widget from widgets where state = 0 or state = 1'
+    cursor.execute(sql)
+    themes = cursor.fetchall()
+
+    for item in themes:
+        theme = item['theme']
+        widget = item['widget']
+        # print theme, widget
+        font_path = dst_widget_path + theme + '/fonts/'
+        getWidgetFont(font_path)
+
+
+
+    pass
+
+
 if __name__ == "__main__":
 
-    sortWidgetResMain()
+    changeFontName()
 
     # conn.commit()
-    # cursor.close()
-    # conn.close()
+    cursor.close()
+    conn.close()
 
 

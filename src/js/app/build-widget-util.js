@@ -78,7 +78,8 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 
 	
 	var convertDp = function (lenght) {
-		return Math.round(lenght) + 'dp';
+		return lenght.toFixed(1) + 'dp';
+		//return Math.round(lenght) + 'dp';
 	};
 
 	var toHexadecimal = function(num){
@@ -173,11 +174,11 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 				res = string.toUpperCase();
 				break;
 			case 'title':
-				res = string.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+				res = string.replace(/[a-zA-Z]+/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 				break;
 
 			default:
-				res = string.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+				res = string.replace(/[a-zA-Z]+/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		}
 
 		return res;

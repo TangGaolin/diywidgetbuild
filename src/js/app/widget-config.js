@@ -30,6 +30,8 @@ define(['jquery','color_thief'], function ($,color_thief) {
     var theme = $('#theme-name').val();
     var widget = $('#widget-name').val();
 
+    var is_build = $('#build_state').val();
+
     var widget_base_path = 'diywidgets/' + theme + '/' + widget + '/';
     var default_bg_img = 'widget_bg.png';
 
@@ -43,6 +45,12 @@ define(['jquery','color_thief'], function ($,color_thief) {
 
 
     var initWidgetConfig = function () {
+
+        //if(is_build == 1){
+        //    //console.log('xxxx');
+        //    this.xml_config =  new DOMParser().parseFromString($('#widget_xml_string').val(), "text/xml");
+        //    //console.log();
+        //}
 
         var image_msg = JSON.parse($('#image-res').val());
         //bg-image

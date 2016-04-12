@@ -7,6 +7,8 @@ define(['jquery', 'build_widget_util','fabric',
 
 
     widget_config.initWidgetConfig();
+
+
     var canvas = new fabric.Canvas('canvas',{
         width: widget_config.widget_width,
         height: widget_config.widget_height
@@ -663,7 +665,7 @@ define(['jquery', 'build_widget_util','fabric',
                             activeObject.setHeight(parseFloat(new_height));
                             $(activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(new_width));
                             $(activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(new_height));
-
+                            initImageOptionModfiyArea();
                         }
 
                         if(activeObject.get('type') == 'text'){
@@ -710,6 +712,7 @@ define(['jquery', 'build_widget_util','fabric',
                             activeObject.setHeight(parseFloat(new_height));
                             $(activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(new_width));
                             $(activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(new_height));
+                            initImageOptionModfiyArea();
                         }
 
                         if(activeObject.get('type') == 'text'){
@@ -733,7 +736,7 @@ define(['jquery', 'build_widget_util','fabric',
 
             canvas.renderAll();
 
-
+            console.log(activeObject.xmlObject);
         });
     })();
 

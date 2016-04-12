@@ -62,7 +62,7 @@ define(['jquery','bootstrap','masonry','imagesloaded','util2'],function($,bootst
             $(this).removeClass('checked');
         }
 
-        console.log(select_fonts);
+        //console.log(select_fonts);
     });
 
     selected_fonts.click(function(){
@@ -75,7 +75,7 @@ define(['jquery','bootstrap','masonry','imagesloaded','util2'],function($,bootst
             selected_widget_fonts.splice(index,1);
             $(this).removeClass('checked');
         }
-        console.log(selected_widget_fonts);
+        //console.log(selected_widget_fonts);
     });
 
 
