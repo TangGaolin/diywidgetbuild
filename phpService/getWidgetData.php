@@ -89,5 +89,42 @@ class Widgetdata {
 
     }
 
+    public function getTagWidget($tag,$start){
+
+
+        $pdo = Db::getInstance()->connect();
+        $sql = <<<EOF
+        select theme,widget from widgets as  a join
+        widget_tag as b
+        on a.ori_theme = b.ori_theme
+        where state = 0 and  b.tag =:tag and theme like "%_a" order by widget  limit :page_start,:page_size
+EOF;
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->bindValue(":tag",$tag,PDO::PARAM_STR);
+        $stmt->bindValue(":page_start",$start*$this->page_size,PDO::PARAM_INT);
+        $stmt->bindValue(":page_size",$this->page_size,PDO::PARAM_INT);
+
+        $stmt->execute();
+        $data['list'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $sql_row = <<<EOF
+        select * from widgets as  a join
+        widget_tag as b
+        on a.ori_theme = b.ori_theme
+        where state = 0 and  b.tag =:tag and theme like "%_a"
+EOF;
+
+        $stmt_row = $pdo->prepare($sql_row);
+        $stmt_row->bindValue(":tag",$tag,PDO::PARAM_STR);
+        $stmt_row->execute();
+        $page_num = ceil($stmt_row->rowcount() / $this->page_size);
+
+        $data['page_num'] = $page_num;
+
+        return $data;
+
+    }
+
 
 }

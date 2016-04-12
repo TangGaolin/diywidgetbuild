@@ -244,7 +244,7 @@ define(['jquery','bootstrap','masonry','imagesloaded','util2'],function($,bootst
                 if(data == 1 && status=='success'){
                     util2.showMessage('添加成功...',util2.msg_style_info);
                     errorBtn.addClass('btn-danger');
-                    errorBtn.removeClass('error-btn');
+                    //errorBtn.removeClass('error-btn');
                     errorBtn.html('有误插件');
                 }else{
                     util2.showMessage('系统异常',util2.msg_style_danger);

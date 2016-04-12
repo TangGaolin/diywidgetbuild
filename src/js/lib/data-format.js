@@ -131,7 +131,6 @@ define(function () {
 			case 'L':
 				res = '46';
 				break;
-
 			case 'H':
 				res = '50';
 				break;
@@ -144,6 +143,10 @@ define(function () {
 			case 'A':
 				res = 'New York';
 				break;
+			case 'R':
+				res = '80%';
+				break;
+
 			default:
 				res = str;
 		}
