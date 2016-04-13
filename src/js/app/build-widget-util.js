@@ -78,8 +78,10 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 
 	
 	var convertDp = function (lenght) {
+		if(parseInt(lenght) == lenght){
+			return lenght + 'dp';
+		}
 		return lenght.toFixed(1) + 'dp';
-		//return Math.round(lenght) + 'dp';
 	};
 
 	var toHexadecimal = function(num){
