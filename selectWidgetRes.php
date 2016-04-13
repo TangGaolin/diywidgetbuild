@@ -144,7 +144,7 @@ require_once('include/header.php');
 
         <div>
             <label>插件可能需要的字体:</label>
-
+            <input type = 'text' value="10:28 am Turs" id = 'test-text'>
             <span class="pull-right">
                 <button class="btn btn-xs btn-success" id = 'add-fonts-btn'>添 加</button>
             </span>
@@ -154,7 +154,7 @@ require_once('include/header.php');
                 $font_file = pathinfo($v['url'],PATHINFO_BASENAME);
                 ?>
                 <div class="col-sm-2 col-md-2 col-lg-2 all-fonts" data-name = '<?=$font_file?>'>
-                    <p style="font-family: '<?=$v['font_name']?>';font-size: 35px;cursor: pointer" >
+                    <p class="test-text" style="font-family: '<?=$v['font_name']?>';font-size: 35px;cursor: pointer" >
                         10:28 am Turs
                     </p>
                 </div>

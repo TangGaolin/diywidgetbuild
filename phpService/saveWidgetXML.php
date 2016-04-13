@@ -94,6 +94,14 @@ $widget_zip = $widget_dir.'.zip';
 if(file_put_contents($widget_xml_file,$_POST['widget_xml'],LOCK_EX) != false){
 
     base64_to_jpeg($widget_preview,$widget_preview_file);
+
+//    preg_match_all('/fonts.*tf"/',$_POST['widget_xml'],$out);
+//
+//    $font_array = array();
+//    if(sizeof($out[0]) > 0){
+//        $font_array = array_unique($out[0]);
+//    }
+
     if(Zip($widget_dir,$widget_zip)){
         saveDB($theme,$widget);
         echo 1;

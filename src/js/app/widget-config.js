@@ -4,8 +4,12 @@
 define(['jquery','color_thief'], function ($,color_thief) {
 
 
-    var widget_tmp_xml = '<AbsoluteElement xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="524dp" android:layout_height="768dp"></AbsoluteElement>';
+    var widget_tmp_xml = '<AbsoluteElement xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="400dp" android:layout_height="500dp"></AbsoluteElement>';
     var xml_config =  new DOMParser().parseFromString(widget_tmp_xml, "text/xml");
+
+    var canvas = {};
+    var activeObject = null;
+
 
     var widget_width = 0;
     var widget_height = 0;
@@ -43,7 +47,10 @@ define(['jquery','color_thief'], function ($,color_thief) {
 
     var preview_colors = {};
 
+    var clock_center = {};
 
+    var widget_preview = $('#widget-preview');
+    var widget_area = $('.widget-area');
     var initWidgetConfig = function () {
 
         //if(is_build == 1){
@@ -57,6 +64,12 @@ define(['jquery','color_thief'], function ($,color_thief) {
         this.has_bg_img = image_msg['has_bg_img'];
         this.widget_width = Math.round(image_msg['bg_img_size']['w'] / px_dp_raito);
         this.widget_height = Math.round(image_msg['bg_img_size']['h'] / px_dp_raito);
+        if(this.has_bg_img){
+            $(this.xml_config).find("AbsoluteElement").attr('android:layout_width', this.widget_width + 'dp');
+            $(this.xml_config).find("AbsoluteElement").attr('android:layout_height', this.widget_height + 'dp');
+
+            this.clock_center = {left: this.widget_width / 2, top:  this.widget_height / 2};
+        }
 
         //weather
         this.has_weather = image_msg['has_weather'];
@@ -73,12 +86,9 @@ define(['jquery','color_thief'], function ($,color_thief) {
         //clock
         this.has_clock = image_msg['has_clock'];
 
-        var widget_preview = $('#widget-preview');
-        $('.widget-area').css({'width':this.widget_width,'height':this.widget_height});
-        widget_preview.css({'width':this.widget_width});
 
-        $(this.xml_config).find("AbsoluteElement").attr('android:layout_width', this.widget_width + 'dp');
-        $(this.xml_config).find("AbsoluteElement").attr('android:layout_height', this.widget_height + 'dp');
+        widget_area.css({'width':this.widget_width,'height':this.widget_height});
+        widget_preview.css({'width':this.widget_width});
 
         var fonts_msg = JSON.parse($('#default-fontfamily').val());
 
@@ -93,19 +103,30 @@ define(['jquery','color_thief'], function ($,color_thief) {
             this.default_fontfamily = 'serif';
         }
 
-        var colorThief = new ColorThief();
-
-        var colors = colorThief.getPalette(widget_preview[0], 10);
-        var rgb = '';
-        for(var i = 0;i < colors.length;i++){
-            rgb = '#' + colors[i][0].toString(16) + colors[i][1].toString(16) + colors[i][2].toString(16);
-            this.preview_colors[rgb] = rgb;
-        }
-
 
 
         return this;
     };
+
+    var getRgb = function(num){
+        return ('0'+num.toString(16)).substr(-2)
+    };
+
+    var initPreviewColor = function(){
+
+        var colorThief = new ColorThief();
+        var colors = colorThief.getPalette(widget_preview[0], 10);
+        var rgb = '';
+
+        if(colors != null){
+            for(var i = 0;i < colors.length;i++){
+                rgb = '#' + getRgb(colors[i][0])+ getRgb(colors[i][1]) + getRgb(colors[i][2]);
+                this.preview_colors[rgb] = rgb;
+            }
+        }
+    };
+
+
 
     return {
 
@@ -136,6 +157,11 @@ define(['jquery','color_thief'], function ($,color_thief) {
         default_clock_min_icon:default_clock_min_icon,
         preview_colors:preview_colors,
 
+        canvas:canvas,
+        activeObject:activeObject,
+        clock_center:clock_center,
+
+        initPreviewColor:initPreviewColor,
         initWidgetConfig:initWidgetConfig
 
     };

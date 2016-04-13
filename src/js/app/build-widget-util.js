@@ -7,14 +7,15 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 	var createTextElement = function (text_type, data_format) {
 
 		var TextElement = widget_config.xml_config.createElement('TextElement');
-		$(TextElement).attr('android:layout_width',"wrap_content");
-		$(TextElement).attr('android:layout_height',"wrap_content");
+		//$(TextElement).attr('android:layout_width',"wrap_content");
+		//$(TextElement).attr('android:layout_height',"wrap_content");
 		$(TextElement).attr('android:layout_y',convertDp(widget_config.default_text_top));
 		$(TextElement).attr('android:layout_x',convertDp(widget_config.default_text_left));
 		$(TextElement).attr('android:textColor',convertColor(widget_config.default_font_color));
 		$(TextElement).attr('android:textSize',convertDp(widget_config.default_font_size));
 		$(TextElement).attr('android:typeface', getFontSrc());
 		$(TextElement).attr('android:textCaps', 'title');
+		$(TextElement).attr('android:gravity', 'center');
 		if(text_type == 'CALENDAR'){
 			$(TextElement).attr('android:type',text_type);
 			$(TextElement).attr('android:data',getCalendarFormat(data_format));
@@ -165,6 +166,8 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 
 	var stringCapitalize = function(string,type){
 		var res = '';
+
+		string = string.trim();
 		switch (type) {
 			case 'lower':
 				res = string.toLowerCase();
@@ -183,7 +186,33 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 				res = string.replace(/[a-zA-Z]+/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		}
 
-		return res;
+		return '  ' + res + '  ';
+
+	};
+
+
+
+	var updateElePosition = function(){
+
+		var df_top = widget_config.activeObject.top - widget_config.activeObject.oldPositon.top;
+		var df_left = widget_config.activeObject.left - widget_config.activeObject.oldPositon.left;
+
+		var new_top = parseInt($(widget_config.activeObject.xmlObject).attr('android:layout_y')) + df_top;
+		$(widget_config.activeObject.xmlObject).attr('android:layout_y',convertDp(new_top));
+
+		var new_left = parseInt($(widget_config.activeObject.xmlObject).attr('android:layout_x')) + df_left;
+		$(widget_config.activeObject.xmlObject).attr('android:layout_x',convertDp(new_left));
+
+		widget_config.activeObject.oldPositon.top = widget_config.activeObject.top;
+		widget_config.activeObject.oldPositon.left = widget_config.activeObject.left;
+
+	};
+
+
+	var updateEleAngle = function(){
+		$(widget_config.activeObject.xmlObject).attr('android:rotation', widget_config.activeObject.angle);
+		widget_config.activeObject.oldPositon.top = widget_config.activeObject.top;
+		widget_config.activeObject.oldPositon.left = widget_config.activeObject.left;
 
 	};
 
@@ -200,7 +229,9 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		getXmlRes:getXmlRes,
 		saveWidgetXML:saveWidgetXML,
 		stringCapitalize:stringCapitalize,
-		checkWidgetXML:checkWidgetXML
+		checkWidgetXML:checkWidgetXML,
+		updateElePosition:updateElePosition,
+		updateEleAngle:updateEleAngle
 
 
 

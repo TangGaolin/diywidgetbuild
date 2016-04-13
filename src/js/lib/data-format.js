@@ -114,7 +114,8 @@ define(function () {
 			}
 		}
 		result += getTimeString(tmp);
-		return result;
+		//return result;
+		return '  ' + result + '  ';
 	};
 
 
@@ -152,6 +153,7 @@ define(function () {
 		}
 
 		return res;
+
 	};
 
 
@@ -162,7 +164,8 @@ define(function () {
 		for (var i = 0;i < format_string.length;i++){
 			result += getWeatherString(format_string.charAt(i));
 		}
-		return result;
+		//return result;
+		return '  ' + result + '  ';
 	};
 	
 	
@@ -182,7 +185,7 @@ define(function () {
 				res = format_string;
 		}
 
-		return res;
+		return '  ' + res + '  ';
 	};
 
 

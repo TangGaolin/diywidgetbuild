@@ -252,5 +252,9 @@ define(['jquery','bootstrap','masonry','imagesloaded','util2'],function($,bootst
             });
     });
 
+    var test_text =  $('#test-text');
+    test_text.keyup(function(){
+        $('.test-text').html(test_text.val());
+    });
 
 });
