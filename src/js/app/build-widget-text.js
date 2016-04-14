@@ -115,12 +115,13 @@ define(['jquery', 'build_widget_util','fabric',
             widget_config.canvas.centerObjectH(widget_config.activeObject);
             widget_config.activeObject.lockMovementX = true;
             build_widget_util.updateElePosition();
+            $(widget_config.activeObject.xmlObject).attr('android:layout_width',layout_width);
         }else{
             widget_config.activeObject.lockMovementX = false;
             build_widget_util.updateElePosition();
+            $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
         }
 
-        $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
         widget_config.canvas.renderAll();
     });
     //------------------end
