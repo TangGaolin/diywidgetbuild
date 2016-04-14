@@ -130,7 +130,6 @@ define(['jquery','color_thief'], function ($,color_thief) {
 
     return {
 
-
         widget_width:widget_width,
         widget_height:widget_height,
         has_bg_img:has_bg_img,

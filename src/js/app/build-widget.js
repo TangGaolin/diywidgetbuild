@@ -88,17 +88,7 @@ define(['jquery', 'build_widget_util','fabric',
                         if(widget_config.activeObject.get('type') == 'text'){
                             new_fonts_size = widget_config.activeObject.fontSize + 1;
                             widget_config.activeObject.setFontSize(new_fonts_size);
-
-                            $(widget_config.activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(new_fonts_size));
-
-                            if($(widget_config.activeObject.xmlObject).attr('android:layout_width') == "match_parent"){
-                                widget_config.canvas.centerObjectH(widget_config.activeObject);
-                            }else{
-                                $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
-                                $(widget_config.activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(widget_config.activeObject.height));
-                            }
-
-                            build_widget_text.initTextOptionModfiyArea();
+                            build_widget_text.updateTextSize();
                         }
                         break;
                     }
@@ -139,16 +129,7 @@ define(['jquery', 'build_widget_util','fabric',
                         if(widget_config.activeObject.get('type') == 'text'){
                             new_fonts_size = widget_config.activeObject.fontSize - 1;
                             widget_config.activeObject.setFontSize(new_fonts_size);
-                            $(widget_config.activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(new_fonts_size));
-
-                            if($(widget_config.activeObject.xmlObject).attr('android:layout_width') == "match_parent"){
-                                widget_config.canvas.centerObjectH(widget_config.activeObject);
-                            }else{
-                                $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
-                                $(widget_config.activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(widget_config.activeObject.height));
-                            }
-
-                            build_widget_text.initTextOptionModfiyArea();
+                            build_widget_text.updateTextSize();
                         }
                         break;
                     }
@@ -159,8 +140,6 @@ define(['jquery', 'build_widget_util','fabric',
             }
 
             widget_config.canvas.renderAll();
-
-            console.log(widget_config.activeObject.xmlObject);
 
         });
     })();
@@ -175,6 +154,7 @@ define(['jquery', 'build_widget_util','fabric',
         if(widget_config.activeObject.get('type') == 'image'){
             build_widget_image.initImageOptionModfiyArea();
         }
+
     });
 
     widget_config.canvas.observe('object:modified', function () {

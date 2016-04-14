@@ -85,9 +85,7 @@ define(['jquery', 'build_widget_util','fabric',
             $('#option-modfiy-text-area').show();
             $('#show-text-value').html(widget_config.activeObject.text);
 
-            $('#font_family_id').val($(widget_config.activeObject.xmlObject).attr('android:typeface').split('.').pop());
-
-
+            $('#font-family-id').val($(widget_config.activeObject.xmlObject).attr('android:typeface').split('/').pop());
 
             if($(widget_config.activeObject.xmlObject).attr('android:layout_width') == 'match_parent'){
                 $('#text-layout').val($(widget_config.activeObject.xmlObject).attr('android:layout_width'));
@@ -140,8 +138,9 @@ define(['jquery', 'build_widget_util','fabric',
             widget_config.activeObject.setFontFamily($(this).val().split('.')[0]);
         }
         $(widget_config.activeObject.xmlObject).attr('android:typeface',build_widget_util.getFontSrc($(this).val()));
-        widget_config.canvas.renderAll();
-        initTextOptionModfiyArea();
+
+        updateTextSize();
+
     });
     //------------------end
 
@@ -150,27 +149,34 @@ define(['jquery', 'build_widget_util','fabric',
     var font_size_minus = $("#font-size-minus");
     var font_size_plus = $("#font-size-plus");
     font_size_minus.click(function(){
-        font_size.val( parseInt(font_size.val()) - 1);
-        updateWidgetFontSize();
+        //font_size.val( parseInt(font_size.val()) - 1);
+        widget_config.activeObject.setFontSize(widget_config.activeObject.fontSize - 1);
+        updateTextSize();
     });
     font_size_plus.click(function() {
-        font_size.val(parseInt(font_size.val()) + 1);
-        updateWidgetFontSize();
+        //font_size.val(parseInt(font_size.val()) + 1);
+        widget_config.activeObject.setFontSize(widget_config.activeObject.fontSize + 1);
+        updateTextSize();
     });
     font_size.keyup(function(){
-        updateWidgetFontSize();
+        updateTextSize();
     });
 
-    var updateWidgetFontSize = function(){
-        widget_config.activeObject.setFontSize(font_size.val());
-        if($("#text-layout").val() == 'match_parent'){
+    var updateTextSize = function(){
+
+        if($(widget_config.activeObject.xmlObject).attr('android:layout_width') == "match_parent"){
             widget_config.canvas.centerObjectH(widget_config.activeObject);
+        }else{
+            $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
         }
-        $(widget_config.activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(font_size.val()));
-        $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
         $(widget_config.activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(widget_config.activeObject.height));
 
+        $(widget_config.activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(widget_config.activeObject.fontSize));
+
         widget_config.canvas.renderAll();
+
+        initTextOptionModfiyArea();
+
     };
 
 
@@ -228,7 +234,8 @@ define(['jquery', 'build_widget_util','fabric',
     });
 
     return {
-        initTextOptionModfiyArea:initTextOptionModfiyArea
+        initTextOptionModfiyArea:initTextOptionModfiyArea,
+        updateTextSize:updateTextSize
     };
 
 });
