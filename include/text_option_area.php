@@ -34,10 +34,13 @@
             <label>字体:</label><br/>
             <div class="form-inline">
                 <select class="form-control"  id = 'font-family-id' >
+
                     <?php foreach($font_array as $v){
                         ?>
                         <option value="<?=pathinfo($v['url'],PATHINFO_BASENAME)?>" style="font-family: '<?=$v['font_name']?>';" >10:28 am Wednesday</option>
                     <?php } ?>
+
+                    <option value="serif" style="font-family: serif2" >10:28 am Wednesday</option>
                 </select>
             </div>
         </div>

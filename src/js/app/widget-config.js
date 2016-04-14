@@ -17,8 +17,8 @@ define(['jquery','color_thief'], function ($,color_thief) {
 
     var fonts_config = {};
 
-    var default_fontfamily_file = '';
-    var default_fontfamily =  '';
+    var default_fontfamily_file = 'serif';
+    var default_fontfamily =  'serif2';
 
     var default_font_color =  {a:1,r:0,g:0,b:0};
     var default_font_size =  16;

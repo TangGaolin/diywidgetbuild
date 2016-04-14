@@ -84,7 +84,10 @@ define(['jquery', 'build_widget_util','fabric',
             $('#option-modfiy-image-area').hide();
             $('#option-modfiy-text-area').show();
             $('#show-text-value').html(widget_config.activeObject.text);
+
             $('#font_family_id').val($(widget_config.activeObject.xmlObject).attr('android:typeface').split('.').pop());
+
+
 
             if($(widget_config.activeObject.xmlObject).attr('android:layout_width') == 'match_parent'){
                 $('#text-layout').val($(widget_config.activeObject.xmlObject).attr('android:layout_width'));
@@ -114,12 +117,13 @@ define(['jquery', 'build_widget_util','fabric',
         if(layout_width == 'match_parent'){
             widget_config.canvas.centerObjectH(widget_config.activeObject);
             widget_config.activeObject.lockMovementX = true;
-            build_widget_util.updateElePosition();
             $(widget_config.activeObject.xmlObject).attr('android:layout_width',layout_width);
+            build_widget_util.updateElePosition();
         }else{
             widget_config.activeObject.lockMovementX = false;
-            build_widget_util.updateElePosition();
             $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
+            build_widget_util.updateElePosition();
+
         }
 
         widget_config.canvas.renderAll();
@@ -130,8 +134,12 @@ define(['jquery', 'build_widget_util','fabric',
     //监听文字字体的变化--------family-----------------start
     var font_familys = $("#font-family-id");
     font_familys.change(function(){
-        widget_config.activeObject.setFontFamily($(this).val().split('.')[0]);
-        $(widget_config.activeObject.xmlObject).attr('android:typeface','./fonts/' + $(this).val());
+        if($(this).val() == 'serif'){
+            widget_config.activeObject.setFontFamily('serif2');
+        }else{
+            widget_config.activeObject.setFontFamily($(this).val().split('.')[0]);
+        }
+        $(widget_config.activeObject.xmlObject).attr('android:typeface',build_widget_util.getFontSrc($(this).val()));
         widget_config.canvas.renderAll();
         initTextOptionModfiyArea();
     });
