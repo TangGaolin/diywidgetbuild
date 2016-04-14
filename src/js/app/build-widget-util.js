@@ -85,6 +85,7 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		return lenght.toFixed(1) + 'dp';
 	};
 
+
 	var toHexadecimal = function(num){
 		return ('0' + parseInt(num).toString(16)).substr(-2);
 	};
@@ -96,6 +97,21 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 
 	var convertRgbString = function (color) {
 		return 'rgba(' + color.r +','+ color.g +',' + color.b +','+ color.a + ')';
+	};
+
+	var convertStringToRgb = function (color_string) {
+		var color = { r:0,g:0,b:0,a:1};
+		if(color_string.length != 9){
+			return color;
+		}
+
+		color.a = parseInt(color.substr(1,2),16);
+		color.r = parseInt(color.substr(3,2),16);
+		color.g = parseInt(color.substr(5,2),16);
+		color.b = parseInt(color.substr(7,2),16);
+
+		return convertRgbString(color);
+
 	};
 
 	var getCalendarFormat = function (format) {
@@ -231,7 +247,8 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		stringCapitalize:stringCapitalize,
 		checkWidgetXML:checkWidgetXML,
 		updateElePosition:updateElePosition,
-		updateEleAngle:updateEleAngle
+		updateEleAngle:updateEleAngle,
+		convertStringToRgb:convertStringToRgb
 
 
 

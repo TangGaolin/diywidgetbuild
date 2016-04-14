@@ -8,10 +8,6 @@ define(['jquery', 'build_widget_util','fabric',
 
     widget_config.initWidgetConfig();
 
-    widget_config.canvas = new fabric.Canvas('canvas',{
-        width: widget_config.widget_width,
-        height: widget_config.widget_height
-    });
 
 
     var initWidget = function () {
@@ -45,7 +41,6 @@ define(['jquery', 'build_widget_util','fabric',
 
 
     // Keyboard
-
     var listenKeyBoard = (function () {
         var key_values = [37, 38, 39, 40];
 
