@@ -159,6 +159,7 @@ define(['jquery', 'build_widget_util','fabric',
         updateTextSize();
     });
     font_size.keyup(function(){
+        widget_config.activeObject.setFontSize(parseFloat(font_size.val()));
         updateTextSize();
     });
 

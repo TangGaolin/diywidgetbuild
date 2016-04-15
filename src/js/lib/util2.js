@@ -24,12 +24,15 @@ define(['jquery'], function ($) {
 		return false;
 	};
 
-
+	var getActive = function(){
+		return $(document.activeElement).is('input') || $(document.activeElement).is('textarea');
+	};
 
 	return {
 		msg_style_info:msg_style_info,
 		msg_style_danger:msg_style_danger,
 		showMessage:showMessage,
-		isImage:isImage
+		isImage:isImage,
+		getActive:getActive
 	};
 });

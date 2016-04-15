@@ -52,7 +52,7 @@ define(['jquery', 'build_widget_util','fabric',
         var new_width,new_height,new_fonts_size;
         $(document.body).on('keydown', function (e) {
 
-            if($.inArray(e.which, key_values) == -1 || widget_config.activeObject == null){
+            if($.inArray(e.which, key_values) == -1 || widget_config.activeObject == null || util.getActive()){
                 return;
             }
 
