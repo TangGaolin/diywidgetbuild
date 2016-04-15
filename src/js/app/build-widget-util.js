@@ -13,7 +13,7 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		$(TextElement).attr('android:layout_x',convertDp(widget_config.default_text_left));
 		$(TextElement).attr('android:textColor',convertColor(widget_config.default_font_color));
 		$(TextElement).attr('android:textSize',convertDp(widget_config.default_font_size));
-		$(TextElement).attr('android:typeface', getFontSrc());
+		$(TextElement).attr('android:typeface', getFontSrc(widget_config.default_fontfamily_file));
 		$(TextElement).attr('android:textCaps', 'title');
 		$(TextElement).attr('android:gravity', 'center');
 		if(text_type == 'CALENDAR'){
@@ -105,10 +105,10 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 			return color;
 		}
 
-		color.a = parseInt(color.substr(1,2),16);
-		color.r = parseInt(color.substr(3,2),16);
-		color.g = parseInt(color.substr(5,2),16);
-		color.b = parseInt(color.substr(7,2),16);
+		color.a = color_string.substr(1,2).toLowerCase() == 'ff' ? 1 : (parseInt(color_string.substr(1,2),16) / 255).toFixed(1);
+		color.r = parseInt(color_string.substr(3,2),16);
+		color.g = parseInt(color_string.substr(5,2),16);
+		color.b = parseInt(color_string.substr(7,2),16);
 
 		return convertRgbString(color);
 
@@ -122,24 +122,21 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 	};
 
 
-	var getFontSrc = function () {
-
-		if(widget_config.default_fontfamily_file == ''){
-			return widget_config.default_fontfamily;
+	var getFontSrc = function (font_file) {
+		if(font_file == 'serif'){
+			return font_file;
 		}else{
-			return './fonts/' + widget_config.default_fontfamily_file;
+			return './fonts/' + font_file;
 		}
 	};
 
 
 	var checkWidgetXML = function () {
 		$(widget_config.xml_config).find('TextElement').each(function(){
-			if($(this).attr('android:layout_width') == "match_parent"
-				&& $(this).attr('android:alignment') == "center" ){
+			if($(this).attr('android:layout_width') == "match_parent"){
 				$(this).removeAttr('android:layout_x');
 			}
 		});
-
 	};
 
 
@@ -213,11 +210,15 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		var df_top = widget_config.activeObject.top - widget_config.activeObject.oldPositon.top;
 		var df_left = widget_config.activeObject.left - widget_config.activeObject.oldPositon.left;
 
-		var new_top = parseInt($(widget_config.activeObject.xmlObject).attr('android:layout_y')) + df_top;
+		var new_top = parseFloat($(widget_config.activeObject.xmlObject).attr('android:layout_y')) + df_top;
 		$(widget_config.activeObject.xmlObject).attr('android:layout_y',convertDp(new_top));
 
-		var new_left = parseInt($(widget_config.activeObject.xmlObject).attr('android:layout_x')) + df_left;
+		var old_left = typeof($(widget_config.activeObject.xmlObject).attr('android:layout_x')) == 'undefined'
+			? widget_config.activeObject.oldPositon.left : parseFloat($(widget_config.activeObject.xmlObject).attr('android:layout_x'));
+
+		var new_left = old_left + df_left;
 		$(widget_config.activeObject.xmlObject).attr('android:layout_x',convertDp(new_left));
+
 
 		widget_config.activeObject.oldPositon.top = widget_config.activeObject.top;
 		widget_config.activeObject.oldPositon.left = widget_config.activeObject.left;
@@ -231,6 +232,10 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		widget_config.activeObject.oldPositon.left = widget_config.activeObject.left;
 
 	};
+	var getDataFormatString = function (format) {
+		return format.replace(new RegExp('.*[\"]+(.*)[\"]+.*'), "$1");
+	};
+
 
 	return {
 
@@ -248,7 +253,10 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		checkWidgetXML:checkWidgetXML,
 		updateElePosition:updateElePosition,
 		updateEleAngle:updateEleAngle,
-		convertStringToRgb:convertStringToRgb
+		convertStringToRgb:convertStringToRgb,
+		getFontSrc:getFontSrc,
+		getDataFormatString:getDataFormatString
+
 
 
 

@@ -341,7 +341,63 @@ define(['jquery', 'build_widget_util','fabric',
         }
     };
 
+
+    var initImageObjWithXML = function () {
+
+        var image_type,image_url,layout_width,layout_height,layout_x,layout_y;
+        $(widget_config.xml_config).find("ImageElement").each(function(){
+
+            image_type = typeof($(this).attr("android:type")) == "undefined" ? false : $(this).attr("android:type");
+            image_url = $(this).attr("android:src");
+            layout_width = $(this).attr("android:layout_width");
+            layout_height = $(this).attr("android:layout_height");
+            layout_y = $(this).attr("android:layout_y");
+            layout_x = $(this).attr("android:layout_x");
+
+            if(image_type == false){
+
+                var image_name = image_url.substr(image_url.lastIndexOf('/') + 1);
+                if(image_name == widget_config.default_bg_img
+                    && layout_width == 'match_parent' && layout_height == 'match_parent'){
+                    fabric.Image.fromURL(widget_config.widget_base_path + 'icons/' + image_name, function (oImg) {
+
+                        oImg.setWidth(widget_config.widget_width);
+                        oImg.setHeight(widget_config.widget_height);
+                        oImg.setTop(-0.5);
+                        oImg.setLeft(-0.5);
+                        oImg.selectable = false;
+                        widget_config.canvas.add(oImg);
+                        widget_config.canvas.moveTo(oImg,-100);
+                    });
+
+                }else{
+                    fabric.Image.fromURL(widget_config.widget_base_path + 'icons/' + image_name, function (oImg) {
+                        if(layout_width == 'wrap_content' && layout_height == 'wrap_content'){
+                            oImg.setWidth((oImg.width / widget_config.px_dp_raito).toFixed(1));
+                            oImg.setHeight((oImg.height / widget_config.px_dp_raito).toFixed(1));
+                        }else{
+                            oImg.setWidth(parseFloat(layout_width));
+                            oImg.setHeight(parseFloat(layout_height));
+                        }
+                        oImg.setTop(parseFloat(layout_y));
+                        oImg.setLeft(parseFloat(layout_x));
+
+                        oImg.oldPositon = {top: oImg.top, left: oImg.left};
+                        widget_config.canvas.add(oImg);
+                    });
+                }
+            }
+
+
+        });
+    };
+
+
+
+
+
     return {
-        initImageOptionModfiyArea:initImageOptionModfiyArea
+        initImageOptionModfiyArea:initImageOptionModfiyArea,
+        initImageObjWithXML:initImageObjWithXML
     };
 });

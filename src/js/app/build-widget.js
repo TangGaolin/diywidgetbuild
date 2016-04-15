@@ -5,30 +5,50 @@ define(['jquery', 'build_widget_util','fabric',
     'widget_config','bootstrap','colorpicker',
     'slider','data_format','util2','build_widget_text','build_widget_image'],function($,build_widget_util,fab,widget_config,bootstrap,colorpicker,slider,format_data,util,build_widget_text,build_widget_image) {
 
-
     widget_config.initWidgetConfig();
 
-
+    widget_config.canvas = new fabric.Canvas('canvas',{
+        width: widget_config.widget_width,
+        height: widget_config.widget_height
+    });
 
     var initWidget = function () {
-        if(widget_config.has_bg_img){
-            //widget_config
-            fabric.Image.fromURL(widget_config.widget_base_path+'icons/'+widget_config.default_bg_img,  function(oImg) {
-                oImg.setWidth(widget_config.canvas.width);
-                oImg.setHeight(widget_config.canvas.height);
-                oImg.setTop(-0.5);
-                oImg.setLeft(-0.5);
-                oImg.selectable = false;
-                oImg.xmlObject = build_widget_util.createImageElement('bg',widget_config.default_bg_img);
-                widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
-                widget_config.canvas.add(oImg);
 
-            });
+        if(widget_config.is_build){
+            widget_config.widget_tmp_xml = $('#widget_xml_string').val();
+            widget_config.xml_config =  new DOMParser().parseFromString(widget_config.widget_tmp_xml, "text/xml");
+
+            console.log(widget_config.xml_config);
+
+            build_widget_image.initImageObjWithXML();
+
+            build_widget_text.initTextObjWithXML();
+
+        }else{
+
+            if(widget_config.has_bg_img){
+                //widget_config
+                fabric.Image.fromURL(widget_config.widget_base_path+'icons/'+widget_config.default_bg_img,  function(oImg) {
+                    oImg.setWidth(widget_config.canvas.width);
+                    oImg.setHeight(widget_config.canvas.height);
+                    oImg.setTop(-0.5);
+                    oImg.setLeft(-0.5);
+                    oImg.selectable = false;
+                    oImg.xmlObject = build_widget_util.createImageElement('bg',widget_config.default_bg_img);
+                    widget_config.xml_config.firstChild.appendChild(oImg.xmlObject);
+                    widget_config.canvas.add(oImg);
+
+                });
+            }
         }
+
         widget_config.canvas.renderAll();
 
         return this;
     };
+
+
+
 
 
     //change Bg Color
@@ -47,7 +67,7 @@ define(['jquery', 'build_widget_util','fabric',
         var new_width,new_height,new_fonts_size;
         $(document.body).on('keydown', function (e) {
 
-            if($.inArray(e.which, key_values) == -1 || widget_config.activeObject == null){
+            if($.inArray(e.which, key_values) == -1 || widget_config.activeObject == null || util.getActive()){
                 return;
             }
 
@@ -83,17 +103,7 @@ define(['jquery', 'build_widget_util','fabric',
                         if(widget_config.activeObject.get('type') == 'text'){
                             new_fonts_size = widget_config.activeObject.fontSize + 1;
                             widget_config.activeObject.setFontSize(new_fonts_size);
-
-                            $(widget_config.activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(new_fonts_size));
-
-                            if($(widget_config.activeObject.xmlObject).attr('android:layout_width') == "match_parent"){
-                                widget_config.canvas.centerObjectH(widget_config.activeObject);
-                            }else{
-                                $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
-                                $(widget_config.activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(widget_config.activeObject.height));
-                            }
-
-                            build_widget_text.initTextOptionModfiyArea();
+                            build_widget_text.updateTextSize();
                         }
                         break;
                     }
@@ -134,16 +144,7 @@ define(['jquery', 'build_widget_util','fabric',
                         if(widget_config.activeObject.get('type') == 'text'){
                             new_fonts_size = widget_config.activeObject.fontSize - 1;
                             widget_config.activeObject.setFontSize(new_fonts_size);
-                            $(widget_config.activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(new_fonts_size));
-
-                            if($(widget_config.activeObject.xmlObject).attr('android:layout_width') == "match_parent"){
-                                widget_config.canvas.centerObjectH(widget_config.activeObject);
-                            }else{
-                                $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
-                                $(widget_config.activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(widget_config.activeObject.height));
-                            }
-
-                            build_widget_text.initTextOptionModfiyArea();
+                            build_widget_text.updateTextSize();
                         }
                         break;
                     }
@@ -154,8 +155,6 @@ define(['jquery', 'build_widget_util','fabric',
             }
 
             widget_config.canvas.renderAll();
-
-            console.log(widget_config.activeObject.xmlObject);
 
         });
     })();
@@ -170,6 +169,7 @@ define(['jquery', 'build_widget_util','fabric',
         if(widget_config.activeObject.get('type') == 'image'){
             build_widget_image.initImageOptionModfiyArea();
         }
+
     });
 
     widget_config.canvas.observe('object:modified', function () {

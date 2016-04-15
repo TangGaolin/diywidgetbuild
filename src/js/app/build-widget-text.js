@@ -84,7 +84,8 @@ define(['jquery', 'build_widget_util','fabric',
             $('#option-modfiy-image-area').hide();
             $('#option-modfiy-text-area').show();
             $('#show-text-value').html(widget_config.activeObject.text);
-            $('#font_family_id').val($(widget_config.activeObject.xmlObject).attr('android:typeface').split('.').pop());
+
+            $('#font-family-id').val($(widget_config.activeObject.xmlObject).attr('android:typeface').split('/').pop());
 
             if($(widget_config.activeObject.xmlObject).attr('android:layout_width') == 'match_parent'){
                 $('#text-layout').val($(widget_config.activeObject.xmlObject).attr('android:layout_width'));
@@ -114,13 +115,15 @@ define(['jquery', 'build_widget_util','fabric',
         if(layout_width == 'match_parent'){
             widget_config.canvas.centerObjectH(widget_config.activeObject);
             widget_config.activeObject.lockMovementX = true;
+            $(widget_config.activeObject.xmlObject).attr('android:layout_width',layout_width);
             build_widget_util.updateElePosition();
         }else{
             widget_config.activeObject.lockMovementX = false;
+            $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
             build_widget_util.updateElePosition();
+
         }
 
-        $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
         widget_config.canvas.renderAll();
     });
     //------------------end
@@ -129,10 +132,15 @@ define(['jquery', 'build_widget_util','fabric',
     //监听文字字体的变化--------family-----------------start
     var font_familys = $("#font-family-id");
     font_familys.change(function(){
-        widget_config.activeObject.setFontFamily($(this).val().split('.')[0]);
-        $(widget_config.activeObject.xmlObject).attr('android:typeface','./fonts/' + $(this).val());
-        widget_config.canvas.renderAll();
-        initTextOptionModfiyArea();
+        if($(this).val() == 'serif'){
+            widget_config.activeObject.setFontFamily('serif2');
+        }else{
+            widget_config.activeObject.setFontFamily($(this).val().split('.')[0]);
+        }
+        $(widget_config.activeObject.xmlObject).attr('android:typeface',build_widget_util.getFontSrc($(this).val()));
+
+        updateTextSize();
+
     });
     //------------------end
 
@@ -141,27 +149,35 @@ define(['jquery', 'build_widget_util','fabric',
     var font_size_minus = $("#font-size-minus");
     var font_size_plus = $("#font-size-plus");
     font_size_minus.click(function(){
-        font_size.val( parseInt(font_size.val()) - 1);
-        updateWidgetFontSize();
+        //font_size.val( parseInt(font_size.val()) - 1);
+        widget_config.activeObject.setFontSize(widget_config.activeObject.fontSize - 1);
+        updateTextSize();
     });
     font_size_plus.click(function() {
-        font_size.val(parseInt(font_size.val()) + 1);
-        updateWidgetFontSize();
+        //font_size.val(parseInt(font_size.val()) + 1);
+        widget_config.activeObject.setFontSize(widget_config.activeObject.fontSize + 1);
+        updateTextSize();
     });
     font_size.keyup(function(){
-        updateWidgetFontSize();
+        widget_config.activeObject.setFontSize(parseFloat(font_size.val()));
+        updateTextSize();
     });
 
-    var updateWidgetFontSize = function(){
-        widget_config.activeObject.setFontSize(font_size.val());
-        if($("#text-layout").val() == 'match_parent'){
+    var updateTextSize = function(){
+
+        if($(widget_config.activeObject.xmlObject).attr('android:layout_width') == "match_parent"){
             widget_config.canvas.centerObjectH(widget_config.activeObject);
+        }else{
+            $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
         }
-        $(widget_config.activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(font_size.val()));
-        $(widget_config.activeObject.xmlObject).attr('android:layout_width',build_widget_util.convertDp(widget_config.activeObject.width));
         $(widget_config.activeObject.xmlObject).attr('android:layout_height',build_widget_util.convertDp(widget_config.activeObject.height));
 
+        $(widget_config.activeObject.xmlObject).attr('android:textSize',build_widget_util.convertDp(widget_config.activeObject.fontSize));
+
         widget_config.canvas.renderAll();
+
+        initTextOptionModfiyArea();
+
     };
 
 
@@ -209,7 +225,7 @@ define(['jquery', 'build_widget_util','fabric',
 
     //-----------------end
 
-    //删除当前文字元素----------------------angle--------------------start
+    //删除当前文字元素 ----------------------angle--------------------start
     var deleteTextBtn = $('#delete-text');
     deleteTextBtn.click(function(){
         widget_config.canvas.remove(widget_config.activeObject);
@@ -217,9 +233,79 @@ define(['jquery', 'build_widget_util','fabric',
         widget_config.activeObject = null;
         initTextOptionModfiyArea();
     });
+    
+    
+    var initTextObjWithXML = function () {
+
+        var oText_text = '';
+        var android_text,android_type,android_textCaps,android_data,oText;
+        $(widget_config.xml_config).find("TextElement").each(function(){
+
+            android_text = typeof($(this).attr("android:text")) == "undefined" ? false : $(this).attr("android:text");
+            android_type = typeof($(this).attr("android:type")) == "undefined" ? false : $(this).attr("android:type");
+            android_textCaps = typeof($(this).attr("android:textCaps")) == "undefined" ? false : $(this).attr("android:textCaps");
+            android_data = typeof($(this).attr("android:data")) == "undefined" ? false : build_widget_util.getDataFormatString($(this).attr("android:data"));
+            if(android_type != false){
+                if(android_type == 'CALENDAR'){
+                    oText_text = format_data.timeFormat(android_data);
+                }else if(android_type == 'WEATHER'){
+                    oText_text = format_data.weatherFormat(android_data);
+                }else if(android_type == 'OTHER'){
+                    oText_text = format_data.otherFormat(android_data);
+                }else if(android_type == 'CUSTOM'){
+                    oText_text = android_data;
+                }else{
+                    oText_text = ' no type error ??? ';
+                }
+            }else if(android_text != false){
+                oText_text = android_text;
+            }else{
+                oText_text = ' no type error ??? ';
+            }
+
+            oText_text = build_widget_util.stringCapitalize(oText_text,android_textCaps);
+
+            oText = new fabric.Text(oText_text, {
+                fontFamily: widget_config.default_fontfamily == 'serif'? 'serif2' : widget_config.default_fontfamily,
+                fill:build_widget_util.convertRgbString(widget_config.default_font_color),
+                fontSize:widget_config.default_font_size,
+                top:widget_config.default_text_top,
+                left:widget_config.default_text_left,
+                lineHeight:1
+            });
+
+
+            oText.setTop(parseFloat($(this).attr("android:layout_y")));
+            oText.setLeft(typeof($(this).attr("android:layout_x")) == 'undefined' ? 0 : parseFloat($(this).attr("android:layout_x")));
+            oText.setFontFamily($(this).attr("android:typeface") == 'serif' ? 'serif2': $(this).attr("android:typeface").substring($(this).attr("android:typeface").lastIndexOf('/')+1).split('.').shift());
+            oText.setFill(build_widget_util.convertStringToRgb($(this).attr("android:textColor")));
+
+            oText.setFontSize(parseFloat($(this).attr("android:textSize")));
+            oText.oldPositon = {top:oText.top,left:oText.left};
+            oText.xmlObject = this;
+            oText.hasControls = false;
+            widget_config.canvas.add(oText);
+
+            if($(this).attr('android:layout_width') == 'match_parent'){
+                widget_config.canvas.centerObjectH(oText);
+                oText.lockMovementX = true;
+                oText.setCoords();
+                oText.oldPositon.left = oText.left;
+            }
+
+            widget_config.canvas.setActiveObject(oText);
+            widget_config.activeObject = oText;
+            console.log(oText.xmlObject);
+
+        });
+    };
+    
+    
 
     return {
-        initTextOptionModfiyArea:initTextOptionModfiyArea
+        initTextOptionModfiyArea:initTextOptionModfiyArea,
+        updateTextSize:updateTextSize,
+        initTextObjWithXML:initTextObjWithXML
     };
 
 });
