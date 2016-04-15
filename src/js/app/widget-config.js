@@ -1,7 +1,7 @@
 /**
  * Created by tanggaolin on 16-3-21.
  */
-define(['jquery','fabric','color_thief','build_widget_util','data_format'], function ($,fab,color_thief,build_widget_util,format_data) {
+define(['jquery','fabric','color_thief','util2','data_format'], function ($,fab,color_thief,util,format_data) {
 
 
     var widget_tmp_xml = '<AbsoluteElement xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="400dp" android:layout_height="500dp"></AbsoluteElement>';
@@ -49,26 +49,47 @@ define(['jquery','fabric','color_thief','build_widget_util','data_format'], func
 
     var widget_preview = $('#widget-preview');
     var widget_area = $('.widget-area');
+    
+
 
     var initWidgetConfig = function () {
-
         if(is_build == 1){
-            var oText = null;
-            this.xml_config =  new DOMParser().parseFromString($('#widget_xml_string').val(), "text/xml");
-            $(this.xml_config).find("ImageElement").each(function(){
 
-            });
+            this.widget_tmp_xml = $('#widget_xml_string').val();
 
-            $(this.xml_config).find("TextElement").each(function(){
-                oText =  initCanvasTextObj(this);
-            });
+            this.xml_config =  new DOMParser().parseFromString(this.widget_tmp_xml, "text/xml");
 
+            this.widget_width = parseInt($(this.xml_config).find("AbsoluteElement").attr('android:layout_width'));
+            this.widget_height = parseInt($(this.xml_config).find("AbsoluteElement").attr('android:layout_height'));
 
+            widget_area.css({'width':this.widget_width,'height':this.widget_height});
+            widget_preview.css({'width':this.widget_width});
 
             this.canvas = new fabric.Canvas('canvas',{
                 width: this.widget_width,
                 height: this.widget_height
             });
+
+            console.log(this.canvas);
+
+
+            var oText = null;
+
+            //$(this.xml_config).find("ImageElement").each(function(){
+            //
+            //});
+            //
+
+            var text_eles =  $(this.xml_config).find("TextElement");
+            for (var i = 0;i < text_eles.length ; i++){
+                oText =  initCanvasTextObj(text_eles[i]);
+                oText.hasControls = false;
+                oText.oldPositon = {top:oText.top, left:oText.left};
+                this.canvas.add(oText);
+
+            }
+
+            this.canvas.renderAll();
 
         }else{
 
@@ -148,10 +169,9 @@ define(['jquery','fabric','color_thief','build_widget_util','data_format'], func
     var initCanvasTextObj = function(text_element){
 
         var oText_text = '';
-
         var oText_attr = {
             fontFamily: default_fontfamily == 'serif'? 'serif2' : default_fontfamily,
-            fill:build_widget_util.convertRgbString(default_font_color),
+            fill:util.convertRgbString(default_font_color),
             fontSize:default_font_size,
             top:default_text_top,
             left:default_text_left,
@@ -162,8 +182,7 @@ define(['jquery','fabric','color_thief','build_widget_util','data_format'], func
         var android_text = typeof($(text_element).attr("android:text")) == "undefined" ? false : $(text_element).attr("android:text");
         var android_type = typeof($(text_element).attr("android:type")) == "undefined" ? false : $(text_element).attr("android:type");
         var android_textCaps = typeof($(text_element).attr("android:textCaps")) == "undefined" ? false : $(text_element).attr("android:textCaps");
-        var android_data = typeof($(text_element).attr("android:data")) == "undefined" ? false : $(text_element).attr("android:data");
-
+        var android_data = typeof($(text_element).attr("android:data")) == "undefined" ? false : util.getDataFormatString($(text_element).attr("android:data"));
         if(android_type != false){
             if(android_type == 'CALENDAR'){
                 oText_text = format_data.timeFormat(android_data);
@@ -182,15 +201,21 @@ define(['jquery','fabric','color_thief','build_widget_util','data_format'], func
             oText_text = ' no type error ??? ';
         }
 
-        oText_text = build_widget_util.stringCapitalize(oText_text,android_textCaps);
+        oText_text = util.stringCapitalize(oText_text,android_textCaps);
 
 
         //set top
         oText_attr.top = typeof($(text_element).attr("android:layout_y")) == "undefined" ? default_text_top : parseFloat($(text_element).attr("android:layout_y"));
         //set left
         oText_attr.left = typeof($(text_element).attr("android:layout_x")) == "undefined" ? false : parseFloat($(text_element).attr("android:layout_x"));
+
+        //set top
+        oText_attr.top = typeof($(text_element).attr("android:layout_y")) == "undefined" ? default_text_top : parseFloat($(text_element).attr("android:layout_y"));
+        //set left
+        oText_attr.left = typeof($(text_element).attr("android:layout_x")) == "undefined" ? false : parseFloat($(text_element).attr("android:layout_x"));
+
         oText_attr.fontFamily = typeof($(text_element).attr("android:typeface")) == "undefined"  ? default_fontfamily : $(text_element).attr("android:typeface").substring($(text_element).attr("android:typeface").lastIndexOf('/')+1).split('.').shift();
-        oText_attr.fill  = typeof($(text_element).attr("android:textColor")) == "undefined"  ? '#000000' : build_widget_util.convertStringToRgb($(text_element).attr("android:textColor"));
+        oText_attr.fill  = typeof($(text_element).attr("android:textColor")) == "undefined"  ? util.convertRgbString(default_font_color) : util.convertStringToRgb($(text_element).attr("android:textColor"));
         oText_attr.fontSize  = typeof($(text_element).attr("android:textSize")) == "undefined"  ? default_font_size :parseFloat($(text_element).attr("android:textSize"));
 
         return new fabric.Text(oText_text, oText_attr);
@@ -234,6 +259,7 @@ define(['jquery','fabric','color_thief','build_widget_util','data_format'], func
 
         initPreviewColor:initPreviewColor,
         initWidgetConfig:initWidgetConfig
+
 
     };
 });

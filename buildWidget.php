@@ -21,7 +21,9 @@ $font_array = getFontTypes($widget_base_path . 'fonts/');
 $image_msg_array = getImageRes($widget_base_path);
 
 $is_build = checkZipFlie($widget_zip);
-
+if($is_build){
+    $widget_xml_string = str_replace('&','&amp;',file_get_contents($widget_xml)) ;
+}
 ?>
 
 <!DOCTYPE html>
@@ -100,7 +102,7 @@ $is_build = checkZipFlie($widget_zip);
 
 
                 <?php  if($is_build){ ?>
-                    <input type="hidden" value='<?=file_get_contents($widget_xml)?>' id = 'widget_xml_string'/>
+                    <input type="hidden" value='<?=$widget_xml_string?>' id = 'widget_xml_string'/>
                     <span class="pull-right">
                         <a  href="<?=$widget_zip?>">下 载</a>
                         &nbsp;&nbsp;
