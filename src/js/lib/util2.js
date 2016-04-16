@@ -26,7 +26,6 @@ define(['jquery'], function ($) {
 
 
 
-
 	var getActive = function(){
 		return $(document.activeElement).is('input') || $(document.activeElement).is('textarea');
 	};
@@ -36,8 +35,8 @@ define(['jquery'], function ($) {
 		msg_style_danger:msg_style_danger,
 		showMessage:showMessage,
 		isImage:isImage,
-
 		getActive:getActive
+
 
 	};
 });

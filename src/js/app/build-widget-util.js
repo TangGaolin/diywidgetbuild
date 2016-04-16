@@ -123,6 +123,7 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 
 
 	var getFontSrc = function (font_file) {
+
 		if(font_file == 'serif'){
 			return font_file;
 		}else{
@@ -253,10 +254,10 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		checkWidgetXML:checkWidgetXML,
 		updateElePosition:updateElePosition,
 		updateEleAngle:updateEleAngle,
+
 		convertStringToRgb:convertStringToRgb,
 		getFontSrc:getFontSrc,
 		getDataFormatString:getDataFormatString
-
 
 
 

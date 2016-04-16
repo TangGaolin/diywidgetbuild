@@ -369,7 +369,6 @@ define(['jquery', 'build_widget_util','fabric',
                         widget_config.canvas.add(oImg);
                         widget_config.canvas.moveTo(oImg,-100);
                     });
-
                 }else{
                     fabric.Image.fromURL(widget_config.widget_base_path + 'icons/' + image_name, function (oImg) {
                         if(layout_width == 'wrap_content' && layout_height == 'wrap_content'){
@@ -381,12 +380,48 @@ define(['jquery', 'build_widget_util','fabric',
                         }
                         oImg.setTop(parseFloat(layout_y));
                         oImg.setLeft(parseFloat(layout_x));
-
+                        oImg.hasControls = false;
                         oImg.oldPositon = {top: oImg.top, left: oImg.left};
                         widget_config.canvas.add(oImg);
                     });
                 }
+
+            }else{
+
+                if(image_type == 'BATTERY_LEVEL_IMAGE'){
+                    image_url = widget_config.default_battery_icon;
+                }
+
+                if(image_type == 'WEATHER_LEVEL_IMAGE'){
+                    image_url = widget_config.default_weather_icon;
+                }
+
+                if(image_type == 'TIME_MINUTE_IMAGE'){
+                    image_url = widget_config.default_clock_min_icon;
+                }
+
+                if(image_type == 'TIME_HOUR_IMAGE'){
+                    image_url = widget_config.default_clock_hour_icon;
+                }
+
+                fabric.Image.fromURL(image_url, function (oImg) {
+                    if(layout_width == 'wrap_content' && layout_height == 'wrap_content'){
+                        oImg.setWidth((oImg.width / widget_config.px_dp_raito).toFixed(1));
+                        oImg.setHeight((oImg.height / widget_config.px_dp_raito).toFixed(1));
+                    }else{
+                        oImg.setWidth(parseFloat(layout_width));
+                        oImg.setHeight(parseFloat(layout_height));
+                    }
+                    oImg.setTop(parseFloat(layout_y));
+                    oImg.setLeft(parseFloat(layout_x));
+                    oImg.hasControls = false;
+                    oImg.oldPositon = {top: oImg.top, left: oImg.left};
+                    widget_config.canvas.add(oImg);
+                });
+
+
             }
+
 
 
         });

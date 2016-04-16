@@ -94,8 +94,8 @@ define(['jquery','color_thief','util2','data_format'], function ($,color_thief,u
             this.default_fontfamily = fonts_msg[0]['font_name'];
         }else{
             this.fonts_config = fonts_msg;
-            this.default_fontfamily_file = '';
-            this.default_fontfamily = 'serif';
+            this.default_fontfamily_file = 'serif';
+            this.default_fontfamily = 'serif2';
         }
         return this;
 
