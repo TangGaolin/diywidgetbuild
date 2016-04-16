@@ -107,6 +107,7 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 
 
 	var getFontSrc = function (font_file) {
+
 		if(font_file == 'serif'){
 			return font_file;
 		}else{

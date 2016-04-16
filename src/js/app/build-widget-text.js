@@ -57,13 +57,14 @@ define(['jquery', 'build_widget_util','fabric',
         });
 
 
+
         oText.xmlObject = build_widget_util.createTextElement(text_type,data_format);
         oText.oldPositon = {top:widget_config.default_text_top, left:widget_config.default_text_left};
         $(oText.xmlObject).attr('android:layout_width',build_widget_util.convertDp(oText.width));
         $(oText.xmlObject).attr('android:layout_height',build_widget_util.convertDp(oText.height));
 
         widget_config.xml_config.firstChild.appendChild(oText.xmlObject);
-        //console.log(widget_config.xml_config);
+
 
         oText.hasControls = false;
         widget_config.canvas.add(oText);
