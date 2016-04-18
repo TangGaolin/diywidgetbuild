@@ -5,7 +5,7 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#date-area" aria-controls="home" role="tab" data-toggle="tab">日期 / 时间</a></li>
             <li role="presentation"><a href="#weather-area"  role="tab" data-toggle="tab">天气</a></li>
-            <li role="presentation"><a href="#battery-area"  role="tab" data-toggle="tab">电量</a></li>
+            <li role="presentation"><a href="#battery-text-area"  role="tab" data-toggle="tab">电量</a></li>
             <li role="presentation"><a href="#communcation-area"  role="tab" data-toggle="tab">通信</a></li>
             <li role="presentation"><a href="#custom-area"   role="tab" data-toggle="tab">自定义</a></li>
         </ul>
@@ -67,7 +67,7 @@
             </div>
 
 
-            <div role="tabpanel" class="tab-pane" id="battery-area" data-type="BATTERY">
+            <div role="tabpanel" class="tab-pane" id="battery-text-area" data-type="BATTERY">
                 <div>
                     <div class="btn-group btn-sm" role="group" >
                         <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'L'>80 (电量百分比)</button>
