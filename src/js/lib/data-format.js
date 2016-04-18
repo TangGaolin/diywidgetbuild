@@ -104,7 +104,18 @@ define(function () {
 		var curr_char = '';
 		var next_char = '';
 
+		var flag = false;
 		for (var i = 0;i < format_string.length;i++){
+
+			if(format_string.charAt(i) == "'"){
+				flag = !flag;
+				continue;
+			}
+			if(flag){
+				result += format_string.charAt(i);
+				continue;
+			}
+
 			curr_char = format_string.charAt(i);
 			tmp += curr_char;
 			next_char = i+1 < format_string.length ? format_string.charAt(i+1) : '';
@@ -160,8 +171,18 @@ define(function () {
 
 	var weatherFormat = function(format_string){
 
-		var result = '';
-		for (var i = 0;i < format_string.length;i++){
+
+		var result = '',flag = false;
+		for (var i = 0; i < format_string.length; i++){
+			if(format_string.charAt(i) == "'"){
+				flag = !flag;
+				continue;
+			}
+			if(flag){
+				result += format_string.charAt(i);
+				continue;
+			}
+
 			result += getWeatherString(format_string.charAt(i));
 		}
 		//return result;
@@ -188,6 +209,81 @@ define(function () {
 		return '  ' + res + '  ';
 	};
 
+	var getCommuncationString = function(str){
+		var res = '';
+		switch (str) {
+			case 'S':
+				res = '2';
+				break;
+			case 'C':
+				res = '1';
+				break;
+
+			default:
+				res = str;
+		}
+
+		return res;
+	};
+
+	var communcationFormat = function (format_string) {
+
+		var result = '',flag = false;
+		for (var i = 0;i < format_string.length;i++){
+			if(format_string.charAt(i) == "'"){
+				flag = !flag;
+				continue;
+			}
+			if(flag){
+				result += format_string.charAt(i);
+				continue;
+			}
+
+			result += getCommuncationString(format_string.charAt(i));
+		}
+		//return result;
+		return '  ' + result + '  ';
+
+	};
+
+	var getBatteryString = function(str){
+		var res = '';
+		switch (str) {
+			case 'L':
+				res = '100';
+				break;
+			default:
+				res = str;
+		}
+
+		return res;
+	};
+
+
+
+	var batteryFormat = function (format_string) {
+
+
+		var result = '',flag = false;
+		for (var i = 0;i < format_string.length;i++){
+			if(format_string.charAt(i) == "'"){
+				flag = !flag;
+				continue;
+			}
+			if(flag){
+				result += format_string.charAt(i);
+				continue;
+			}
+
+			result += getBatteryString(format_string.charAt(i));
+		}
+		//return result;
+		return '  ' + result + '  ';
+
+	};
+
+
+
 
 
 
@@ -195,6 +291,8 @@ define(function () {
 		timeFormat:timeFormat,
 		numToWords:numToWords,
 		weatherFormat:weatherFormat,
-		otherFormat:otherFormat
+		otherFormat:otherFormat,
+		communcationFormat:communcationFormat,
+		batteryFormat:batteryFormat
 	};
 });

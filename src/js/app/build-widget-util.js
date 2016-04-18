@@ -22,6 +22,14 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		}else if(text_type == 'WEATHER'){
 			$(TextElement).attr('android:type',text_type);
 			$(TextElement).attr('android:data',getWeatherFormat(data_format));
+
+		}else if(text_type == 'COMMUNICATION'){
+			$(TextElement).attr('android:type',text_type);
+			$(TextElement).attr('android:data',getCommuncationFormat(data_format));
+
+		}else if(text_type == 'BATTERY'){
+			$(TextElement).attr('android:type',text_type);
+			$(TextElement).attr('android:data',getBatteryFormat(data_format));
 		}else if(text_type == 'OTHER'){
 			$(TextElement).attr('android:type',data_format);
 		}else if(text_type == 'CUSTOM'){
@@ -105,6 +113,13 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 		return '{weatherFormat:"'+format+'"}';
 	};
 
+	var getCommuncationFormat = function (format) {
+		return '{communicationFormat:"'+format+'"}';
+	};
+
+	var getBatteryFormat = function (format) {
+		return '{batteryFormat:"'+format+'"}';
+	};
 
 	var getFontSrc = function (font_file) {
 

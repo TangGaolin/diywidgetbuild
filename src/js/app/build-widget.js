@@ -139,6 +139,7 @@ define(['jquery', 'build_widget_util','fabric',
                     break;
             }
 
+            console.log(widget_config.activeObject.xmlObject);
             widget_config.canvas.renderAll();
 
         });
