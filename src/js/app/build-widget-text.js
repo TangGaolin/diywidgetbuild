@@ -19,7 +19,7 @@ define(['jquery', 'build_widget_util','fabric',
         var root_ele= build_widget_util.findRootTag($(this),tab_pane);
         var text_type = root_ele.attr('data-type');
 
-        var data_format = $('.input-format',root_ele).val();
+        var data_format = $('.input-format',root_ele).val().trim();
         if(data_format.length == 0){
             util.showMessage('输入框不能为空!',util.msg_style_danger);
         }else{
@@ -37,6 +37,10 @@ define(['jquery', 'build_widget_util','fabric',
             data_text = format_data.timeFormat(data_format);
         }else if(text_type == 'WEATHER'){
             data_text = format_data.weatherFormat(data_format);
+        }else if(text_type == 'COMMUNICATION'){
+            data_text = format_data.communcationFormat(data_format);
+        }else if(text_type == 'BATTERY'){
+            data_text = format_data.batteryFormat(data_format);
         }else if(text_type == 'OTHER'){
             data_text = format_data.otherFormat(data_format);
         }else if(text_type == 'CUSTOM'){
@@ -106,9 +110,6 @@ define(['jquery', 'build_widget_util','fabric',
         }
 
     };
-
-
-
 
     //监听文字元素的布局方式----------layout-----------------------start
     $("#text-layout").change(function(){
@@ -196,7 +197,6 @@ define(['jquery', 'build_widget_util','fabric',
             widget_config.activeObject.setFill(build_widget_util.convertRgbString(e.color.toRGB()));
             $(widget_config.activeObject.xmlObject).attr('android:textColor',build_widget_util.convertColor(e.color.toRGB()));
             widget_config.canvas.renderAll();
-            console.log(widget_config.preview_colors);
         }
     );
 
@@ -296,7 +296,6 @@ define(['jquery', 'build_widget_util','fabric',
 
             widget_config.canvas.setActiveObject(oText);
             widget_config.activeObject = oText;
-            console.log(oText.xmlObject);
 
         });
     };

@@ -5,7 +5,8 @@
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#date-area" aria-controls="home" role="tab" data-toggle="tab">日期 / 时间</a></li>
             <li role="presentation"><a href="#weather-area"  role="tab" data-toggle="tab">天气</a></li>
-            <li role="presentation"><a href="#other-area"  role="tab" data-toggle="tab">电量/提醒</a></li>
+            <li role="presentation"><a href="#battery-area"  role="tab" data-toggle="tab">电量</a></li>
+            <li role="presentation"><a href="#communcation-area"  role="tab" data-toggle="tab">通信</a></li>
             <li role="presentation"><a href="#custom-area"   role="tab" data-toggle="tab">自定义</a></li>
         </ul>
 
@@ -66,31 +67,46 @@
             </div>
 
 
-            <div role="tabpanel" class="tab-pane" id="other-area" data-type="OTHER">
+            <div role="tabpanel" class="tab-pane" id="battery-area" data-type="BATTERY">
                 <div>
                     <div class="btn-group btn-sm" role="group" >
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'SMS_UNREAD'>SMS:8 (未读消息)</button>
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'TELEPHONY_MISSED_CALLS'>Call:2 (未接来电)</button>
-
-
-                    </div>
-
-                    <div class="btn-group btn-sm" role="group" >
-                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = "BATTERY_LEVEL">80% (电量)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'L'>80 (电量百分比)</button>
                     </div>
 
                 </div>
 
-
+                <div class="form-inline" style="padding: 5px 10px">
+                    <input class="form-control input-sm input-format" type="text"  placeholder="自定义电量格式"/>
+                    <button type="button" class = 'btn btn-sm btn-default add-text-ele' >添加</button>
+                    <br/>
+                    <span class="text-danger small">例:L%= 80% </span>
+                </div>
             </div>
+
+            <div role="tabpanel" class="tab-pane" id="communcation-area" data-type="COMMUNICATION">
+                <div>
+                    <div class="btn-group btn-sm" role="group" >
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'C'>1 (未接来电)</button>
+                        <button type="button" class="btn btn-sm btn-default text-ele" data-format = 'S'>2 (未读消息)</button>
+                    </div>
+
+                </div>
+
+                <div class="form-inline" style="padding: 5px 10px">
+                    <input class="form-control input-sm input-format" type="text"  placeholder="自定义电量格式"/>
+                    <button type="button" class = 'btn btn-sm btn-default add-text-ele' >添加</button>
+                    <br/>
+                    <span class="text-danger small">例:'Call:'C = Call:1 'SMS:'S = SMS:1</span>
+                </div>
+            </div>
+
 
             <div role="tabpanel" class="tab-pane" id="custom-area" data-type="CUSTOM">
 
                 <div class="form-inline" style="padding: 5px 10px">
                     <input class="form-control input-sm input-format" type="text"  placeholder="自定义文字"/>
                     <button type="button" class = 'btn btn-sm btn-default add-text-ele' >添加</button>
-                    <br/>
-                    <span class="text-danger small">注:插件上固定的文字 如:Call </span>
+
 
                 </div>
 
