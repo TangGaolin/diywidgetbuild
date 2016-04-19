@@ -23,6 +23,7 @@ $image_msg_array = getImageRes($widget_base_path);
 $is_build = checkZipFlie($widget_zip);
 if($is_build){
     $widget_xml_string = str_replace('&','&amp;',file_get_contents($widget_xml)) ;
+    $widget_xml_string = str_replace("'",'&#39;',$widget_xml_string) ;
 }
 ?>
 

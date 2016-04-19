@@ -108,8 +108,7 @@ define(['jquery', 'build_widget_util','fabric',
 
     ctrlClockBtn.click(function () {
 
-        console.log(widget_config.clock_center / 2);
-        console.log(widget_config.clock_center / 2);
+
         if (widget_config.has_clock == 1) {
             if (ctrlClockBtn.attr('data-value') == 0) {
                 //add min-clock
@@ -389,6 +388,8 @@ define(['jquery', 'build_widget_util','fabric',
                     oImg.hasControls = false;
                     oImg.oldPositon = {top: oImg.top, left: oImg.left};
                     widget_config.canvas.add(oImg);
+
+                    widget_config.activeObject = oImg;
                     oImg.xmlObject = this;
                     initImageOptionModfiyArea();
                 }
@@ -405,6 +406,7 @@ define(['jquery', 'build_widget_util','fabric',
                     widget_config.canvas.add(oImg);
 
                     ctrlBatteryBtn.addClass('btn-success');
+
                     initImageOptionModfiyArea();
                 }
 
@@ -423,9 +425,7 @@ define(['jquery', 'build_widget_util','fabric',
                     image_name = util.getUrlName(widget_config.default_clock_min_icon);
 
                     oImg = createTypeImageObj(image_name,this);
-
                     oImg.selectable = false;
-
                     clockMinObject = oImg;
                     widget_config.canvas.add(oImg);
                     initClockModfiyArea();
@@ -438,6 +438,7 @@ define(['jquery', 'build_widget_util','fabric',
 
                     oImg.selectable = false;
                     clockHourObject = oImg;
+
                     widget_config.canvas.add(oImg);
                     initClockModfiyArea();
                 }
@@ -483,7 +484,7 @@ define(['jquery', 'build_widget_util','fabric',
         oImg.hasControls = false;
 
         oImg.oldPositon = {top: oImg.top, left: oImg.left};
-
+        oImg.xmlObject = image_ele;
         return oImg;
     };
 

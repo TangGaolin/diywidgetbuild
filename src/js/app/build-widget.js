@@ -19,7 +19,6 @@ define(['jquery', 'build_widget_util','fabric',
             widget_config.xml_config =  new DOMParser().parseFromString(widget_config.widget_tmp_xml, "text/xml");
 
             console.log(widget_config.xml_config);
-
             build_widget_image.initImageObjWithXML();
 
             build_widget_text.initTextObjWithXML();
@@ -154,7 +153,7 @@ define(['jquery', 'build_widget_util','fabric',
                     break;
             }
 
-            console.log(widget_config.activeObject.xmlObject);
+
             widget_config.canvas.renderAll();
 
         });
@@ -171,9 +170,6 @@ define(['jquery', 'build_widget_util','fabric',
         if(widget_config.activeObject.get('type') == 'image'){
             build_widget_image.initImageOptionModfiyArea();
 
-
-            console.log(widget_config.activeObject.width);
-            console.log(widget_config.activeObject.xmlObject);
         }
 
     });
