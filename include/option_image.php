@@ -73,7 +73,7 @@
                         ?>
                         <div class="col-md-3 col-sm-3 item">
                             <div class="thumbnail">
-                                <img src="<?=$img_url?>" alt="" width="100%" />
+                                <img src="<?=$img_url?>" alt="" width="100%" id="<?=$v?>"/>
                             </div>
                             <div class="caption">
                                 <p>

@@ -166,9 +166,14 @@ define(['jquery', 'build_widget_util','fabric',
         widget_config.activeObject =  widget_config.canvas.getActiveObject();
         if(widget_config.activeObject.get('type') == 'text'){
             build_widget_text.initTextOptionModfiyArea();
+
         }
         if(widget_config.activeObject.get('type') == 'image'){
             build_widget_image.initImageOptionModfiyArea();
+
+
+            console.log(widget_config.activeObject.width);
+            console.log(widget_config.activeObject.xmlObject);
         }
 
     });

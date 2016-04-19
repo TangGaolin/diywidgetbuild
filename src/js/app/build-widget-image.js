@@ -62,7 +62,7 @@ define(['jquery', 'build_widget_util','fabric',
     });
 
 
-//show battery icon or not
+    //show battery icon or not
     var ctrlBatteryBtn = $('#ctrl-battery');
     var ctrlbatteryObject = null;
     ctrlBatteryBtn.click(function () {
@@ -184,6 +184,7 @@ define(['jquery', 'build_widget_util','fabric',
 
         if (clockMinObject == null && clockHourObject == null) {
             $('.clock-area-option').hide();
+            ctrlClockBtn.removeClass('btn-success');
         } else {
 
             $('#clock-center-left').val(widget_config.clock_center.left);
@@ -199,6 +200,7 @@ define(['jquery', 'build_widget_util','fabric',
 
 
             $('.clock-area-option').show();
+            ctrlClockBtn.addClass('btn-success')
         }
 
     };
@@ -285,7 +287,7 @@ define(['jquery', 'build_widget_util','fabric',
         widget_config.canvas.renderAll();
         initClockModfiyArea();
 
-    }
+    };
 
 
 
@@ -344,7 +346,7 @@ define(['jquery', 'build_widget_util','fabric',
 
     var initImageObjWithXML = function () {
 
-        var image_type,image_url,layout_width,layout_height,layout_x,layout_y;
+        var image_type,image_url,layout_width,layout_height,layout_x,layout_y,imgElement,oImg,image_name;
         $(widget_config.xml_config).find("ImageElement").each(function(){
 
             image_type = typeof($(this).attr("android:type")) == "undefined" ? false : $(this).attr("android:type");
@@ -355,69 +357,92 @@ define(['jquery', 'build_widget_util','fabric',
             layout_x = $(this).attr("android:layout_x");
 
             if(image_type == false){
-
-                var image_name = image_url.substr(image_url.lastIndexOf('/') + 1);
+                image_name = util.getUrlName(image_url);
                 if(image_name == widget_config.default_bg_img
                     && layout_width == 'match_parent' && layout_height == 'match_parent'){
-                    fabric.Image.fromURL(widget_config.widget_base_path + 'icons/' + image_name, function (oImg) {
+                    imgElement = document.getElementById(image_name);
+                    oImg = new fabric.Image(imgElement, {
+                        width: widget_config.widget_width,
+                        height: widget_config.widget_height,
+                        left:-0.5,
+                        top: -0.5
+                    });
+                    widget_config.canvas.add(oImg);
+                    oImg.selectable = false;
+                    widget_config.canvas.moveTo(oImg,-100);
 
-                        oImg.setWidth(widget_config.widget_width);
-                        oImg.setHeight(widget_config.widget_height);
-                        oImg.setTop(-0.5);
-                        oImg.setLeft(-0.5);
-                        oImg.selectable = false;
-                        widget_config.canvas.add(oImg);
-                        widget_config.canvas.moveTo(oImg,-100);
-                    });
                 }else{
-                    fabric.Image.fromURL(widget_config.widget_base_path + 'icons/' + image_name, function (oImg) {
-                        if(layout_width == 'wrap_content' && layout_height == 'wrap_content'){
-                            oImg.setWidth((oImg.width / widget_config.px_dp_raito).toFixed(1));
-                            oImg.setHeight((oImg.height / widget_config.px_dp_raito).toFixed(1));
-                        }else{
-                            oImg.setWidth(parseFloat(layout_width));
-                            oImg.setHeight(parseFloat(layout_height));
-                        }
-                        oImg.setTop(parseFloat(layout_y));
-                        oImg.setLeft(parseFloat(layout_x));
-                        oImg.hasControls = false;
-                        oImg.oldPositon = {top: oImg.top, left: oImg.left};
-                        widget_config.canvas.add(oImg);
+                    imgElement = document.getElementById(image_name);
+                    oImg = new fabric.Image(imgElement, {
+                        left:parseFloat(layout_x),
+                        top: parseFloat(layout_y)
                     });
+
+                    if(layout_width == 'wrap_content' && layout_height == 'wrap_content'){
+                        oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
+                        oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
+                    }else{
+                        oImg.setWidth(parseFloat(layout_width));
+                        oImg.setHeight(parseFloat(layout_height));
+                    }
+
+                    oImg.hasControls = false;
+                    oImg.oldPositon = {top: oImg.top, left: oImg.left};
+                    widget_config.canvas.add(oImg);
+                    oImg.xmlObject = this;
+                    initImageOptionModfiyArea();
                 }
 
             }else{
 
                 if(image_type == 'BATTERY_LEVEL_IMAGE'){
-                    image_url = widget_config.default_battery_icon;
+                    image_name = util.getUrlName(widget_config.default_battery_icon);
+
+                    oImg = createTypeImageObj(image_name,this);
+                    ctrlbatteryObject = oImg;
+                    widget_config.activeObject = oImg;
+
+                    widget_config.canvas.add(oImg);
+
+                    ctrlBatteryBtn.addClass('btn-success');
+                    initImageOptionModfiyArea();
                 }
 
                 if(image_type == 'WEATHER_LEVEL_IMAGE'){
-                    image_url = widget_config.default_weather_icon;
+                    image_name = util.getUrlName(widget_config.default_weather_icon);
+
+                    oImg = createTypeImageObj(image_name,this);
+                    weaterObject = oImg;
+                    widget_config.activeObject = oImg;
+                    widget_config.canvas.add(oImg);
+                    ctrlWeatherBtn.addClass('btn-success');
+                    initImageOptionModfiyArea();
                 }
 
                 if(image_type == 'TIME_MINUTE_IMAGE'){
-                    image_url = widget_config.default_clock_min_icon;
+                    image_name = util.getUrlName(widget_config.default_clock_min_icon);
+
+                    oImg = createTypeImageObj(image_name,this);
+
+                    oImg.selectable = false;
+
+                    clockMinObject = oImg;
+                    widget_config.canvas.add(oImg);
+                    initClockModfiyArea();
+
                 }
 
                 if(image_type == 'TIME_HOUR_IMAGE'){
-                    image_url = widget_config.default_clock_hour_icon;
+                    image_name = util.getUrlName(widget_config.default_clock_hour_icon);
+                    oImg = createTypeImageObj(image_name,this);
+
+                    oImg.selectable = false;
+                    clockHourObject = oImg;
+                    widget_config.canvas.add(oImg);
+                    initClockModfiyArea();
                 }
 
-                fabric.Image.fromURL(image_url, function (oImg) {
-                    if(layout_width == 'wrap_content' && layout_height == 'wrap_content'){
-                        oImg.setWidth((oImg.width / widget_config.px_dp_raito).toFixed(1));
-                        oImg.setHeight((oImg.height / widget_config.px_dp_raito).toFixed(1));
-                    }else{
-                        oImg.setWidth(parseFloat(layout_width));
-                        oImg.setHeight(parseFloat(layout_height));
-                    }
-                    oImg.setTop(parseFloat(layout_y));
-                    oImg.setLeft(parseFloat(layout_x));
-                    oImg.hasControls = false;
-                    oImg.oldPositon = {top: oImg.top, left: oImg.left};
-                    widget_config.canvas.add(oImg);
-                });
+
 
 
             }
@@ -425,6 +450,41 @@ define(['jquery', 'build_widget_util','fabric',
 
 
         });
+    };
+
+    var createTypeImageObj = function(image_name,image_ele){
+
+
+        var layout_width = $(image_ele).attr("android:layout_width");
+        var layout_height = $(image_ele).attr("android:layout_height");
+        var layout_y = $(image_ele).attr("android:layout_y");
+        var layout_x = $(image_ele).attr("android:layout_x");
+        var android_rotation = typeof($(this).attr("android:rotation")) == "undefined" ? false : parseInt($(this).attr("android:rotation"));
+        var imgElement = document.getElementById(image_name);
+
+        var oImg = new fabric.Image(imgElement, {
+            left:parseFloat(layout_x),
+            top: parseFloat(layout_y)
+        });
+
+
+        if(layout_width == 'wrap_content' && layout_height == 'wrap_content'){
+            oImg.setWidth(Math.round(imgElement.naturalWidth / widget_config.px_dp_raito));
+            oImg.setHeight(Math.round(imgElement.naturalHeight / widget_config.px_dp_raito));
+        }else{
+            oImg.setWidth(parseFloat(layout_width));
+            oImg.setHeight(parseFloat(layout_height));
+        }
+
+
+        if(android_rotation != false){
+            oImg.setAngle(android_rotation);
+        }
+        oImg.hasControls = false;
+
+        oImg.oldPositon = {top: oImg.top, left: oImg.left};
+
+        return oImg;
     };
 
 

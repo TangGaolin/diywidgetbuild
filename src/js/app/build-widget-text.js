@@ -239,13 +239,14 @@ define(['jquery', 'build_widget_util','fabric',
     var initTextObjWithXML = function () {
 
         var oText_text = '';
-        var android_text,android_type,android_textCaps,android_data,oText;
+        var android_text,android_type,android_textCaps,android_data,oText,android_rotation;
         $(widget_config.xml_config).find("TextElement").each(function(){
 
             android_text = typeof($(this).attr("android:text")) == "undefined" ? false : $(this).attr("android:text");
             android_type = typeof($(this).attr("android:type")) == "undefined" ? false : $(this).attr("android:type");
             android_textCaps = typeof($(this).attr("android:textCaps")) == "undefined" ? false : $(this).attr("android:textCaps");
             android_data = typeof($(this).attr("android:data")) == "undefined" ? false : build_widget_util.getDataFormatString($(this).attr("android:data"));
+            android_rotation = typeof($(this).attr("android:rotation")) == "undefined" ? false : parseInt($(this).attr("android:rotation"));
             if(android_type != false){
                 if(android_type == 'CALENDAR'){
                     oText_text = format_data.timeFormat(android_data);
@@ -253,6 +254,10 @@ define(['jquery', 'build_widget_util','fabric',
                     oText_text = format_data.weatherFormat(android_data);
                 }else if(android_type == 'OTHER'){
                     oText_text = format_data.otherFormat(android_data);
+                }else if(android_type == 'BATTERY'){
+                    oText_text = format_data.batteryFormat(android_data);
+                }else if(android_type == 'COMMUNICATION'){
+                    oText_text = format_data.communcationFormat(android_data);
                 }else if(android_type == 'CUSTOM'){
                     oText_text = android_data;
                 }else{
@@ -282,6 +287,11 @@ define(['jquery', 'build_widget_util','fabric',
             oText.setFill(build_widget_util.convertStringToRgb($(this).attr("android:textColor")));
 
             oText.setFontSize(parseFloat($(this).attr("android:textSize")));
+
+            if(android_rotation != false){
+                oText.setAngle(android_rotation);
+            }
+
             oText.oldPositon = {top:oText.top,left:oText.left};
             oText.xmlObject = this;
             oText.hasControls = false;
@@ -293,6 +303,7 @@ define(['jquery', 'build_widget_util','fabric',
                 oText.setCoords();
                 oText.oldPositon.left = oText.left;
             }
+
 
             widget_config.canvas.setActiveObject(oText);
             widget_config.activeObject = oText;

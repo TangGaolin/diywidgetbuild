@@ -30,12 +30,18 @@ define(['jquery'], function ($) {
 		return $(document.activeElement).is('input') || $(document.activeElement).is('textarea');
 	};
 
+	var getUrlName = function(url){
+		return url.substr(url.lastIndexOf('/') + 1);
+	};
+
+
 	return {
 		msg_style_info:msg_style_info,
 		msg_style_danger:msg_style_danger,
 		showMessage:showMessage,
 		isImage:isImage,
-		getActive:getActive
+		getActive:getActive,
+		getUrlName:getUrlName
 
 
 	};
