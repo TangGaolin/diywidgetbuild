@@ -378,8 +378,10 @@ define(['jquery', 'build_widget_util','fabric',
                     });
 
                     if(layout_width == 'wrap_content' && layout_height == 'wrap_content'){
-                        oImg.setWidth(Math.round(oImg.width / widget_config.px_dp_raito));
-                        oImg.setHeight(Math.round(oImg.height / widget_config.px_dp_raito));
+
+
+                        oImg.setWidth(Math.round(imgElement.naturalWidth / widget_config.px_dp_raito));
+                        oImg.setHeight(Math.round(imgElement.naturalHeight / widget_config.px_dp_raito));
                     }else{
                         oImg.setWidth(parseFloat(layout_width));
                         oImg.setHeight(parseFloat(layout_height));
