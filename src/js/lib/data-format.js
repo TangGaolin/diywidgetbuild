@@ -263,7 +263,6 @@ define(function () {
 
 	var batteryFormat = function (format_string) {
 
-
 		var result = '',flag = false;
 		for (var i = 0;i < format_string.length;i++){
 			if(format_string.charAt(i) == "'"){
@@ -274,7 +273,6 @@ define(function () {
 				result += format_string.charAt(i);
 				continue;
 			}
-
 			result += getBatteryString(format_string.charAt(i));
 		}
 		//return result;

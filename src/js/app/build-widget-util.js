@@ -220,6 +220,29 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 	};
 
 
+	var textAlign = function(string,type){
+
+		var res = '';
+		string = string.trim();
+		switch (type) {
+			case 'left':
+				res = string + '    ';
+				break;
+			case 'center':
+				res = '  ' + string + '  ';
+				break;
+			case 'right':
+				res = '    ' + string;
+				break;
+			default:
+				res = '  ' + string + '  ';
+		}
+
+		return res;
+
+	};
+
+
 
 	var updateElePosition = function(){
 
@@ -272,7 +295,9 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 
 		convertStringToRgb:convertStringToRgb,
 		getFontSrc:getFontSrc,
-		getDataFormatString:getDataFormatString
+		getDataFormatString:getDataFormatString,
+
+		textAlign:textAlign
 
 
 

@@ -101,6 +101,8 @@ define(['jquery', 'build_widget_util','fabric',
             $('#font-size').val(widget_config.activeObject.fontSize);
             $('.change-letter-size').removeClass('btn-success');
             $("button[data-type][data-type='"+$(widget_config.activeObject.xmlObject).attr('android:textCaps')+"']").addClass('btn-success');
+            $('.text-align').removeClass('btn-success');
+            $("button[data-type][data-type='"+$(widget_config.activeObject.xmlObject).attr('android:gravity')+"']").addClass('btn-success');
 
             $('#font-color').val(widget_config.activeObject.fill);
 
@@ -224,6 +226,17 @@ define(['jquery', 'build_widget_util','fabric',
         $(this).addClass('btn-success');
     });
 
+
+    var textAlignBtn = $('.text-align');
+    textAlignBtn.click(function () {
+
+        textAlignBtn.removeClass('btn-success');
+        $(widget_config.activeObject.xmlObject).attr('android:gravity',$(this).attr('data-type'));
+        widget_config.activeObject.setText(build_widget_util.textAlign(widget_config.activeObject.getText(),$(this).attr('data-type')));
+        widget_config.canvas.renderAll();
+        $(this).addClass('btn-success');
+    });
+
     //-----------------end
 
     //删除当前文字元素 ----------------------angle--------------------start
@@ -261,12 +274,12 @@ define(['jquery', 'build_widget_util','fabric',
                 }else if(android_type == 'CUSTOM'){
                     oText_text = android_data;
                 }else{
-                    oText_text = ' no type error ??? ';
+                    oText_text = 'no type error ???';
                 }
             }else if(android_text != false){
                 oText_text = android_text;
             }else{
-                oText_text = ' no type error ??? ';
+                oText_text = 'no type error ???';
             }
 
             oText_text = build_widget_util.stringCapitalize(oText_text,android_textCaps);

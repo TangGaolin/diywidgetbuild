@@ -31,18 +31,41 @@
 
     <div class="row">
         <div class="col-md-4 col-sm-4 form-inline">
+            <label>对齐方式:</label><br/>
+            <div class="form-inline">
+                <button type="button" class="btn btn-sm btn-default btn-success text-align" data-type = 'left' >
+                    <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
+                </button>
+
+                <button type="button" class="btn btn-sm btn-default text-align"   data-type = 'center'>
+                    <span class="glyphicon glyphicon-align-center" aria-hidden="true"></span>
+                </button>
+
+                <button type="button" class="btn btn-sm btn-default text-align" data-type = 'right'>
+                    <span class="glyphicon glyphicon-align-right" aria-hidden="true"></span>
+                </button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <p></p>
+
+    <div class="row">
+        <div class="col-md-4 col-sm-4 form-inline">
             <label>字体:</label><br/>
             <div class="form-inline">
                 <select class="form-control"  id = 'font-family-id' >
-
                     <?php foreach($font_array as $v){
                         ?>
                         <option value="<?=pathinfo($v['url'],PATHINFO_BASENAME)?>" style="font-family: '<?=$v['font_name']?>';" >10:28 am Wednesday</option>
                     <?php } ?>
-
                     <option value="serif" style="font-family: serif2" >10:28 am Wednesday</option>
                 </select>
+
             </div>
+
         </div>
     </div>
     <p></p>
