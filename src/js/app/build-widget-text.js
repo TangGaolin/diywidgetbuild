@@ -50,6 +50,7 @@ define(['jquery', 'build_widget_util','fabric',
         }
 
         data_text = build_widget_util.stringCapitalize(data_text,'title');
+        data_text = build_widget_util.textAlign(data_text,'center');
 
         var oText = new fabric.Text(data_text, {
             fontFamily: widget_config.default_fontfamily == 'serif'? 'serif2' : widget_config.default_fontfamily,
@@ -252,12 +253,13 @@ define(['jquery', 'build_widget_util','fabric',
     var initTextObjWithXML = function () {
 
         var oText_text = '';
-        var android_text,android_type,android_textCaps,android_data,oText,android_rotation;
+        var android_text,android_type,android_textCaps,android_data,oText,android_rotation,android_gravity;
         $(widget_config.xml_config).find("TextElement").each(function(){
 
             android_text = typeof($(this).attr("android:text")) == "undefined" ? false : $(this).attr("android:text");
             android_type = typeof($(this).attr("android:type")) == "undefined" ? false : $(this).attr("android:type");
             android_textCaps = typeof($(this).attr("android:textCaps")) == "undefined" ? false : $(this).attr("android:textCaps");
+            android_gravity = typeof($(this).attr("android:gravity")) == "undefined" ? false : $(this).attr("android:gravity");
             android_data = typeof($(this).attr("android:data")) == "undefined" ? false : build_widget_util.getDataFormatString($(this).attr("android:data"));
             android_rotation = typeof($(this).attr("android:rotation")) == "undefined" ? false : parseInt($(this).attr("android:rotation"));
             if(android_type != false){
@@ -283,6 +285,7 @@ define(['jquery', 'build_widget_util','fabric',
             }
 
             oText_text = build_widget_util.stringCapitalize(oText_text,android_textCaps);
+            oText_text = build_widget_util.textAlign(oText_text,android_gravity);
 
             oText = new fabric.Text(oText_text, {
                 fontFamily: widget_config.default_fontfamily == 'serif'? 'serif2' : widget_config.default_fontfamily,

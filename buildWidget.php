@@ -74,6 +74,7 @@ if($is_build){
         <button class = "btn btn-xs btn-success bg-color" value="transparency.png">透明背景</button>
         <button class = "btn btn-xs  bg-color" value="black.png">黑色背景</button>
         <a class = "btn btn-xs  bg-color" href="selectWidgetRes.php?theme=<?=$theme?>&widget=<?=$widget?>">返回选择资源</a>
+        <a class = "btn btn-xs  bg-color" href="buildWidget.php?theme=<?=$theme?>&widget=<?=$widget?>">重新进入</a>
     </div>
     <p></p>
     <div class = 'col-lg-12 col-md-12 col-sm-12 well'>

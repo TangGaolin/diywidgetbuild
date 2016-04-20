@@ -18,7 +18,7 @@ define(['jquery', 'build_widget_util','fabric',
             widget_config.widget_tmp_xml = $('#widget_xml_string').val();
             widget_config.xml_config = new DOMParser().parseFromString(widget_config.widget_tmp_xml, "text/xml");
 
-            console.log(widget_config.xml_config);
+            //console.log(widget_config.xml_config);
             build_widget_image.initImageObjWithXML();
 
             build_widget_text.initTextObjWithXML();

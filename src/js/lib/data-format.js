@@ -126,7 +126,7 @@ define(function () {
 		}
 		result += getTimeString(tmp);
 		//return result;
-		return '  ' + result + '  ';
+		return result;
 	};
 
 
@@ -186,7 +186,7 @@ define(function () {
 			result += getWeatherString(format_string.charAt(i));
 		}
 		//return result;
-		return '  ' + result + '  ';
+		return result;
 	};
 	
 	
@@ -206,7 +206,7 @@ define(function () {
 				res = format_string;
 		}
 
-		return '  ' + res + '  ';
+		return res;
 	};
 
 	var getCommuncationString = function(str){
@@ -242,7 +242,7 @@ define(function () {
 			result += getCommuncationString(format_string.charAt(i));
 		}
 		//return result;
-		return '  ' + result + '  ';
+		return result;
 
 	};
 
@@ -276,7 +276,7 @@ define(function () {
 			result += getBatteryString(format_string.charAt(i));
 		}
 		//return result;
-		return '  ' + result + '  ';
+		return result;
 
 	};
 
