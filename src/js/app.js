@@ -26,6 +26,6 @@ require.config({
         slider:['jquery']
     },
 
-    urlArgs: "v=2.2"
+    urlArgs: "v=2.3"
 
 });

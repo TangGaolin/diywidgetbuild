@@ -408,7 +408,7 @@ define(['jquery', 'build_widget_util','fabric',
                     widget_config.canvas.add(oImg);
 
                     ctrlBatteryBtn.addClass('btn-success');
-
+                    ctrlBatteryBtn.attr('data-value', 1);
                     initImageOptionModfiyArea();
                 }
 
@@ -420,6 +420,7 @@ define(['jquery', 'build_widget_util','fabric',
                     widget_config.activeObject = oImg;
                     widget_config.canvas.add(oImg);
                     ctrlWeatherBtn.addClass('btn-success');
+                    ctrlWeatherBtn.attr('data-value', 1);
                     initImageOptionModfiyArea();
                 }
 
@@ -441,7 +442,11 @@ define(['jquery', 'build_widget_util','fabric',
                     oImg.selectable = false;
                     clockHourObject = oImg;
 
+
+                    widget_config.clock_center = {left:oImg.left + oImg.width / 2, top: oImg.top + oImg.height / 2};
+
                     widget_config.canvas.add(oImg);
+                    ctrlClockBtn.attr('data-value', 1);
                     initClockModfiyArea();
                 }
 
