@@ -86,7 +86,7 @@ require_once('include/header.php');
                     <input type = 'hidden' value="<?=$widget?>" name="widget">
                     <button class="btn btn-xs btn-primary box " id = 'apk_btn'>
                         <span class="glyphicon glyphicon-folder-open"></span> 上传图片
-                        <input class="fileupload btn-xs" style="width: 80px" type="file" id = 'img-upload' name="img_file" />
+                        <input class="fileupload btn-xs" style="width: 80px" type="file" id = 'img-upload' name="img_file[]" multiple />
                     </button>
                 </form>
                 <span  style="margin-left: 200px">
