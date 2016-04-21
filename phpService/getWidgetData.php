@@ -18,7 +18,7 @@ class Widgetdata {
         $data = array();
 
         $pdo = Db::getInstance()->connect();
-        $sql = 'select * from widgets where state = 0 limit :page_start,:page_size';
+        $sql = 'select * from widgets where state = 0 and theme like "%_a"  limit :page_start,:page_size';
 
         $stmt = $pdo->prepare($sql);
 
@@ -27,7 +27,7 @@ class Widgetdata {
         $stmt->execute();
         $data['list'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        $sql_row = 'select * from widgets where state = 0';
+        $sql_row = 'select * from widgets where state = 0 and theme like "%_a" ';
 
         $stmt_row = $pdo->prepare($sql_row);
         $stmt_row->execute();
