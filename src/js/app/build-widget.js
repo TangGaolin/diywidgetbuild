@@ -23,6 +23,8 @@ define(['jquery', 'build_widget_util','fabric',
 
             build_widget_text.initTextObjWithXML();
 
+            $('#code-area').val(widget_config.widget_tmp_xml);
+
         }else{
 
             if(widget_config.has_bg_img){
@@ -211,7 +213,57 @@ define(['jquery', 'build_widget_util','fabric',
                 }
             });
     });
+
+
+    var saveAdvanceWidgetBtn = $('#save-advanced-widget');
+    saveAdvanceWidgetBtn.click(function () {
+        build_widget_util.checkWidgetXML();
+        $.post('phpService/saveWidgetXML.php',
+            {
+                theme:widget_config.theme,
+                widget:widget_config.widget,
+                widget_xml:$('#code-area').val(),
+                widget_preview: widget_config.canvas.toDataURL({
+                    format: 'png',
+                    left: 0,
+                    top: 0,
+                    multiplier:3,
+                    quality:1
+                })
+            },
+            function(data,status){
+                if(data == 1 && status=='success'){
+                    util.showMessage('保存成功...',util.msg_style_info);
+                }else{
+                    util.showMessage('保存失败!!!',util.msg_style_danger);
+                }
+            });
+    });
     //----end
+
+    var previewUplaodBtn = $('#preview-upload');
+    previewUplaodBtn.change(function(){
+            if(util.isImage(previewUplaodBtn.val())){
+                $("#preview-form").submit();
+            }else{
+                util.showMessage('请上传图片!!',util.msg_style_danger);
+            }
+        }
+    );
+
+    var xmlUplaodBtn = $('#xml-upload');
+    xmlUplaodBtn.change(function(){
+            if(util.isXml(xmlUplaodBtn.val())){
+                $("#xml-form").submit();
+            }else{
+                util.showMessage('请上传xml!!',util.msg_style_danger);
+            }
+        }
+    );
+
+
+
+
 
     return {
         initWidget:initWidget

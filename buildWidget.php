@@ -116,9 +116,61 @@ if($is_build){
             </div>
             <p></p>
 
-            <?php require_once('include/option_text.php');?>
+            <div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#normal-model" aria-controls="home" role="tab" data-toggle="tab">普通模式</a></li>
+                    <li role="presentation"><a href="#advanced-model"  role="tab" data-toggle="tab">高级模式</a></li>
 
-            <?php require_once('include/option_image.php');?>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content" style="background-color: #ffffff">
+
+                    <div role="tabpanel" class="tab-pane active" id="normal-model" >
+
+                        <div class="container">
+                            <?php require_once('include/option_text.php');?>
+                            <?php require_once('include/option_image.php');?>
+                        </div>
+                    </div>
+
+                    <div role="tabpanel" class="tab-pane" id="advanced-model" >
+                        <div class="container">
+                            <?php  if($is_build){ ?>
+                                <div>
+                                <button class = "btn btn-xs btn-success" id = 'save-advanced-widget'>保 存</button>
+
+                                <form style="display: inline-block" action="phpService/uploadXml.php" method="post"  enctype='multipart/form-data' id = 'xml-form'>
+                                    <input type = 'hidden' value="<?=$theme?>" name="theme" >
+                                    <input type = 'hidden' value="<?=$widget?>" name="widget">
+                                    <button class="btn btn-xs btn-primary box " id = 'apk_btn'>
+                                        <span class="glyphicon glyphicon-folder-open"></span> 上传xml
+                                        <input class="fileupload btn-xs" style="width: 80px" type="file" id = 'xml-upload' name="xml_file" />
+                                    </button>
+                                </form>
+                                <form style="display: inline-block" action="phpService/uploadPreview.php" method="post"  enctype='multipart/form-data' id = 'preview-form'>
+                                    <input type = 'hidden' value="<?=$theme?>" name="theme" >
+                                    <input type = 'hidden' value="<?=$widget?>" name="widget">
+                                    <button class="btn btn-xs btn-primary box " id = 'apk_btn'>
+                                        <span class="glyphicon glyphicon-folder-open"></span> 上传预览图
+                                        <input class="fileupload btn-xs" style="width: 80px" type="file" id = 'preview-upload' name="preview_file" />
+                                    </button>
+                                </form>
+
+                                </div>
+                                <textarea style="width: 80%;height: 600px;" id = 'code-area'></textarea>
+                            <?php }else{ ?>
+                                <span class="text-danger">保存之后，才能试用高级模式</span>
+                            <?php }?>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+
+
 
         </div>
 

@@ -24,6 +24,14 @@ define(['jquery'], function ($) {
 		return false;
 	};
 
+	var isXml = function (filename) {
+
+		if(filename.split('.').pop().toLowerCase() == 'xml'){
+			return true;
+		}
+		return false;
+	};
+
 
 
 	var getActive = function(){
@@ -40,9 +48,9 @@ define(['jquery'], function ($) {
 		msg_style_danger:msg_style_danger,
 		showMessage:showMessage,
 		isImage:isImage,
+		isXml:isXml,
 		getActive:getActive,
 		getUrlName:getUrlName
-
 
 	};
 });
