@@ -228,11 +228,17 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 			case 'left':
 				res = string + '    ';
 				break;
+			case 'left|center_vertical':
+				res = string + '    ';
+				break;
 			case 'center':
 				res = '  ' + string + '  ';
 				break;
 			case 'right':
 				res = '    ' + string;
+				break;
+			case 'right|center_vertical':
+				res = string + '    ';
 				break;
 			default:
 				res = '  ' + string + '  ';

@@ -33,7 +33,7 @@
         <div class="col-md-4 col-sm-4 form-inline">
             <label>对齐方式:</label><br/>
             <div class="form-inline">
-                <button type="button" class="btn btn-sm btn-default btn-success text-align" data-type = 'left' >
+                <button type="button" class="btn btn-sm btn-default btn-success text-align" data-type = 'left|center_vertical' >
                     <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
                 </button>
 
@@ -41,7 +41,7 @@
                     <span class="glyphicon glyphicon-align-center" aria-hidden="true"></span>
                 </button>
 
-                <button type="button" class="btn btn-sm btn-default text-align" data-type = 'right'>
+                <button type="button" class="btn btn-sm btn-default text-align" data-type = 'right|center_vertical'>
                     <span class="glyphicon glyphicon-align-right" aria-hidden="true"></span>
                 </button>
             </div>
