@@ -238,7 +238,7 @@ define(['jquery','widget_config','util2'], function ($,widget_config,util) {
 				res = '    ' + string;
 				break;
 			case 'right|center_vertical':
-				res = string + '    ';
+				res = '    '+string;
 				break;
 			default:
 				res = '  ' + string + '  ';
