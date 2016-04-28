@@ -23,7 +23,7 @@ if(empty($_POST['theme']) || empty($_POST['widget'])){
 $theme = $_POST['theme'];
 $widget = $_POST['widget'];
 
-$base_path = '../diywidget_previews/'.$theme.'.png';
+$to_path = '../diywidget_previews/'.$widget.'.png';
 
 
 $file = $_FILES['preview_file'];
@@ -31,7 +31,6 @@ $file = $_FILES['preview_file'];
 
 if($file['error'] == 0 && ($file['type'] == 'image/jpeg' || $file['type'] == 'image/png')){
     if(is_uploaded_file($file['tmp_name'])){
-        $to_path = $base_path . $file['name'];
         if(!move_uploaded_file($file['tmp_name'],$to_path)){
             $this->goBack('上传文件失败～');
         }
