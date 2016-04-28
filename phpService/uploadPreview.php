@@ -25,7 +25,6 @@ $widget = $_POST['widget'];
 
 $to_path = '../diywidget_previews/'.$widget.'.png';
 
-
 $file = $_FILES['preview_file'];
 
 

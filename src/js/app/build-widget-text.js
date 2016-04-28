@@ -219,7 +219,6 @@ define(['jquery', 'build_widget_util','fabric',
     //监听文字大小写------------------------------------------start
     var letterSizeBtn = $('.change-letter-size');
     letterSizeBtn.click(function () {
-
         letterSizeBtn.removeClass('btn-success');
         $(widget_config.activeObject.xmlObject).attr('android:textCaps',$(this).attr('data-type'));
         widget_config.activeObject.setText(build_widget_util.stringCapitalize(widget_config.activeObject.getText(),$(this).attr('data-type')));
@@ -253,11 +252,11 @@ define(['jquery', 'build_widget_util','fabric',
     var initTextObjWithXML = function () {
 
         var oText_text = '';
-        var android_text,android_type,android_textCaps,android_data,oText,android_rotation,android_gravity;
+        var android_text,android_type,android_textCaps,android_data,oText,android_rotation,android_gravity,android_typeface,android_color;
         $(widget_config.xml_config).find("TextElement").each(function(){
 
             android_text = typeof($(this).attr("android:text")) == "undefined" ? false : $(this).attr("android:text");
-            android_type = typeof($(this).attr("android:type")) == "undefined" ? false : $(this).attr("android:type");
+            android_type = typeof($(this).attr("android:type")) == "undefined" ? false : $(this).attr("android:type").toUpperCase();
             android_textCaps = typeof($(this).attr("android:textCaps")) == "undefined" ? false : $(this).attr("android:textCaps");
             android_gravity = typeof($(this).attr("android:gravity")) == "undefined" ? false : $(this).attr("android:gravity");
             android_data = typeof($(this).attr("android:data")) == "undefined" ? false : build_widget_util.getDataFormatString($(this).attr("android:data"));
@@ -299,8 +298,26 @@ define(['jquery', 'build_widget_util','fabric',
 
             oText.setTop(parseFloat($(this).attr("android:layout_y")));
             oText.setLeft(typeof($(this).attr("android:layout_x")) == 'undefined' ? 0 : parseFloat($(this).attr("android:layout_x")));
-            oText.setFontFamily($(this).attr("android:typeface") == 'serif' ? 'serif2': $(this).attr("android:typeface").substring($(this).attr("android:typeface").lastIndexOf('/')+1).split('.').shift());
-            oText.setFill(build_widget_util.convertStringToRgb($(this).attr("android:textColor")));
+
+
+            if(typeof($(this).attr("android:typeface")) == "undefined"){
+                android_typeface = 'serif';
+                $(this).attr("android:typeface",android_typeface);
+            }else{
+                android_typeface = $(this).attr("android:typeface");
+            }
+
+
+            oText.setFontFamily(android_typeface == 'serif' ? 'serif2': android_typeface.substring(android_typeface.lastIndexOf('/')+1).split('.').shift());
+
+            if(typeof($(this).attr("android:textColor")) == "undefined"){
+                android_color = '#00000000';
+                $(this).attr("android:textColor", android_typeface);
+            }else{
+                android_color = $(this).attr("android:textColor");
+            }
+
+            oText.setFill(build_widget_util.convertStringToRgb(android_color));
 
             oText.setFontSize(parseFloat($(this).attr("android:textSize")));
 
