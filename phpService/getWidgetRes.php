@@ -80,8 +80,9 @@ function getImageRes($widget_base_path){
         $weather_array[] = 'weather_na.png';
     }
 
+    $sure_weather_array = ["w01d.png","w02d.png","w03d.png","w04d.png","w09d.png","w10d.png","w11d.png","w13d.png","w50d.png","weather_na.png"];
     if(sizeof($weather_array) == 10 && is_file($widget_base_path.'icons/w01d.png')){
-        $image_msg_array['has_weather'] = '1';
+        $image_msg_array['has_weather'] = arraySame($sure_weather_array,$weather_array) ? 1 : 0;
     }
 
 
@@ -100,6 +101,17 @@ function getImageRes($widget_base_path){
 
 }
 
+function arraySame($arr1,$arr2){
+
+    sort($arr1);
+    sort($arr2);
+    if(implode($arr1) === implode($arr2)){
+        return true;
+    }else{
+        return false;
+    }
+
+}
 
 
 
