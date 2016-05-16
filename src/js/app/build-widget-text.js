@@ -53,7 +53,7 @@ define(['jquery', 'build_widget_util','fabric',
         data_text = build_widget_util.textAlign(data_text,'center');
 
         var oText = new fabric.Text(data_text, {
-            fontFamily: widget_config.default_fontfamily == 'serif'? 'serif2' : widget_config.default_fontfamily,
+            fontFamily: widget_config.default_fontfamily == 'sans-serif'? 'serif2' : widget_config.default_fontfamily,
             fill:build_widget_util.convertRgbString(widget_config.default_font_color),
             fontSize:widget_config.default_font_size,
             top:widget_config.default_text_top,
@@ -137,7 +137,7 @@ define(['jquery', 'build_widget_util','fabric',
     //监听文字字体的变化--------family-----------------start
     var font_familys = $("#font-family-id");
     font_familys.change(function(){
-        if($(this).val() == 'serif'){
+        if($(this).val() == 'sans-serif'){
             widget_config.activeObject.setFontFamily('serif2');
         }else{
             widget_config.activeObject.setFontFamily($(this).val().split('.')[0]);
@@ -287,7 +287,7 @@ define(['jquery', 'build_widget_util','fabric',
             oText_text = build_widget_util.textAlign(oText_text,android_gravity);
 
             oText = new fabric.Text(oText_text, {
-                fontFamily: widget_config.default_fontfamily == 'serif'? 'serif2' : widget_config.default_fontfamily,
+                fontFamily: widget_config.default_fontfamily == 'sans-serif'? 'serif2' : widget_config.default_fontfamily,
                 fill:build_widget_util.convertRgbString(widget_config.default_font_color),
                 fontSize:widget_config.default_font_size,
                 top:widget_config.default_text_top,
@@ -301,14 +301,14 @@ define(['jquery', 'build_widget_util','fabric',
 
 
             if(typeof($(this).attr("android:typeface")) == "undefined"){
-                android_typeface = 'serif';
+                android_typeface = 'sans-serif';
                 $(this).attr("android:typeface",android_typeface);
             }else{
                 android_typeface = $(this).attr("android:typeface");
             }
 
 
-            oText.setFontFamily(android_typeface == 'serif' ? 'serif2': android_typeface.substring(android_typeface.lastIndexOf('/')+1).split('.').shift());
+            oText.setFontFamily(android_typeface == 'sans-serif' ? 'serif2': android_typeface.substring(android_typeface.lastIndexOf('/')+1).split('.').shift());
 
             if(typeof($(this).attr("android:textColor")) == "undefined"){
                 android_color = '#00000000';

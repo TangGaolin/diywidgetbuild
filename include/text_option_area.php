@@ -61,7 +61,7 @@
                         ?>
                         <option value="<?=pathinfo($v['url'],PATHINFO_BASENAME)?>" style="font-family: '<?=$v['font_name']?>';" >10:28 am Wednesday</option>
                     <?php } ?>
-                    <option value="serif" style="font-family: serif2" >10:28 am Wednesday</option>
+                    <option value="sans-serif" style="font-family: serif2" >10:28 am Wednesday</option>
                 </select>
 
             </div>
