@@ -53,7 +53,7 @@ $pagination = new Pagination($data);
             ?>
             <div class="col-sm-3 col-md-3 col-lg-3 item" id = 'item_<?=$v["widget"]?>'>
                 <div class="thumbnail area-bg-transparency " style="position: relative">
-                    <a href="<?=$url ?>">
+                    <a href="<?=$url?>" title="<?=$v['widget']?>">
                         <img style="width: 80%" src="<?=$preview?>">
                     </a>
                     <button class="btn btn-xs btn-success ok-btn" style="position:absolute;top:0px;left: 0px" data-name = '<?=$v["widget"]?>'> 测试OK </button>

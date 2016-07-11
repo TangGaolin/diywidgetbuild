@@ -42,7 +42,7 @@ class Widgetdata {
 
 
         $pdo = Db::getInstance()->connect();
-        $sql = 'select * from widgets where state = 1  order by build_time desc limit :page_start,:page_size';
+        $sql = 'select * from widgets where state = 1 order by widget, build_time desc limit :page_start,:page_size';
 
         $stmt = $pdo->prepare($sql);
 
